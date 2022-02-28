@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Metaprogramming with Ruby
+title: Metaprogramming in Ruby
 date: 2022-02-26 01:09:00
 description: Code that writes code
 tags: metaprogramming ruby code
@@ -88,7 +88,7 @@ a * b = 6
 
 This is a naive example of "code that writes code". Ok, maybe too naive, but the idea here is to illustrate the limitations of this popular definition of metaprogramming. A code that writes code is not interesting in itself. How code writes code and what you can do with that is a completely different story.
 
-Paolo Perrotta wrote <a href="https://pragprog.com/titles/ppmetr2/metaprogramming-ruby-2/">a wonderful book</a> about metaprogramming with Ruby. Perrotta describes Ruby source code as "a world teeming with vibrant citizens including variables, classes, and methods." These citizens are <em>language constructs</em>. Therefore a more technical (and much more meaningful) definition of metaprogramming is <em>writing code that manipulates language constructs at runtime.</em> This is concept is so important that I will break it down for better visibility:
+Paolo Perrotta wrote <a href="https://pragprog.com/titles/ppmetr2/metaprogramming-ruby-2/">a wonderful book</a> about metaprogramming in Ruby. Perrotta describes Ruby source code as "a world teeming with vibrant citizens including variables, classes, and methods." These citizens are <em>language constructs</em>. Therefore a more technical (and much more meaningful) definition of metaprogramming is <em>writing code that manipulates language constructs at runtime.</em> This is concept is so important that I will break it down for better visibility:
 
 * What: writing code that manipulate language constructs.
 * When: at runtime.
@@ -96,7 +96,7 @@ Paolo Perrotta wrote <a href="https://pragprog.com/titles/ppmetr2/metaprogrammin
 
 I like the second definition much better. Not every language can do that and the way Ruby achieves this dynamic manipulation of language constructs makes it incredibly elegant and powerful.
 
-All I can do in a single blog post is to try to scratch the surface of metaprogramming with Ruby. For that, I invite you to take a look at five amongst other building blocks of metaprogramming with Ruby: Dynamic Dispatch, Dynamic Methods, Ghost Methods, Dynamic Proxy, and Blank Slate.
+All I can do in a single blog post is to try to scratch the surface of metaprogramming in Ruby. For that, I invite you to take a look at five amongst other building blocks of metaprogramming in Ruby: Dynamic Dispatch, Dynamic Methods, Ghost Methods, Dynamic Proxy, and Blank Slate.
 
 # Language Constructs
 
