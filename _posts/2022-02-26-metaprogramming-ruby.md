@@ -6,6 +6,7 @@ description: Code that writes code
 tags: metaprogramming ruby code
 categories: programming
 comments: true
+og_image: /assets/img/metaprogramming.jpg
 ---
 
 Ruby is a programming language created by <a href="https://github.com/matz">Yukihiro Matsumoto</a> (better known as Matz) a form of compilation of everything he liked the best about his favorite languages: <a href="https://www.perl.org/">Perl</a>, <a href="http://www.smalltalk.org/">Smaltalk</a>, <a href="https://www.eiffel.org/">Eiffel</a>, <a href="http://www.getadanow.com/">Ada</a>, and <a href="https://lisp-lang.org/">Lisp</a>. Matz was motivated to create a new language by balancing functional with imperative programming.
