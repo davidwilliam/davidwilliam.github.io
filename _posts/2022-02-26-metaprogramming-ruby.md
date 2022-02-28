@@ -44,7 +44,7 @@ int main()
                 "  cout << \"a + b = \" << a + b << endl;\n"
                 "  cout << \"a * b = \" << a * b << endl;\n\n"
                 "  return 0;\n"
-                "};";
+                "}";
   ofs << code;
 
   return 0;
@@ -72,7 +72,7 @@ int main()
   cout << "a * b = " << a * b << endl;
 
   return 0;
-};
+}
 
 
 {% endhighlight %}
