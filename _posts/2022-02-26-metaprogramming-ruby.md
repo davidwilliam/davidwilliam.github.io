@@ -2,7 +2,7 @@
 layout: post
 title: Metaprogramming in Ruby
 date: 2022-02-26 01:09:00
-description: Code that writes code
+description: Manipulating language constructs at runtime
 tags: metaprogramming ruby code
 categories: programming
 comments: true
