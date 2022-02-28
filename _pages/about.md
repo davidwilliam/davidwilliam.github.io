@@ -2,23 +2,23 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Moto. Etc.
+subtitle: Senior Research Scientist at <a href='https://algemetric.com'>Algemetric</a>.
 
 profile:
   align: right
-  image: prof_pic.jpg
+  image: DavidWilliamSilva.jpg
   address: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
+    <p>Algemetrix LLC & Symetrix Corporation</p>
+    <p>5555 Tech Center Drive, Suites 100 and 126</p>
+    <p>Colorado Springs, Colorado 80920</p>
 
 news: true  # includes a list of news items
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true  # includes social icons at the bottom of the page
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+I am responsible for researching and developing innovative solutions for security and privacy at Symetrix and Algemetric. I investigate how different flavors and strategies of applied mathematics can support, produce and advance data-centric solutions favoring security, privacy, efficiency, and flexibility.
 
-Put your address / P.O. box / other info right below your picture. You can also disable any these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+I started my career as a Software Engineer focused on web services and agile software development, which led me to be involved with several R&D projects from startups to government and large corporations. In the past 6+ years, I have been fully dedicated to bridging academic research to applications in the real world.
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](http://fortawesome.github.io/Font-Awesome/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+I received a Bachelor's degree in Business Administration from Universidade Potiguar, Brazil, and a Master's and a Ph.D. degree in Computer Science from the University of Colorado at Colorado Springs, USA.
