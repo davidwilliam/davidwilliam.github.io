@@ -11,17 +11,17 @@ og_image: /assets/img/metaprogramming.jpg
 
 Ruby is a programming language created by <a href="https://github.com/matz">Yukihiro Matsumoto</a> (better known as Matz) a form of compilation of everything he liked the best about his favorite languages: <a href="https://www.perl.org/">Perl</a>, <a href="http://www.smalltalk.org/">Smaltalk</a>, <a href="https://www.eiffel.org/">Eiffel</a>, <a href="http://www.getadanow.com/">Ada</a>, and <a href="https://lisp-lang.org/">Lisp</a>. Matz was motivated to create a new language by balancing functional with imperative programming.
 
-One of the first reactions people have when first interacting with Ruby is to say: "Wow, this is very simple!" Matz, however, states that his goal is to make Ruby <em>natural</em>, not <em>simple</em>. In fact, Matz remarks that "Ruby is simple in appearance, but is very complex inside, just like our human body."
+One of the first reactions people have when first interacting with Ruby is to say: "Wow, this is very simple!" Matz, however, states that his goal is to make Ruby <em>natural</em>, not <em>simple</em>. Matz remarks, "Ruby is simple in appearance, but is very complex inside, just like our human body."
 
-In its official page, Ruby is described as a "dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write." There is definitely much more that can be said about Ruby, even even in a introductory fashion, but this initial description is, in my view, spot on.
+On its official page, Ruby is described as a "dynamic, open-source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write." There is much more that can be said about Ruby, even in an introductory fashion, but this initial description is, in my view, spot on.
 
-When I use Ruby, I am really not thinking about some of the mechanics of programming. Instead, I am mostly thinking about the result I am seeking to produce. Matz wanted Ruby code to be easily read by humans. In fact, Ruby code is meant to be very elegant and simple, which makes it my favorite language for <em>prototyping</em>.
+When I use Ruby, I am not thinking about some of the mechanics of programming. Instead, I am mostly thinking about the result I seek to produce. Matz wanted Ruby code to be easily read by humans. Ruby code is meant to be very elegant and simple, which makes it my favorite language for <em>prototyping</em>.
 
 # What Is Mettaprogramming?
 
 If elegance, simplicity, and the natural aspect of its syntax are already great ingredients for prototyping, my favorite thing about Ruby is something yet more intriguing: <em>metaprogramming</em>!
 
-Informally, metaprogramming is writing code that writes code. If you search online, this is the most popular definition of metaprogramming: "Code that writes code." Well, I don't like this definition. The reason is actually very simple. Consider the following C++ code:
+Informally, metaprogramming is writing code that writes code. If you search online, this is the most popular definition of metaprogramming: "Code that writes code." Well, I'm not too fond of this definition. The reason is straightforward. Consider the following C++ code:
 
 {% highlight c++ linenos %}
 // example.cpp
@@ -87,40 +87,37 @@ a + b = 5
 a * b = 6
 ```
 
-This is a naive example of "code that writes code". Ok, maybe too naive, but the idea here is to illustrate the limitations of this popular definition of metaprogramming. A code that writes code is not interesting in itself. How code writes code and what you can do with that is a completely different story.
+This is a naive example of "code that writes code." Ok, maybe too naive, but the idea here is to illustrate the limitations of this popular definition of metaprogramming. A code that writes code is not interesting in itself. How code writes code and what you can do with that is an entirely different story.
 
 Paolo Perrotta wrote <a href="https://pragprog.com/titles/ppmetr2/metaprogramming-ruby-2/">a wonderful book</a> about metaprogramming in Ruby. Perrotta describes Ruby source code as "a world teeming with vibrant citizens including variables, classes, and methods." These citizens are <em>language constructs</em>. Therefore a more technical (and much more meaningful) definition of metaprogramming is <em>writing code that manipulates language constructs at runtime.</em> This is concept is so important that I will break it down for better visibility:
 
 * What: writing code that manipulate language constructs.
 * When: at runtime.
 
+I like the second definition much better. Not every language can do that, and the way Ruby achieves this dynamic manipulation of language constructs makes it incredibly elegant and powerful.
 
-I like the second definition much better. Not every language can do that and the way Ruby achieves this dynamic manipulation of language constructs makes it incredibly elegant and powerful.
-
-All I can do in a single blog post is to try to scratch the surface of metaprogramming in Ruby. For that, I invite you to take a look at five amongst other building blocks of metaprogramming in Ruby: Dynamic Dispatch, Dynamic Methods, Ghost Methods, Dynamic Proxy, and Blank Slate.
+All I can do in a single blog post is to scratch the surface of metaprogramming in Ruby. For that, I invite you to look at five, amongst other building blocks of metaprogramming in Ruby: Dynamic Dispatch, Dynamic Methods, Ghost Methods, Dynamic Proxy, and Blank Slate.
 
 # Language Constructs
 
-
 > For all the examples in this post, I used Ruby 3.1.0p0 (2021-12-25 revision fb4df44d16) [x86_64-darwin19].
 
-When we create a class in Ruby, unless we decide otherwise, that class inherits properties and behaviors from other classes. These other classes are called "ancestors". They provide fundamental functionalities for any custom class in ther lineage. We can check what are the ancestors of my class as follows:
+When we create a class in Ruby, that class inherits properties and behaviors from other default classes unless we decide otherwise. These classes are called "ancestors." They provide fundamental functionalities for any custom class in their lineage. We can check what are the ancestors of my class as follows:
 
 {% highlight ruby linenos %}
 class MySimpleClass
 end
 
 MySimpleClass.ancestors
-# it returns: [MySimpleClass, Object, PP::ObjectMixin, Kernel, BasicObject]
-
+# => [MySimpleClass, Object, PP::ObjectMixin, Kernel, BasicObject]
 {% endhighlight %}
 
-We can check what each of these ancestors are by checking their associated classes:
+We can check what each of these ancestors is by checking their associated classes:
 
 {% highlight ruby %}
 
 MySimpleClass.ancestors.map(&:class)
-# it returns: [Class, Class, Module, Module, Class]
+# => [Class, Class, Module, Module, Class]
 
 {% endhighlight %}
 
@@ -133,7 +130,7 @@ BasicObject.methods
 
 {% endhighlight %}
 
-You see a long list with methods that will be inherited by the classes/modules in the BasicObject's lineage. We can ask the list of methods for the module `Kernel`:
+You see a long list of methods inherited by the classes/modules in the BasicObject's lineage. We can ask the list of methods for the module `Kernel`:
 
 {% highlight ruby %}
 
@@ -165,7 +162,7 @@ Object.methods.size # => 118
 
 {% endhighlight %}
 
-What is going on here? Shouldn't `Object` have at least 175 methods like `Kernel`? Actually, no. Ruby does not support multiple inheritance. One of the methods defined in `BasicObject` is `:superclass`. Obviously, `BasicObject` does not have a superclass (parent class):
+What is going on here? Shouldn't `Object` have at least 175 methods like `Kernel`? Actually, no. Ruby does not support multiple inheritances. One of the methods defined in `BasicObject` is `:superclass`. Obviously, `BasicObject` does not have a superclass (parent class):
 
 {% highlight ruby %}
 BasicObject.superclass # => nil
@@ -227,7 +224,7 @@ MySimpleClass.instance_methods - Object.methods
 # => [:some_method, :my_first_method, :my_second_method]
 {% endhighlight %}
 
-In ruby, the top-level object (something similar to the scope of main in C) is `Object` and we know `Object` includes `Kernel`. Therefore, the methods defined in Kernel are available to `Object` and any of its descendants without the need to reference to Kernel explicitly! This includes methods we use without even thinking such as `puts`, `rand`, `raise`, `catch`, `throw`, and all the others defined in `Kernel`. This is why we can execute:
+In ruby, the top-level object (something similar to the scope of main in C) is `Object`, and we know `Object` includes `Kernel`. Therefore, the methods defined in Kernel are available to `Object` and any of its descendants without the need to refer to Kernel explicitly! This includes methods we use without even thinking, such as `puts`, `rand`, `raise`, `catch`, `throw`, and all the others defined in `Kernel`. This is why we can execute:
 
 {% highlight ruby %}
 puts "Hello!"
@@ -257,7 +254,7 @@ self.class
 
 ## Manipulating Language Constructs
 
-Let's take a look at how Ruby allows us to interact with its "vibrant citizens", as Perrotta describes Ruby's language constructs. When you hear that Ruby is a dynamic language, you should know that Ruby is pretty serious about that.
+Let's take a look at how Ruby allows us to interact with its "vibrant citizens," as Perrotta describes Ruby's language constructs. When you hear that Ruby is a dynamic language, you should know that Ruby is pretty serious about that.
 
 As an example, consider the following class:
 
@@ -334,7 +331,7 @@ AnotherClass.name
 # => [:phone=, :zipcode=, :email=]
 {% endhighlight %}
 
-The above is far from exhaustive. It is certainty good to be able to dynamically interact with the language constructs in Ruby. How we do it is even better.
+The above is far from exhaustive. It is undoubtedly good to interact with the language constructs in Ruby dynamically. How we do, it is even better.
 
 # Dynamic Dispatch
 
@@ -442,11 +439,11 @@ methods_two_arguments.each{|m| obj.send(m, "Hello", "World")}
 # => Hello => World
 {% endhighlight %}
 
-The method `send` will call any method in the respective class, including private methods. If you want to confine the dynamic execution of methods to public methods you can use `public_send` instead.
+The method `send` will call any method in the respective class, including private methods. If you want to confine the dynamic execution of methods to public methods, you can use `public_send` instead.
 
 # Dynamic Methods
 
-We already saw that we can add methods to an existing class as if we were creating the class for the first time. But there is a shorter way to do that. Consider our existing `AnotherSimpleClass`. We can dynamically define a new method as follows:
+We already saw that we could add methods to an existing class as if we were creating the class for the first time. But there is a shorter way to do that. Consider our existing `AnotherSimpleClass`. We can dynamically define a new method as follows:
 
 {% highlight ruby linenos %}
 AnotherSimpleClass.define_method :my_new_method do |arg1, arg2|
@@ -463,7 +460,7 @@ obj.methods - Object.methods
 => [:first_method_with_two_arguments, :second_method_with_two_argumetns, :my_new_method, :first_method_with_no_arguments, :second_method_with_no_arguments, :third_method_with_no_arguments]
 {% endhighlight %}
 
-When it comes to metaprogramming, the advantage of using `define_method` instead of `def method` is that we can pass the name of the new method as an argument, which can be done at runtime.
+When it comes to metaprogramming, the advantage of using `define_method` instead of `def method` is that we can easily pass the new method's name as an argument in the same way we call other class' methods, which can be done at runtime.
 
 # Ghost Methods
 
@@ -475,7 +472,7 @@ BasicObject.private_methods.select{|m| m.to_s.include?("missing")}
 # => [:respond_to_missing?, :method_missing]
 {% endhighlight %}
 
-If Ruby does not find an implementation for `:method_missing` (I will talk about this later) then it calls `:method_undefined`. Let's see this in practice:
+If Ruby does not find an implementation for `:method_missing` (I will talk about this later), then it calls `:method_undefined`. Let's see this in practice:
 
 {% highlight ruby linenos %}
 obj = AnotherSimpleClass.new
@@ -497,11 +494,11 @@ obj.send(:method_undefined, :crazy)
 # => NoMethodError (undefined method `method_undefined' for #<AnotherSimpleClass:0x00007fe3be15db60>)
 {% endhighlight %}
 
-Ok, so we know how Ruby call methods and what happens when it cannot find them. But what does it mean to loo for an implementation for `:method_missing`?
+Okay, we know how Ruby calls methods and what happens when it cannot find them. But what does it mean to loo for an implementation for `:method_missing`?
 
 ## Method Missing
 
-In Ruby, there is no such thing as a compiler to enforce method calls. Crazy, right? Even crazier is the fact that Ruby allows you to call methods that don't exist! Let me give you one example of how useful this can be. I will create a data set called `data`:
+There is no such thing as a compiler to enforce method calls in Ruby. Crazy, right? Even crazier is the fact that Ruby allows you to call methods that don't exist! Let me give you one example of how useful this can be. I will create a data set called `data`:
 
 {% highlight ruby linenos %}
 data = []
@@ -583,9 +580,9 @@ This is just a toy example to show what kind of features one can build by dynami
 
 # Dynamic Proxy
 
-In previous example with `MyDatabase`, I receive whatever is passed on via method call and try to make sense of the call using pre-defined patterns. If the conditions specified are met, a method is dynamically called and the associated result is returned. A similar approach is known as Dynamic Proxy. We still use the idea of Ghost Methods but this time we forward the call to another method (which can be in another module or class). The greatest difference between Ghost Method and Dynamic Proxy is how to deal with responsibility. When working with Ghost Method in a particular class, you have the responsibility of implementing `:method_missing` and deciding when and how to give up and let Ruby call `:method_undefined`. With Dynamic Proxy, you forward the responsibility to another method and let it treat it each situation according whatever rules are in place.
+In the previous example with `MyDatabase`, I receive whatever is passed on via method call and try to make sense of the call using pre-defined patterns. If the conditions specified are met, a method is dynamically called, returning the associated result. A similar approach is known as Dynamic Proxy. We still use the idea of Ghost Methods, but this time we forward the call to another method (which can be in another module or class). The most significant difference between Ghost Method and Dynamic Proxy is how to deal with responsibility. When working with Ghost Method in a particular class, you have the responsibility of implementing `:method_missing` and deciding when and how to give up and let Ruby call `:method_undefined`. With Dynamic Proxy, you forward the responsibility to another method and treat each situation according to whatever rules are in place.
 
-Here is an example: we have class `Person` and we want to "monitor" any call to a method `:parse` but we don't want implement the logic. Instead, we will forward the logic to `JSON.parse`. So whatever rule `JSON` implemented for `:parse` will take place only when the method `:parse` is called for an instance of `Person`.
+Here is an example: we have class `Person`, and we want to "monitor" any call to a method `:parse`, but we don't want to implement the logic. Instead, we will forward the logic to `JSON.parse`. So whatever rule `JSON` implemented for `:parse` will take place only when the method `:parse` is called for an instance of `Person`.
 
 {% highlight ruby linenos %}
 require 'json'
@@ -637,7 +634,7 @@ person.infuse('{"name" => "John", "age" => "25"}')
 
 # Blank Slate
 
-Now let's assume that for some reason I thought that it was a great idea to implement a Dynamic Proxy for any method call starting with "display" for a new class called `MyNewClass`. My goal is to return just the object ID. So I create `MyNewClass` as follows:
+Now let's assume that for some reason, I thought that it was a great idea to implement a Dynamic Proxy for any method call starting with "display" for a new class called `MyNewClass`. My goal is to return just the object ID. So I create `MyNewClass` as follows:
 
 {% highlight ruby linenos %}
 class MyNewClass
@@ -667,9 +664,9 @@ obj.display
 # => #<MyNewClass:0x00007ffdce0165e8>
 {% endhighlight %}
 
-This is not what I was expecting. This happens because `MyNewClass`'s parent class is `Object`, and `Object` implements an instance method `:display`. Therefore, when I call `:display`, Ruby looks for a method `:display` in the list of methods, including `Object`. Ruby will find `Object`'s implementation of `:display` which just prints the bare object and returns `nil`. This is a simple example of a problem that can occur very frequently when using Dynamic Proxy, specially in larger projects: the name of a "Ghost Method" can match the name of an existing method that belong to one of the object's class ancestors.
+This is not what I was expecting. This happens because `MyNewClass`'s parent class is `Object`, and `Object` implements an instance method `:display`. Therefore, when I call `:display`, Ruby looks for a method `:display` in the list of methods, including `Object`. Ruby will find `Object`'s implementation of `:display`, which just prints the bare object and returns `nil`. This is a simple example of a problem that can occur very frequently when using Dynamic Proxy, especially in larger projects: the name of a "Ghost Method" can match the name of an existing method that belongs to one of the object's class ancestors.
 
-Most of the time, we need a fully featured object with all the methods defined in `Object`. Some other times, we need some simpler. As class with a minimum number of methods is referred to as Blank Slate. One way to solve our problem is to modify `MyNewClass` to inherit from `BasicObject` instead of implicitly inheriting from `Object`.
+Most of the time, we need a fully-featured object with all the methods defined in `Object`. Some other times, we need some simpler. A class with a minimum number of methods is referred to as Blank Slate. One way to solve our problem is to modify `MyNewClass` to inherit from `BasicObject` instead of implicitly inheriting from `Object`.
 
 The class `Object` has 58 instance methods:
 
@@ -710,7 +707,7 @@ puts obj.display
 
 # Code that Writes Code
 
-I told you before that I don't like the "code that writes code" definition of metaprogramming but that doesn't mean we can't have fun with it. Here is a simple example on how create classes and instantiate object for theses classes dynamically. Imagine that I have a file name `person.csv` with the following content:
+I told you before that I don't like the "code that writes code" definition of metaprogramming, but that doesn't mean we can't have fun with it. Here is a simple example of creating classes and instantiating an object for these classes dynamically. Imagine that I have a file name `person.csv` with the following content:
 
 {% highlight csv %}
 name,age,gender,state
@@ -722,7 +719,7 @@ Barb,26,F,TX
 Jerry,29,M,TX
 {% endhighlight %}
 
-I will write a code that will read the content of `person.csv`, create a class `Person` and define its attributes based on the first line of the file and then instantiate objects of `Person` with the data in the remainder of the file. In fact, the code will work for any csv file following the same pattern, that is, the first line contains the attribute names and the remainder of the file contains data associated with those attributes.
+I will write a code that will read the content of `person.csv`, create a class `Person` and define its attributes based on the first line of the file and then instantiate objects of `Person` with the data in the remainder of the file. In fact, the code will work for any csv file following the same pattern; that is, the first line contains the attribute names, and the remainder of the file contains data associated with those attributes.
 
 {% highlight ruby linenos %}
 # process_csv.rb
@@ -768,7 +765,7 @@ end
 
 # Refactoring with Metaprogramming
 
-Now that we saw a little bit of the very basics of metaprogramming in Ruby, let's review a very interesting example Perrotta discuss in his book. Imagine that you are analyzing a very strange legacy Ruby code full of duplications. Your task is to improve it as much as possible. You receive two files: `data_source.rb` and `duplicated.rb`. The `data_source.file` is partially showed below:
+Now that we have seen some of the basics of metaprogramming in Ruby let's review a very interesting example Perrotta discusses in his book (slightly modified here for simplicity). Imagine that you are analyzing a very strange legacy Ruby code full of duplications. Your task is to improve it as much as possible. You receive two files: `data_source.rb` and `duplicated.rb`. The `data_source.file` is partially shown below:
 
 {% highlight ruby linenos %}
 # data_source.rb
@@ -785,7 +782,7 @@ class DS
 end
 {% endhighlight %}
 
-The exact logic of `DS` is supressed in the display. Just assume that when you pass a `workstation_id` as argument to one of the methods in `DS`, `DS` will connect to a database and return the required information:
+The exact logic of `DS` is suppressed in the display. Just assume that when you pass a `workstation_id` as an argument to one of the methods in `DS`, `DS` will connect to a database and return the required information:
 
 {% highlight ruby linenos %}
 ds = DS.new
@@ -795,7 +792,7 @@ ds.get_mouse_info(42)   # => "Wireless Touch"
 ds.get_mouse_price(42)  # => 60
 {% endhighlight %}
 
-And here `duplicated.rb` (slightly modified for simplicity):
+And here is `duplicated.rb`:
 
 {% highlight ruby linenos %}
 class Computer
@@ -871,12 +868,12 @@ class Computer < BasicObject
 end
 {% endhighlight %}
 
-And so, we used all four strategies for metaprogramming in Ruby that we discussed in this post. Notice the method `:respond_to?` in the `Computer`'s implementation of `:method_missing`. When an object calls `:respond_to?`, Ruby will respond if that object implements the method passed as argument. You could asked: "But isn't the idea of `:method_missing` to dynamically implement a method that does not exist?" Correct. However, we are implementing a method in `Computer` and we are checking if the method in question exists in `DS`. We need that method to exist in `DS` to make this logic work, therefore we fist check if the method exists in `DS` and if not, we call the original implementation of `:method_missing`. Otherwise, we continue with our implementation.
+And so, we used all four strategies for metaprogramming in Ruby that we discussed in this post. Notice the method `:respond_to?` in the `Computer`'s implementation of `:method_missing`. When an object calls `:respond_to?`, Ruby will respond if that object implements the method passed as an argument. You could ask: "But isn't the idea of `:method_missing` to dynamically implement a method that does not exist?" Correct. However, we are implementing the logic of method missing in `Computer` and checking if an associated method exists in `DS`. We need that method to exist in `DS` to make this logic work; therefore, we first check if the method exists in `DS`, and if not, we call the original implementation of `:method_missing`. Otherwise, we will continue with our implementation.
 
 # There is More
 
-In this post I briefly discussed metaprogramming strategies with Ruby such as Dynamic Dispatch, Dynamic Methods, Ghost Methods, Dynamic Proxy, and Blank Slate. Paolo Perrotta refers to these strategies as "spells". In his book, many other spells are discussed: Around Alias, Class Extension, Class Instance Variable, Class Macro, Clean Room, Code Processor, Deferred Evaluation, Flat Scope, Hook Method, Kernel Method, Lazy Instance Method, Mimic Method, Monkey Patch, Namespace, Nil Guard, Object Extension, Open Class, Prepend Wrapper, Refinement, Refinement Wrapper, Sandbox, Scope Gate, Self Yield, Shared Scope, Singleton Method, String of Code, and Symbol to Proc. Trust me: I didn't even scratch the surface. There is much more to metaprogramming in Ruby.
+I briefly discussed metaprogramming strategies with Ruby in this post, such as Dynamic Dispatch, Dynamic Methods, Ghost Methods, Dynamic Proxy, and Blank Slate. Paolo Perrotta refers to these strategies as "spells." In his book, many other spells are discussed: Around Alias, Class Extension, Class Instance Variable, Class Macro, Clean Room, Code Processor, Deferred Evaluation, Flat Scope, Hook Method, Kernel Method, Lazy Instance Method, Mimic Method, Monkey Patch, Namespace, Nil Guard, Object Extension, Open Class, Prepend Wrapper, Refinement, Refinement Wrapper, Sandbox, Scope Gate, Self Yield, Shared Scope, Singleton Method, String of Code, and Symbol to Proc. Trust me: I didn't even scratch the surface. There is much more to metaprogramming in Ruby.
 
 # Conclusions
 
-Ruby is a dynamic language by design. Not only its syntax is concise and elegant but also its constructs are available for meaningful manipulations which takes object-oriented programming to its full potential and makes metaprogramming in Ruby a delightful experience. For this reason I find Ruby the best language for prototyping I know. 
+Ruby is a dynamic language by design. Its syntax is concise and elegant, and its constructs are available for meaningful manipulations, which takes object-oriented programming to its full potential and makes metaprogramming in Ruby a delightful experience. For this reason, I find Ruby the best language for prototyping I know. 
