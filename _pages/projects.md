@@ -4,7 +4,7 @@ title: miscellaneous
 permalink: /miscellaneous/
 description: A little bit of everything.
 nav: true
-display_categories: [work, musings, fun]
+display_categories: [work, collaborations, musings, fun]
 horizontal: false
 ---
 
