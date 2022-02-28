@@ -93,7 +93,7 @@ pagination:
   enabled: true
 
 # Comments
-disqus_shortname: david-w-silva # put your disqus shortname
+disqus_shortname: davidwsilva # put your disqus shortname
 # https://help.disqus.com/en/articles/1717111-what-s-a-shortname
 
 # -----------------------------------------------------------------------------
