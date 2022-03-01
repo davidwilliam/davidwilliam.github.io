@@ -338,7 +338,7 @@ obj.instance_variables
 obj.public_methods - Object.public_methods
 # => [:full_name, :contact, :phone=, :zipcode=, :email, :email=, :dob, :phone, :zipcode]
 obj.private_methods - Object.private_methods
-# => [:name, :parse_date, :parse_phone, :contact_full_name, :autoload?, :autoload]
+# => [:parse_date, :parse_phone, :contact_full_name, :parse_input, :name, :autoload, :autoload?]
 # We can list the parameters of any given method, if any
 [:parse_date, :parse_phone].map{|m| obj.method(m).parameters.map{|params| {method: m, params: params[1..-1]}}.flatten}
 # => [[{:method=>:parse_date, :params=>[:date]}], [{:method=>:parse_phone, :params=>[:phone]}]]
