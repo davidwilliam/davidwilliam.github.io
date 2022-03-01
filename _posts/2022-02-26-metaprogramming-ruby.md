@@ -275,26 +275,39 @@ class AnotherClass
   end
 
   def full_name
-    [first_name, last_name].join(", ")
+    name.join(" ")
   end
 
   def contact
-    "#{full_name}
+    "
+    #{contact_full_name}
     #{email}
     #{phone}
-    #{zipcode}"
+    #{zipcode}
+    "
   end
 
   private
 
+  def name
+    [@first_name, @last_name]
+  end
+
+  def contact_full_name
+    name.reverse.join(", ")
+  end
+
+  def parse_input(positions,input)
+    positions.each{|i| input.insert(i,SEPARATOR)}
+    input
+  end
+
   def parse_date(date)
-    [4,7].each{|i| date.insert(i,SEPARATOR)}
-    date
+    parse_input([4,7],date)
   end
 
   def parse_phone(phone)
-    [3,7].each{|i| phone.insert(i,SEPARATOR)}
-    phone
+    parse_input([3,7],phone)
   end
 end
 {% endhighlight %}
@@ -303,7 +316,14 @@ We can now interact with Ruby's vibrant citizens in a number of ways. First, we 
 
 {% highlight ruby linenos %}
 obj = AnotherClass.new "John", "Smith", "19950223", "jsmith@domain.com", "8205550123", "501234"
-# => #<AnotherClass:0x000000010fa44b50, @first_name="John", @last_name="Smith", @dob="1995-02-23", @email="jsmith@domain.com", @phone="820-555-0123", @zipcode="501234">
+# => #<AnotherClass:0x00007f98c38e08d8 @first_name="John", @last_name="Smith", @email="jsmith@domain.com", @dob="1995-02-23", @phone="820-555-0123", @zipcode="501234">
+obj.full_name
+# => John Smith
+obj.contact
+# =>    Smith, John
+#       jsmith@domain.com
+#       820-555-0123
+#       501234
 {% endhighlight %}
 
 Then we information from `obj` and `AnotherClass` such as:
@@ -707,7 +727,7 @@ puts obj.display
 
 # Code that Writes Code
 
-I told you before that I don't like the "code that writes code" definition of metaprogramming, but that doesn't mean we can't have fun with it. Here is a simple example of creating classes and instantiating an object for these classes dynamically. Imagine that I have a file name `person.csv` with the following content:
+I told you before that I don't like the "code that writes code" definition of metaprogramming, but that doesn't mean we can't have fun with it. Here is a simple example of creating classes and instantiating an object for these classes dynamically. Imagine that I have two files: `person.csv`
 
 {% highlight csv %}
 name,age,gender,state
@@ -719,7 +739,17 @@ Barb,26,F,TX
 Jerry,29,M,TX
 {% endhighlight %}
 
-I will write a code that will read the content of `person.csv`, create a class `Person` and define its attributes based on the first line of the file and then instantiate objects of `Person` with the data in the remainder of the file. In fact, the code will work for any csv file following the same pattern; that is, the first line contains the attribute names, and the remainder of the file contains data associated with those attributes.
+and `product.csv`
+
+{% highlight csv %}
+code,name,price
+T252XL,Ink Cartridge,34.99
+A320,Printer,299.32
+532A,Monitor,345.62
+9932,Mouse,32.95
+{% endhighlight %}
+
+I will write a code that will read the content of `person.csv`, create a class `Person` and define its attributes based on the first line of the file and then instantiate objects of `Person` with the data in the remainder of the file. In fact, the code will work for any csv file following the same pattern, therefore the same will ocurr for `product.csv`.
 
 {% highlight ruby linenos %}
 # process_csv.rb
@@ -761,6 +791,26 @@ database.each do |db|
   puts ""
 end
 
+{% endhighlight %}
+
+Now I can run `process_csv.rb`, which returns the following:
+
+{% highlight shell %}
+Person
+===============================================================================
+#<Person:0x00007fb7a403bea8 @name="John", @age="25", @gender="M", @state="CO">
+#<Person:0x00007fb7a403b930 @name="Mary", @age="23", @gender="F", @state="CO">
+#<Person:0x00007fb7a403b188 @name="Gloria", @age="20", @gender="F", @state="FL">
+#<Person:0x00007fb7a403a648 @name="Paul", @age="23", @gender="M", @state="CA">
+#<Person:0x00007fb7a4039360 @name="Barb", @age="26", @gender="F", @state="TX">
+#<Person:0x00007fb7a4038e88 @name="Jerry", @age="29", @gender="M", @state="TX">
+
+Product
+===============================================================================
+#<Product:0x00007fb7a48d52d0 @code="T252XL", @name="Ink Cartridge", @price="34.99">
+#<Product:0x00007fb7a48d4f88 @code="A320", @name="Printer", @price="299.32">
+#<Product:0x00007fb7a48d4ba0 @code="532A", @name="Monitor", @price="345.62">
+#<Product:0x00007fb7a48d4768 @code="9932", @name="Mouse", @price="32.95">
 {% endhighlight %}
 
 # Refactoring with Metaprogramming
