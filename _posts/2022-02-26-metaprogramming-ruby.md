@@ -21,7 +21,7 @@ When I use Ruby, I am not thinking about some of the mechanics of programming. I
 
 If elegance, simplicity, and the natural aspect of its syntax are already great ingredients for prototyping, my favorite thing about Ruby is something yet more intriguing: <em>metaprogramming</em>!
 
-Informally, metaprogramming is writing code that writes code. If you search online, this is the most popular definition of metaprogramming: "Code that writes code." Well, I'm not too fond of this definition. The reason is straightforward. Consider the following C++ code:
+Informally, metaprogramming is often refferred to as "writing code that writes code". If you search online, this is the most popular definition of metaprogramming: "Code that writes code." Well, I'm not too fond of this definition. The reason is straightforward. Consider the following C++ code:
 
 {% highlight c++ linenos %}
 // example.cpp
@@ -89,7 +89,7 @@ a * b = 6
 
 This is a naive example of "code that writes code." Ok, maybe too naive, but the idea here is to illustrate the limitations of this popular definition of metaprogramming. A code that writes code is not interesting in itself. How code writes code and what you can do with that is an entirely different story.
 
-Paolo Perrotta wrote <a href="https://pragprog.com/titles/ppmetr2/metaprogramming-ruby-2/">a wonderful book</a> about metaprogramming in Ruby. Perrotta describes Ruby source code as "a world teeming with vibrant citizens including variables, classes, and methods." These citizens are <em>language constructs</em>. Therefore a more technical (and much more meaningful) definition of metaprogramming is <em>writing code that manipulates language constructs at runtime.</em> This is concept is so important that I will break it down for better visibility:
+Paolo Perrotta wrote <a href="https://pragprog.com/titles/ppmetr2/metaprogramming-ruby-2/">a wonderful book</a> about metaprogramming in Ruby. Perrotta describes Ruby source code as "a world teeming with vibrant citizens including variables, classes, and methods." These citizens are <em>language constructs</em>. Therefore a more technical (and much more meaningful) definition of metaprogramming is <em>writing code that manipulates language constructs at runtime.</em> This concept is so important that I will break it down for better visibility:
 
 * What: writing code that manipulate language constructs.
 * When: at runtime.
