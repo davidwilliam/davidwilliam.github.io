@@ -6,7 +6,7 @@ subtitle: Chief Technology Officer at <a href='https://algemetric.com'>Algemetri
 
 profile:
   align: right
-  image: David_Silva_06.png
+  image: DavidWSilva.jpg
   address: >
     <p>Algemetrix Inc</p>
     <p>5555 Tech Center Drive, Suites 100 and 126</p>
