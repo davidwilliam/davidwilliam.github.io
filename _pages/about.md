@@ -9,7 +9,7 @@ profile:
   image: DavidWSilva_S.jpg
   address: >
     <p>Algemetrix Inc</p>
-    <p>5555 Tech Center Drive, Suites 100 and 126</p>
+    <p>5555 Tech Center Drive, Suite 100</p>
     <p>Colorado Springs, Colorado 80920</p>
 
 news: true  # includes a list of news items
