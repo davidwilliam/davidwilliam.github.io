@@ -1,0 +1,34 @@
+<div class="computer-science">
+  {% if site.computer_science != blank %}
+    {% assign cs_size = site.computer_science | size %}
+    <div
+      class="table-responsive"
+      {% if include.limit and site.computer_science.scrollable and cs_size > 10 %}
+        style="max-height: 60vw"
+      {% endif %}
+    >
+      <table class="table table-sm table-borderless">
+        {% assign cs_posts = site.computer_science | reverse %}
+        {% if include.limit and site.computer_science.limit %}
+          {% assign cs_limit = site.computer_science.limit %}
+        {% else %}
+          {% assign cs_limit = cs_size %}
+        {% endif %}
+        {% for post in cs_posts limit: cs_limit %}
+          <tr>
+            <th scope="row" style="width: 20%">{{ post.date | date: '%b %d, %Y' }}</th>
+            <td>
+              {% if post.inline %}
+                {{ post.content | remove: '<p>' | remove: '</p>' | emojify }}
+              {% else %}
+                <a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  {% else %}
+    <p>No computer science posts so far...</p>
+  {% endif %}
+</div>

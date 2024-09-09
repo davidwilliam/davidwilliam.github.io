@@ -200,6 +200,9 @@ collections:
   projects:
     output: true
     permalink: /:collection/:title/
+  computer_science:
+    output: true
+    permalink: /:collection/:title/
 
 announcements:
   enabled: true
