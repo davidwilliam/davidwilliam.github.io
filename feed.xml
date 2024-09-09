@@ -1,19 +1,334 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://davidwsilva.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://davidwsilva.com/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-08-28T19:28:56+00:00</updated><id>https://davidwsilva.com/feed.xml</id><title type="html">blank</title><subtitle>A neverending cycle of theses, antitheses, and syntheses.
-</subtitle><entry><title type="html">Metaprogramming in Ruby</title><link href="https://davidwsilva.com/blog/2022/metaprogramming-ruby/" rel="alternate" type="text/html" title="Metaprogramming in Ruby" /><published>2022-02-26T01:09:00+00:00</published><updated>2022-02-26T01:09:00+00:00</updated><id>https://davidwsilva.com/blog/2022/metaprogramming-ruby</id><content type="html" xml:base="https://davidwsilva.com/blog/2022/metaprogramming-ruby/"><![CDATA[<p>Ruby is a programming language created by <a href="https://github.com/matz">Yukihiro Matsumoto</a> (better known as Matz) a form of compilation of everything he liked the best about his favorite languages: <a href="https://www.perl.org/">Perl</a>, <a href="http://www.smalltalk.org/">Smaltalk</a>, <a href="https://www.eiffel.org/">Eiffel</a>, <a href="http://www.getadanow.com/">Ada</a>, and <a href="https://lisp-lang.org/">Lisp</a>. Matz was motivated to create a new language by balancing functional with imperative programming.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://www.davidwsilva.com//feed.xml" rel="self" type="application/atom+xml"/><link href="https://www.davidwsilva.com//" rel="alternate" type="text/html" hreflang="en"/><updated>2024-09-09T16:36:11+00:00</updated><id>https://www.davidwsilva.com//feed.xml</id><title type="html">blank</title><subtitle>Experienced software engineer and technology leader with over 26 years of expertise in developing data-centric, secure, and privacy-enhanced solutions. Specializing in translating business strategies into innovative technologies, with a focus on customer-centric, results-driven methodologies. Holds a Ph.D. in Computer Science. </subtitle><entry><title type="html">The Balanced Brackets Problem - The Ruby Way</title><link href="https://www.davidwsilva.com//blog/2024/the-balanced-brackets-problem/" rel="alternate" type="text/html" title="The Balanced Brackets Problem - The Ruby Way"/><published>2024-09-02T10:11:00+00:00</published><updated>2024-09-02T10:11:00+00:00</updated><id>https://www.davidwsilva.com//blog/2024/the-balanced-brackets-problem</id><content type="html" xml:base="https://www.davidwsilva.com//blog/2024/the-balanced-brackets-problem/"><![CDATA[<p>The balanced brackets problem is a well-known problem in computer science and programming in general. It asks if a string of brackets is balanced and therefore valid, which means that the brackets are in the correct order and there are no unmatched brackets. Whovever works with Ruby for programming, will try to solve any problem in “the Ruby way”, that is, with simplicity, elegance, and human-centered design. The Ruby Way can be described as a philosophy that encourages programmers to write code that is both powerful and easy to understand. In this post I review this problem and show why classic approach for solving it remains the best one yet, with advantages in performane that justifies its choice.</p> <h1 id="reviewing-the-problem">Reviewing the Problem</h1> <p>Let’s first review the problem: Given a string containing brackets - any sequence with some arrangement including <code class="language-plaintext highlighter-rouge">"(", ")", "[", "]", "{", "}"</code> - check if the brackets are opening and closing, and in the correct order.</p> <p>Examples of strings containing balanced brackets:</p> <ul> <li><code class="language-plaintext highlighter-rouge">"{[()]}"</code></li> <li><code class="language-plaintext highlighter-rouge">"[()()]"</code></li> <li><code class="language-plaintext highlighter-rouge">"{[()]}()[]{}"</code></li> </ul> <p>Examples of strings containing unbalanced brackets:</p> <ul> <li><code class="language-plaintext highlighter-rouge">"{[("</code></li> <li><code class="language-plaintext highlighter-rouge">"{)"</code></li> <li><code class="language-plaintext highlighter-rouge">"[}"</code></li> <li><code class="language-plaintext highlighter-rouge">"{]}"</code></li> </ul> <p>and so on.</p> <p>Typically, this problem allows empty strings to be valid ones.</p> <p>So let’s summarize the constraints we need to consider before we implement a solution:</p> <ul> <li>Only strings containing brackets (round, curly, square) will be provided as input.</li> <li>Empty strings are permitted and are considered valid.</li> <li>The solution must output either <code class="language-plaintext highlighter-rouge">true</code> or <code class="language-plaintext highlighter-rouge">false</code>.</li> </ul> <h1 id="implementing-a-solution">Implementing a Solution</h1> <p>For solving this problem, imagine that I have a class named <code class="language-plaintext highlighter-rouge">BalancedBracket</code> and I will write a method named <code class="language-plaintext highlighter-rouge">check</code> to verify if any given string is valid.</p> <p>So I start by defining our class and method. Here, for simplicity, I will define <code class="language-plaintext highlighter-rouge">check</code> as a class method:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="c1"># balanced_bracket.rb</span>
+<span class="k">class</span> <span class="nc">BalancedBracket</span>
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">check</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>Note: I could define <code class="language-plaintext highlighter-rouge">def self.check string</code> and it would work the same way since parenthesis are optional in Ruby in most cases. Here, I will leave the parenthesis while defining the method <code class="language-plaintext highlighter-rouge">check</code> for readability purposes.</p> <p>As I mentioned before, let’s try to solve this problem in the Ruby Way. I know that empty strings are considered valid. So let’s start with that:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="c1"># balanced_bracket.rb</span>
+<span class="k">class</span> <span class="nc">BalancedBracket</span>
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">check</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">string</span><span class="p">.</span><span class="nf">empty?</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>I can write our first test case and check our implementation so far. I will use MiniTest:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="c1"># balanced_bracket_test.rb</span>
+<span class="nb">require</span> <span class="s2">"minitest/autorun"</span>
+<span class="nb">require_relative</span> <span class="s2">"balanced_bracket"</span>
 
-<p>One of the first reactions people have when first interacting with Ruby is to say: “Wow, this is very simple!” Matz, however, states that his goal is to make Ruby <em>natural</em>, not <em>simple</em>. Matz remarks, “Ruby is simple in appearance, but is very complex inside, just like our human body.”</p>
+<span class="k">class</span> <span class="nc">BalancedBracketTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+    <span class="k">def</span> <span class="nf">test_empty_string</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="n">assert</span> <span class="no">BalancedBracket</span><span class="p">.</span><span class="nf">check</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>I can now run:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ruby -Itest balanced_bracket_test.rb
+</code></pre></div></div> <p>which will produce the following result:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Run options: --seed 54680
 
-<p>On its official page, Ruby is described as a “dynamic, open-source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write.” There is much more that can be said about Ruby, even in an introductory fashion, but this initial description is, in my view, spot on.</p>
+# Running:
 
-<p>When I use Ruby, I am not thinking about some of the mechanics of programming. Instead, I am mostly thinking about the result I seek to produce. Matz wanted Ruby code to be easily read by humans. Ruby code is meant to be very elegant and simple, which makes it my favorite language for <em>prototyping</em>.</p>
+.
 
-<h1 id="what-is-mettaprogramming">What Is Mettaprogramming?</h1>
+Finished in 0.000258s, 3875.9675 runs/s, 3875.9675 assertions/s.
 
-<p>If elegance, simplicity, and the natural aspect of its syntax are already great ingredients for prototyping, my favorite thing about Ruby is something yet more intriguing: <em>metaprogramming</em>!</p>
+1 runs, 1 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></div></div> <p>The first case of our problem is taken care off. Very simple, right? :-)</p> <p>I should now consider two things. The first is that, earlier, I mentioned that the balanced brackets problem is well-known in computer science which means that there is a standard way to approach it which is by using a stack. In data structures, a stack is a data structure that stores a linear, ordered sequence of items and operates on the LIFO process (Last In First Out).</p> <p>The second is that I can leverage hash maps to identify the presence of brackets in our string as well as if there is a matching pair in the right order. Let’s start by creating a variable to represent the stack and a variable to represent our hash map:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="c1"># balanced_bracket.rb</span>
+<span class="k">class</span> <span class="nc">BalancedBracket</span>
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">check</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">string</span><span class="p">.</span><span class="nf">empty?</span>
 
-<p>Informally, metaprogramming is often refferred to as “writing code that writes code”. If you search online, this is the most popular definition of metaprogramming: “Code that writes code.” Well, I’m not too fond of this definition. The reason is straightforward. Consider the following C++ code:</p>
+        <span class="n">stack</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">brackets</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"("</span> <span class="o">=&gt;</span> <span class="s2">")"</span><span class="p">,</span> <span class="s2">"{"</span> <span class="o">=&gt;</span> <span class="s2">"}"</span><span class="p">,</span> <span class="s2">"["</span> <span class="o">=&gt;</span> <span class="s2">"]"</span><span class="p">}</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>When invoked, the class method <code class="language-plaintext highlighter-rouge">check</code> from the class <code class="language-plaintext highlighter-rouge">BalancedBracket</code> will return <code class="language-plaintext highlighter-rouge">true</code> if the string is empty and ignore the rest of the code. If the string is not empty, it will create an empty array object to represent the stack and will create a hash object with all brackets under consideration for this problem: round, curly, and square. The order of the brackets in the hash object does not matter.</p> <p>Now it’s time to write the main logic of the <code class="language-plaintext highlighter-rouge">chech</code> method which will be located inside a loop as I iterate over the string that is passed as argument to the method <code class="language-plaintext highlighter-rouge">check</code>. Ruby offers many interesting ways to iterate over collection of objects. I choose <code class="language-plaintext highlighter-rouge">each_char</code>:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="c1"># balanced_bracket.rb</span>
+<span class="k">class</span> <span class="nc">BalancedBracket</span>
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">check</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">string</span><span class="p">.</span><span class="nf">empty?</span>
 
-<figure class="highlight"><pre><code class="language-c--" data-lang="c++"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+        <span class="n">stack</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">brackets</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"("</span> <span class="o">=&gt;</span> <span class="s2">")"</span><span class="p">,</span> <span class="s2">"{"</span> <span class="o">=&gt;</span> <span class="s2">"}"</span><span class="p">,</span> <span class="s2">"["</span> <span class="o">=&gt;</span> <span class="s2">"]"</span><span class="p">}</span>
+
+        <span class="n">string</span><span class="p">.</span><span class="nf">each_char</span> <span class="k">do</span> <span class="o">|</span><span class="n">char</span><span class="o">|</span>
+            <span class="c1"># the main logic goes here</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>Almost there. The main logic is actually pretty simple. While iterating over <code class="language-plaintext highlighter-rouge">string</code>, I will check if there is a key <code class="language-plaintext highlighter-rouge">char</code> in <code class="language-plaintext highlighter-rouge">brackets</code>. If there is, I will add it (push it) to the <code class="language-plaintext highlighter-rouge">stack</code> array as a way of keeping track of the of the left brackets we found in the string. Recall that the keys in the <code class="language-plaintext highlighter-rouge">brackets</code> object are only left brackets and their values are the corresponding right brackets. In other words, if there is a key in <code class="language-plaintext highlighter-rouge">brackets</code> that is equal to <code class="language-plaintext highlighter-rouge">char</code>, that means we found a left bracket. If we cannot find a key for the given <code class="language-plaintext highlighter-rouge">char</code> value we receive in each iteration, that means we found a right bracket and now is time to check if the right bracket matches the last left bracket added to the stack. This is where the choice for using stacks is so relevant for solving this problem: the last item to enter the stack will be the first to leave it (LIFO). We will see soon why this is so important for performance purposes.</p> <p>Back to the logic. If we cannot find a key in <code class="language-plaintext highlighter-rouge">brackets</code> that is equal to <code class="language-plaintext highlighter-rouge">char</code>, then this mean we found a right bracket. We just need to get the last left bracket added to <code class="language-plaintext highlighter-rouge">stack</code> (we pop it from the <code class="language-plaintext highlighter-rouge">stack</code> object) and compare if the corresponding matching value in our <code class="language-plaintext highlighter-rouge">brackets</code> equals to <code class="language-plaintext highlighter-rouge">char</code>. If not, we return false:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="code"><pre><span class="c1"># balanced_bracket.rb</span>
+<span class="k">class</span> <span class="nc">BalancedBracket</span>
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">check</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">string</span><span class="p">.</span><span class="nf">empty?</span>
+
+        <span class="n">stack</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">brackets</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"("</span> <span class="o">=&gt;</span> <span class="s2">")"</span><span class="p">,</span> <span class="s2">"{"</span> <span class="o">=&gt;</span> <span class="s2">"}"</span><span class="p">,</span> <span class="s2">"["</span> <span class="o">=&gt;</span> <span class="s2">"]"</span><span class="p">}</span>
+
+        <span class="n">string</span><span class="p">.</span><span class="nf">each_char</span> <span class="k">do</span> <span class="o">|</span><span class="n">char</span><span class="o">|</span>
+            <span class="k">if</span> <span class="n">brackets</span><span class="p">.</span><span class="nf">key?</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+                <span class="n">stack</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+            <span class="k">else</span>
+                <span class="n">left_bracket</span> <span class="o">=</span> <span class="n">stack</span><span class="p">.</span><span class="nf">pop</span>
+                <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="n">brackets</span><span class="p">[</span><span class="n">left_bracket</span><span class="p">]</span> <span class="o">!=</span> <span class="n">char</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>Are we done? Not yet. Now, our method has the main logic but we need to write one final check before we finish it. As it currently is, the <code class="language-plaintext highlighter-rouge">check</code> method will iterate over <code class="language-plaintext highlighter-rouge">string</code> and check if there is a left bracket in it (<code class="language-plaintext highlighter-rouge">if brackets.key?(char)</code>) and if there is, it will add it to the <code class="language-plaintext highlighter-rouge">stack</code> object (<code class="language-plaintext highlighter-rouge">stack.push(char)</code>). If it does not find a left bracket (since we only accept strings containing round, curly, and square brackets), we found a right bracket which will be compared with the last left bracket we added to the <code class="language-plaintext highlighter-rouge">stack</code>. But what happens if the right bracket does not match the left bracket we just popped from the <code class="language-plaintext highlighter-rouge">stack</code>? Literally nothing. The loop will continue until it completes iterating over the input string. That mean that there will be a “residue” in the <code class="language-plaintext highlighter-rouge">stack</code>, that is, left brackets that were not matched with any right bracket. In other words, the stack won’t be empty. That shows that the input string is not valid. Therefore, to complete our <code class="language-plaintext highlighter-rouge">check</code> method, we just need to check if <code class="language-plaintext highlighter-rouge">stack</code> is empty. The input string is only valid if after going through the loop, the <code class="language-plaintext highlighter-rouge">stack</code> object is empty:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="code"><pre><span class="c1"># balanced_bracket.rb</span>
+<span class="k">class</span> <span class="nc">BalancedBracket</span>
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">check</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">string</span><span class="p">.</span><span class="nf">empty?</span>
+
+        <span class="n">stack</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">brackets</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"("</span> <span class="o">=&gt;</span> <span class="s2">")"</span><span class="p">,</span> <span class="s2">"{"</span> <span class="o">=&gt;</span> <span class="s2">"}"</span><span class="p">,</span> <span class="s2">"["</span> <span class="o">=&gt;</span> <span class="s2">"]"</span><span class="p">}</span>
+
+        <span class="n">string</span><span class="p">.</span><span class="nf">each_char</span> <span class="k">do</span> <span class="o">|</span><span class="n">char</span><span class="o">|</span>
+            <span class="k">if</span> <span class="n">brackets</span><span class="p">.</span><span class="nf">key?</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+                <span class="n">stack</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+            <span class="k">else</span>
+                <span class="n">left_bracket</span> <span class="o">=</span> <span class="n">stack</span><span class="p">.</span><span class="nf">pop</span>
+                <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="n">brackets</span><span class="p">[</span><span class="n">left_bracket</span><span class="p">]</span> <span class="o">!=</span> <span class="n">char</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+
+        <span class="n">stack</span><span class="p">.</span><span class="nf">empty?</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>Recall that in Ruby, the last line of a method is what the method returns (unless there is no previous condition that makes the method to return something else).</p> <p>Now we are done!</p> <p>So let’s update the test cases:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="code"><pre><span class="c1"># balanced_bracket_test.rb</span>
+<span class="nb">require</span> <span class="s2">"minitest/autorun"</span>
+<span class="nb">require_relative</span> <span class="s2">"balanced_bracket"</span>
+
+<span class="k">class</span> <span class="nc">BalancedBracketTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+    <span class="k">def</span> <span class="nf">test_empty_string</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="n">assert</span> <span class="no">BalancedBracket</span><span class="p">.</span><span class="nf">check</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">test_valid_case</span>
+        <span class="n">string1</span> <span class="o">=</span> <span class="s2">"{([])}"</span>
+        <span class="n">string2</span> <span class="o">=</span> <span class="s2">"{[]()}"</span>
+        <span class="n">assert</span> <span class="no">BalancedBracket</span><span class="p">.</span><span class="nf">check</span><span class="p">(</span><span class="n">string1</span><span class="p">)</span>
+        <span class="n">assert</span> <span class="no">BalancedBracket</span><span class="p">.</span><span class="nf">check</span><span class="p">(</span><span class="n">string2</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">test_invalid_cases</span>
+        <span class="n">string1</span> <span class="o">=</span> <span class="s2">"{([]"</span>
+        <span class="n">string2</span> <span class="o">=</span> <span class="s2">"{[(])}"</span>
+        <span class="n">refute</span> <span class="no">BalancedBracket</span><span class="p">.</span><span class="nf">check</span><span class="p">(</span><span class="n">string1</span><span class="p">)</span>
+        <span class="n">refute</span> <span class="no">BalancedBracket</span><span class="p">.</span><span class="nf">check</span><span class="p">(</span><span class="n">string2</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>When we run the tests:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ruby -Itest balanced_bracket_test.rb
+</code></pre></div></div> <p>we obtain:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Run options: --seed 21775
+
+# Running:
+
+...
+
+Finished in 0.000276s, 10869.5558 runs/s, 18115.9263 assertions/s.
+
+3 runs, 5 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></div></div> <p>At this point, the solution correctly address the balanced brackets problem and all test cases we wrote are passing. However, every Rubyist I know will ask the question: “Is there a better way to solve this problem?”. Something like “Can invoke the magic powers of the Ruby Way to solve this in a better way?”</p> <p>The answer might be “it depends”. It depends on what “better” means. This is what I show next.</p> <h1 id="an-alternative-solution">An Alternative Solution</h1> <p>It goes without saying that if I decide to change the implementation of <code class="language-plaintext highlighter-rouge">check</code>, the tests must continue to pass in the same way. So let’s try it.</p> <p>Here is the logic that I will follow this time: I will continue to return true if the string is empty. After that, I will start a loop and get the string.legth at each iteration and call it <code class="language-plaintext highlighter-rouge">initial_length</code>. Then, I will check if there is any matching bracket next to each other. Something like <code class="language-plaintext highlighter-rouge">()</code>, <code class="language-plaintext highlighter-rouge">[]</code>, <code class="language-plaintext highlighter-rouge">{}</code>. If there is, I will replace it by an empty string (just another way to say we will remove it from the string). So I will check the length of the string after checking for matching brackets and call it <code class="language-plaintext highlighter-rouge">final_length</code>. If there is an iteration where <code class="language-plaintext highlighter-rouge">initial_legth</code> equals <code class="language-plaintext highlighter-rouge">final_length</code>, that means we don’t have any matching brackets left in the string and it is time to exit the loop. Finally, we check if the string is empty:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="code"><pre><span class="c1"># balanced_bracket.rb</span>
+<span class="k">class</span> <span class="nc">BalancedBracket</span>
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">check</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">string</span><span class="p">.</span><span class="nf">empty?</span>
+
+        <span class="kp">loop</span> <span class="k">do</span>
+            <span class="n">initial_length</span> <span class="o">=</span> <span class="n">string</span><span class="p">.</span><span class="nf">length</span>
+            <span class="n">string</span><span class="p">.</span><span class="nf">gsub!</span><span class="p">(</span><span class="sr">/\(\)|\[\]|\{\}/</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
+            <span class="n">final_length</span> <span class="o">=</span> <span class="n">string</span><span class="p">.</span><span class="nf">length</span>
+            <span class="k">break</span> <span class="k">if</span> <span class="n">initial_length</span> <span class="o">==</span> <span class="n">final_length</span>
+        <span class="k">end</span>
+
+        <span class="n">string</span><span class="p">.</span><span class="nf">empty?</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>The method <code class="language-plaintext highlighter-rouge">gsub</code> allows us to use regular expressions and stands for “global substitution”, that is, replace the pattern defined in the regular expression by the second parameter (in our case, an empty string). The symbol <code class="language-plaintext highlighter-rouge">!</code> means that we will evaluate the substitution and update the object <code class="language-plaintext highlighter-rouge">string</code> to its new state, discarding the previous one. This type of method is known in Ruby as “destructive method”.</p> <p>When we run the tests:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ruby -Itest balanced_bracket_test.rb
+</code></pre></div></div> <p>we obtain:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Run options: --seed 57734
+
+# Running:
+
+...
+
+Finished in 0.000371s, 8086.2476 runs/s, 13477.0794 assertions/s.
+
+3 runs, 5 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></div></div> <p>The new implementation works. But is it better? Let’s see.</p> <h2 id="thoughts-on-the-stack-based-method">Thoughts on the Stack-Based Method</h2> <p>The stack-based method is straightforward and a standard approach to solving bracket validation problems. It’s easy to understand and maintain. The space complexity of the algorithm is <code class="language-plaintext highlighter-rouge">O(n)</code> as the stack grows with the number of unmatched opening brackets. Simple example: <code class="language-plaintext highlighter-rouge">((((((((((</code>. The time complexity is also <code class="language-plaintext highlighter-rouge">O(n)</code> as it iterates over <code class="language-plaintext highlighter-rouge">string</code> only once. Stack operations (push and pop) are very efficient and run in <code class="language-plaintext highlighter-rouge">O(1)</code>.</p> <h2 id="thoughts-on-the-string-based-method">Thoughts on the String-Based Method</h2> <p>The idea of modifying the string in place can be appealing for its simplicity, as it avoids the need for an additional data structure (stack). For this reason, theoretically, it uses less memory compared to the stack-based method - <code class="language-plaintext highlighter-rouge">O(1)</code> instead of <code class="language-plaintext highlighter-rouge">O(n)</code> - as we can modify the input string in place without creating any new object that might grow as we iterate string.</p> <p>However, the string-based has a potentially serious disadvantage: each time we remove a pair of brackets, the entire string needs to be reallocated (in most Ruby implementations), which can be inefficient. The time complexity of string manipulation operations like <code class="language-plaintext highlighter-rouge">gsub!</code> is <code class="language-plaintext highlighter-rouge">O(n)</code>, leading to an overall time complexity worse than <code class="language-plaintext highlighter-rouge">O(n)</code>. In fact, the exact time complexity depends on the number of times the loop runs, but in the worst case, it could approach <code class="language-plaintext highlighter-rouge">O(n²)</code> if many iterations are required.</p> <h1 id="pushing-even-further">Pushing Even Further</h1> <p>It could be surprising (or even impressive) how many different ways one can come up to solve this problem in Ruby. I tried to solve it with a one-liner and I could not find (yet) a <strong>true one-liner</strong> to solve this. I say true one-liner because I do not consider a code that is thoughtlessly concatenated just so it is executed in one line to be a trye one-liner. Let’s try something different:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre><span class="c1"># balanced_bracket.rb</span>
+<span class="k">class</span> <span class="nc">BalancedBracket</span>
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">check</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="n">string</span><span class="p">.</span><span class="nf">chars</span><span class="p">.</span><span class="nf">each_with_object</span><span class="p">([])</span> <span class="p">{</span> <span class="o">|</span><span class="n">char</span><span class="p">,</span> <span class="n">stack</span><span class="o">|</span> 
+          <span class="k">if</span> <span class="s1">'([{'</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+            <span class="n">stack</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+          <span class="k">elsif</span> <span class="s1">')]}'</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="n">stack</span><span class="p">.</span><span class="nf">empty?</span> <span class="o">||</span> <span class="s1">'([{'</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">stack</span><span class="p">.</span><span class="nf">pop</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">')]}'</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+          <span class="k">end</span>
+        <span class="p">}.</span><span class="nf">empty?</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>In addition to <code class="language-plaintext highlighter-rouge">string.chars</code>, which returns a collection of chars from <code class="language-plaintext highlighter-rouge">string</code>, I am now using <code class="language-plaintext highlighter-rouge">each_with_object([])</code>, so we can pass an additional object to the block (“the body of the loop”). Remember when I said that Ruby had some interesting ways to iterate over collection of objects? This is just another example. The logic is really concentrated in loop block:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="c1"># in balanced_bracket.rb</span>
+<span class="k">if</span> <span class="s1">'([{'</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+    <span class="n">stack</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+<span class="k">elsif</span> <span class="s1">')]}'</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="n">stack</span><span class="p">.</span><span class="nf">empty?</span> <span class="o">||</span> <span class="s1">'([{'</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">stack</span><span class="p">.</span><span class="nf">pop</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">')]}'</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>By using <code class="language-plaintext highlighter-rouge">each_with_object</code>, we are creating a <code class="language-plaintext highlighter-rouge">stack</code> object and returning to the first version of the algorithm. Same principle, different way.</p> <p>But what about a <strong>true one-liner</strong>? I could not come up with one but I got close:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="c1"># balanced_bracket.rb</span>
+<span class="k">class</span> <span class="nc">BalancedBracket</span>
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">check</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="n">string</span><span class="p">.</span><span class="nf">gsub!</span><span class="p">(</span><span class="sr">/\(\)|\[\]|\{\}/</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span> <span class="k">while</span> <span class="n">string</span><span class="p">.</span><span class="nf">sub!</span><span class="p">(</span><span class="sr">/\(\)|\[\]|\{\}/</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
+        <span class="n">string</span><span class="p">.</span><span class="nf">empty?</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>When we run the tests</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ruby -Itest balanced_bracket_test.rb
+</code></pre></div></div> <p>we see that our test cases pass:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Run options: --seed 16154
+
+# Running:
+
+...
+
+Finished in 0.000351s, 8547.0058 runs/s, 14245.0097 assertions/s.
+
+3 runs, 5 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></div></div> <p>The <code class="language-plaintext highlighter-rouge">string.gsub!(/\(\)|\[\]|\{\}/, '')</code> searches for the first occurrence of any matching bracket pair <code class="language-plaintext highlighter-rouge">()</code>, <code class="language-plaintext highlighter-rouge">[]</code>, <code class="language-plaintext highlighter-rouge">{}</code>, which runs in <code class="language-plaintext highlighter-rouge">O(n)</code>. The code <code class="language-plaintext highlighter-rouge">while string.sub!(/\(\)|\[\]|\{\}/, '')</code> will continue until no more matching pairs are found. In the worst case, if the string contains many nested brackets, the loop might run <code class="language-plaintext highlighter-rouge">n/2</code> times, where each iteration reduces the string length by 2. Overall, the time complexity will be <code class="language-plaintext highlighter-rouge">O(n) * O(n/2) = O(n²)</code>.</p> <h1 id="conclusion">Conclusion</h1> <p>I am sure that are many other ways Rubyists can come up to solve this problem in the Ruby Way. However, it is important to verify if the underlying computations are indeed more efficient than the stack-based way. For solving this particular problem, stacks are widely used, well-understood, and reliable. Overall, the stack-based approach is efficient for most typical input sizes, with time complexity <code class="language-plaintext highlighter-rouge">O(n)</code> and space complexity <code class="language-plaintext highlighter-rouge">O(n)</code>. In our particular alternative method, we reduced the space complexity to <code class="language-plaintext highlighter-rouge">O(1)</code> (which is great) at the expense of increasing the time complexity to <code class="language-plaintext highlighter-rouge">O(n²)</code> (which is is bad). I recommend anyone to try different ways to solve well-known problems. It is not just fun but it also helps us better understand what is the best solution in each case. Here, we can see that the stack-based approach is the standard solution for a reason.</p>]]></content><author><name></name></author><category term="programming"/><category term="ruby"/><category term="balanced"/><category term="brackets"/><category term="parentheses"/><summary type="html"><![CDATA[The balanced brackets problem is a well-known problem in computer science and programming in general. It asks if a string of brackets is balanced and therefore valid, which means that the brackets are in the correct order and there are no unmatched brackets. Whovever works with Ruby for programming, will try to solve any problem in "the Ruby way", that is, with simplicity, elegance, and human-centered design. The Ruby Way can be described as a philosophy that encourages programmers to write code that is both powerful and easy to understand.]]></summary></entry><entry><title type="html">Breaking the Chain - The Unspoken Truth About Bad Attitudes in the Workplace and How to Eradicate Them for Good</title><link href="https://www.davidwsilva.com//blog/2024/breaking-the-chain/" rel="alternate" type="text/html" title="Breaking the Chain - The Unspoken Truth About Bad Attitudes in the Workplace and How to Eradicate Them for Good"/><published>2024-03-19T01:09:00+00:00</published><updated>2024-03-19T01:09:00+00:00</updated><id>https://www.davidwsilva.com//blog/2024/breaking-the-chain</id><content type="html" xml:base="https://www.davidwsilva.com//blog/2024/breaking-the-chain/"><![CDATA[<p>It has been a while since I wanted to write about this. Bad attitudes have become an increasing issue in many workplaces, from micro to giant organizations. My opinions here are based on diverse experiences and observations over 26 years of my corporate journey. I won’t mention any names from these experiences, however. I have something more interesting to discuss.</p> <p>I’d like to alert you before you continue: they are intense about this particular subject. As you proceed with this article, you should know I won’t leave any stone unturned. So, now is a great time to check your ego before moving forward.</p> <p>When people with bad attitudes are part of a team, in any capacity, they can bring the whole team down. When they move to management, leadership, or any decision-making role, they can destroy an entire company. At the same time, despite the apparent harsh confrontation towards bad attitudes, this article aims at a fruitful end. More specifically, my goal is to provide individual contributors, managers, leaders, and business owners with concrete, fact-based, and actionable insights for avoiding the destructive consequences of not correctly addressing bad attitudes in the workplace.</p> <h1 id="defining-bad-attitude">Defining Bad Attitude</h1> <p>Ensuring we are all on the same page is essential for such a serious conversation. For this article, a bad attitude can be defined as a persistent, conscious, and deliberate pattern of behavior characterized by negativity, selfishness, and disregard for others. It manifests through actions and interactions prioritizing personal gain or satisfaction at the expense of team cohesion, organizational culture, and collective well-being. People exhibiting a bad attitude often engage in behaviors strategically planned to undermine, demean, or belittle others, showing little to no appreciation for anyone or anything or the journey toward achieving common goals. Such attitudes are self-enabling and self-justifying, creating a toxic environment that hampers growth, innovation, and the development of a supportive and inclusive workplace. A bad attitude, therefore, is not merely a momentary lapse in judgment or an unintentional misstep; it is a choice—a consistent preference for negative behaviors that value things over people, disregard the importance of journey and growth, and detach oneself from the reality and responsibility of contributing to a positive and constructive work environment.</p> <p>If you think I am being too hard on bad attitudes at some point in this article, I would like you to return to the above definition and refresh your memory about what I am fighting against.</p> <h1 id="the-major-characteristics-of-bad-attitude">The Major Characteristics of Bad Attitude</h1> <p>I am always fascinated by how many TV shows serve as excellent illustrations of valuable corporate lessons. Some of them are pretty easy to see why, such as The Playlist (the story of Spotify), Super Pumped (the story of Uber), Big Vape (the story of Juul), Return to Space (the story of SpaceX), The Inventor (the story of Theranos), Enron: The Smartest Guys in the Room, while some others might not look like it and yet provide great lessons for entrepreneurs, innovators, and professionals in general as it is the case as As the Crow Flies (Turkish drama series) and Car Masters (car restoration reality show). These illustrations are handy since they allow me to provide real-world examples without revealing details of people and their experiences I either witnessed or know of.</p> <p>I will use illustrations from Pressure Cooker, a cooking reality show on Netflix for this article.</p> <p>Why? There are three reasons for that:</p> <ul> <li>Reality shows are made for entertainment; therefore, getting illustrations from them is handy when addressing such a heavy subject. These illustrations are immediately more accessible to everyone, making the case more digestible. Moreover, due to the entertainment setting, most people will easily miss important corporate lessons one can take from it. So, I would like to bring those to light.</li> <li>The entertainment nature of a reality show is also perfect to illustrate how lightly some people take problems associated with bad attitudes. Comments like “Well, this person is just like that” or “These things happen anyways” are more frequent than one would imagine. To highlight the danger of such stances, I will match each illustration from the reality show with a well-known corporate tragedy.</li> <li>People are the same outside and inside the workspace. A person with solid habits of lying, cheating, and deceiving will do the same in your company, your team, and with you directly without second thoughts. You can bet on it.</li> </ul> <h2 id="self-awareness">Self-Awareness</h2> <p>There is no such thing as an “unaware bad attitude.” On the contrary, a bad attitude is always self-conscious and self-aware. Some team members exhibiting severe cases of bad attitudes will start their sentences with something like “I know I am annoying,” “I am not for everyone,” and “I am hard to deal with,” etc. These acknowledgments have no effect on how they interact with other people. Instead, it is just a declaration of self-awareness, so there are no questions to ask about it.</p> <h3 id="in-the-reality-show">In the Reality Show</h3> <p>I started to watch Pressure Cooker on Netflix. At first glance, it is another cooking show where celebrities judge chefs. However, this particular show introduces a new element: the chefs will be judged by each other. When I saw that, I immediately thought that the dynamic of the competition became radically different from the typical cooking quest. If you are going to be assessed by your peers, more than your cooking skills is required. At the very least, you will have to invest in good communication, relationships, and leadership. As the participants were introduced, we heard bits and pieces from each one. Since it is a competition, it is only natural that each one presents themselves with bold statements. I noticed that most candidates talked well about themselves, highlighting their abilities, experiences, and passion for cooking. Mike, one of the contenders, introduced himself as follows:</p> <blockquote> <p>The restaurant I used to work at, everyone called me Big Mike. I’m the smallest guy, but I act like the biggest guy in the room, and I think that makes guys like me very competitive.</p> </blockquote> <p>It sounds like being “the smallest guy” bothers Mike so much that he needs to act as “the biggest guy in the room.” When Mike arrives, the other participants try to socialize by throwing personal questions at him (something they were already doing with other candidates). Mike gets uncomfortable and says:</p> <blockquote> <p>I don’t know what’s going on. I’ve never done this before. I’m just used to cooking food. Way less talking, way more cooking, that’d be happy with me.</p> </blockquote> <p>As soon as he hears his peers would judge him, Mike says:</p> <blockquote> <p>That makes me a little nervous, for certain. I don’t feel as confident at getting people to like me as much as the food that I put on the plate.</p> </blockquote> <p>Mike was already giving signs. As you will see, knowing he could have issues based on relationships didn’t change anything in Mike’s first interactions with the other candidates.</p> <h3 id="in-the-real-world">In the Real World</h3> <p>One example of self-aware bad attitudes is the Wells Fargo account fraud scandal that came to light in 2016. Senior management and employees at Wells Fargo were found to have created millions of fraudulent savings and checking accounts on behalf of their clients without their consent. The actions were part of a broader strategy to meet aggressive sales targets and earn bonuses. The systematic creation of unauthorized accounts was a strategic decision, indicating that those involved were aware of their unethical behavior. The scandal was not the result of isolated incidents but was widespread, suggesting a culture where a bad attitude towards ethical practices was normalized and encouraged. Even when allegations surfaced, Wells Fargo’s initial responses included downplaying the severity, justifying the sales practices, or shifting blame, all pointing to a self-justifying attitude among those involved.</p> <h2 id="intentionality">Intentionality</h2> <p>Bad attitudes are always intentional. Moreover, it is often strategically, carefully, and meticulously planned.</p> <h3 id="in-the-reality-show-1">In the Reality Show</h3> <p>The first task given to participants is to cook their favorite dishes in 90 minutes. Everyone wanted to impress their peers, so everyone was running against time and reasonably nervous. Mike finishes his dish before everyone else. Here is what he decides to do:</p> <blockquote> <p>I finished a little early. I figured I’d just maybe get in people’s heads a little bit. I just started cleaning the kitchen. So it’s just to be like, ‘Hey, I am faster than you, you know?</p> </blockquote> <p>As we will see later on, that attitude didn’t go unnoticed.</p> <h3 id="in-the-real-world-1">In the Real World</h3> <p>The Enron scandal is one of history’s most infamous corporate fraud cases. Enron, once a powerhouse in the energy sector, collapsed in 2001 due to widespread corporate fraud and corruption. It was characterized by a complex web of deceit, including accounting loopholes, unique purpose entities, and poor financial reporting, all intentionally designed to hide billions in debt from failed deals and projects. Senior executives at Enron were not only aware of these practices but actively encouraged and participated in them to present the company as much more profitable than it was. This deceit was not random or accidental; it was a calculated effort to mislead investors, regulators, and the public, driven by greed and the pursuit of personal profit at the expense of ethical standards and transparency.</p> <h2 id="selfishness">Selfishness</h2> <p>Bad attitudes are firmly, directly, and undeniably motivated by selfish reasons. It goes beyond a competitive position, which many times is healthy. It is much colder than that, for it lacks empathy and interest for the collective good.</p> <h3 id="in-the-reality-show-2">In the Reality Show</h3> <p>The participants are alerted that one of them will have to leave the competition due to the first task and how they would judge each other’s work. The reaction of the majority of the contestants was of surprise. They expressed that they were not ready to send anyone home. Mike had a different opinion:</p> <blockquote> <p>I’m not surprised that there’s gonna be an elimination tonight. You know, it seems like the right time to send someone home already. You know, we got 11 of us. There’s only one winner. We gotta get someone out at some point. So might as well be tonight.</p> </blockquote> <p>I know it is a competition. I know there will be only one winner. But everyone else also knows that. He still needs to consider teamwork and establishing relationships before he thinks about winning anything.</p> <h3 id="in-the-real-world-2">In the Real World</h3> <p>When it comes to selfishness driving bad attitudes, the Volkswagen emissions scandal, also known as “Dieselgate,” is a strong example of such a problem. In 2015, Volkswagen was found to have intentionally programmed more than 11 million of its diesel vehicles worldwide to activate emissions controls only during laboratory testing. This manipulation made the cars appear far less polluting than in actual road conditions, where they emitted pollutants at levels up to 40 times higher than standards allowed. These actions were driven by the desire to meet emissions standards cost-effectively, boost sales, and enhance the company’s market position, all at the expense of environmental standards and public health. The decision-makers within the company who orchestrated or approved the cheating software were motivated by personal gain, such as bonuses tied to sales targets and the company’s performance, despite the ethical, legal, and environmental consequences of their actions.</p> <h2 id="valuing-things-over-people">Valuing Things Over People</h2> <p>What could follow selfishness? That would have to be materialism. What else could happen when one disregards others? No empathy, no solidarity. The image and the notion of “the other” fade out completely.</p> <h3 id="in-the-reality-show-3">In the Reality Show</h3> <p>Interestingly, the strongest candidates are confident and take pride in their honesty and transparency. But they do that with an outstanding level of sensibility. In particular, they show they care about others. As a matter of comparison, another participant called Lana said the following when she heard about the elimination:</p> <blockquote> <p>I am shaking in my boots having to send someone home, to be quite honest. There’s a lot going through my head to make a decision, but I know it has to be made, and I know I will make it. But I know I’m not gonna rush to make it.</p> </blockquote> <p>A contestant named Jeana was voted one of the bottom 3 out of 11, and as such, she was at risk of being eliminated. She remarks:</p> <blockquote> <p>Last night, everybody was saying ‘Oh, you’re safe, you’re good.’ I feel like if they didn’t say that I would be a little more confident. But that’s probably exactly what I would say to somebody going home.</p> </blockquote> <p>Jeana reveals herself as someone who didn’t want to reveal any of her actual impressions and opinions about anyone else in the competition. She makes it clear that she only cares about not going home and would adjust her actions and words to that end.</p> <p>To contrast Jeana’s attitude, we can take a look at what another participant, Robbie, said about judging each other’s work:</p> <blockquote> <p>In real-world and real-life restaurants, not only do you live and die by your guests’ perception of you, but you also can get a lot of progress or a lot of failure based on what your peers think about you. That sort of peer criticism is invaluable.</p> </blockquote> <h3 id="in-the-real-world-3">In the Real World</h3> <p>I don’t want to be economical in explaining how tragic the value of things over people can be. A horrible example of that involves the 2013 Rana Plaza disaster in Bangladesh, one of the deadliest garment factory accidents in history. The Rana Plaza collapse, which resulted in the death of over 1,100 workers and injured more than 2,500, brought to light the hazardous working conditions and the blatant disregard for human life exhibited by certain players in the fast fashion industry. Despite prior warnings about the building’s structural integrity, factories within the plaza continued operations to meet the relentless demand for cheap clothing from international brands. This tragedy highlighted how some companies, driven by the pursuit of profit, prioritize financial gains and the production of goods over their workers’ safety, well-being, and lives.</p> <h2 id="disregard-for-the-journey">Disregard for the Journey</h2> <p>It just builds up. Combine selfishness with valuing things over people, and any journey will be a struggle. The obsession with self-indulging rewards leads to a disregard for the processes that make us better and lead us to conquer what is worthwhile in life.</p> <h3 id="in-the-reality-show-4">In the Reality Show</h3> <p>Another contestant named Sergei was struggling to appreciate the dynamics of the activity he was participating in. The idea was to gain the respect of other chefs and receive good feedback from them. Instead, he spent most of the time elaborating on how superior he believed he was over everyone else:</p> <blockquote> <p>I definitely have an upper hand on these private chefs. They don’t get to feel the heat and the burn of, like, the kitchen and the line. I’m one of the few that can do 500, 600 covers a night.</p> </blockquote> <p>After receiving the first criticisms for the dish he prepared, Sergei ranted:</p> <blockquote> <p>I thought my dish was way better than that. I nailed the cook on my venison. The sauce is delicious. Everything’s just flowing and perfect. I’m kind of pissed, to be completely honest with you. Like, what the hell?</p> </blockquote> <p>The whole point of the experience up to that moment was to gain respect from other chefs. Refusing to accept their opinions defeats the purpose of the activity.</p> <p>Jeana was so sure that she would be lying to anyone else in the house that she could not believe anyone in return:</p> <blockquote> <p>I am getting a read on these people about, like, all right, you can’t really trust what they’re saying… exactly.</p> </blockquote> <p>Being strategic does not mean being false—something so simple, but missed by a few contestants.</p> <h3 id="in-the-real-world-4">In the Real World</h3> <p>Perhaps one of the most tragic examples of disregard for the journey in recent history is the scandal involving Elizabeth Holmes and her company, Theranos. Holmes, the founder and CEO of Theranos, claimed to have revolutionized blood testing by developing technology that could conduct comprehensive tests with just a few drops of blood. However, it was eventually revealed that the technology did not work as promised, leading to one of Silicon Valley’s most notorious fraud cases.</p> <p>Holmes and Theranos showcased a disregard for the journey of genuine innovation and ethical business practices by misleading investors, partners, and patients about the capabilities and readiness of their technology. The pursuit of fame, wealth, and influence in the healthcare industry drove them to fabricate results, creating a dangerous situation where real patients were using unreliable medical tests. Holmes’ actions were motivated by the desire to be seen as a successful entrepreneur in the highly competitive tech industry, sidelining the critical importance of transparency, scientific integrity, and patient safety.</p> <h2 id="further-characteristics">Further Characteristics</h2> <p>Could there be more? Yes. Bad attitudes are also:</p> <ul> <li> <p><strong>Self-enabling and self-justifying:</strong> they create a cycle that perpetuates and rationalizes negative behavior. People with bad attitudes often develop a narrative that supports their actions, regardless of the negative impact on others or themselves. This self-justification process enables them to continue their behavior without confronting its harmful effects, as they convince themselves that their actions are warranted, necessary, or even virtuous under the circumstances. This self-enabling cycle shields the person from criticism and introspection, allowing the bad attitude to thrive unchecked. The more a person engages in self-justification, the more entrenched the bad attitude becomes, making it a self-sustaining loop that resists change and undermines personal growth and healthy relationships.</p> </li> <li> <p><strong>Always a choice:</strong> they stem from an individual’s decision to respond to situations, people, or challenges in a negative manner. While external circumstances can influence one’s disposition, the attitude one adopts in response to these circumstances is a matter of personal choice. Choosing a bad attitude involves selecting a perspective or approach that is pessimistic, uncooperative, or harmful over more constructive alternatives. This choice often reflects a preference for immediate emotional gratification or self-interest rather than considering long-term consequences or the well-being of others. Recognizing that attitudes are a choice empowers individuals to take responsibility for their reactions and to make conscious decisions to cultivate positive, supportive, and constructive attitudes instead.</p> </li> <li> <p><strong>Culture destroyers:</strong> they erode the foundational values and norms that hold a community or organization together. When individuals choose to engage in negative behaviors, such as disrespect, pessimism, or selfishness, these actions not only affect their personal relationships but also permeate the broader environment. A culture influenced by bad attitudes becomes marked by distrust, conflict, and disengagement, undermining teamwork, collaboration, and collective goals. As these negative behaviors become normalized, the positive aspects of culture—such as open communication, mutual respect, and shared purpose—are diminished. The destructive impact of bad attitudes on culture can stifle innovation, reduce morale, and lead to a toxic environment that hampers growth and success.</p> </li> <li> <p><strong>Ungrateful:</strong> they focus on negativity, overlooking the positive aspects and opportunities in any situation. Individuals with bad attitudes often take for granted the support, effort, and contributions of others, focusing instead on shortcomings or personal grievances. This lack of appreciation fails to acknowledge the value and significance of what others bring to the table, whether in personal relationships or professional settings. An ungrateful attitude diminishes the importance of kindness, help, and resources others offer, fostering a sense of entitlement rather than gratitude. By ignoring the good in people and situations, bad attitudes cultivate a mindset blind to the generosity and the benefits of collaborative effort, eroding the foundation of mutual respect and appreciation essential for healthy interactions and relationships.</p> </li> <li> <p><strong>Detached from reality:</strong> they often stem from a skewed perception of the world that ignores or misinterprets the positive aspects of situations and the intentions of others. This detachment manifests in an inability or unwillingness to see circumstances objectively, leading to reactions and decisions based on biased, pessimistic, or unfounded beliefs. Such attitudes result in surprise or denial when faced with the natural consequences of negative behaviors, as the individuals holding these attitudes have constructed a version of reality that justifies their actions and shields them from accountability. This detachment not only hampers personal growth and relationship building but also leads to misunderstandings and conflicts, as the individual’s perceived reality clashes with the experiences and perceptions of those around them.</p> </li> </ul> <h1 id="practical-pieces-of-advice">Practical Pieces of Advice</h1> <p>In mathematics, we can “cancel” a term in an equation by adding it to its additive inverse or multiplying it by its multiplicative inverse. In both cases, the result is the identity (additive and multiplicative, respectively).</p> <p>Similarly, in the workspace, we can cancel each characteristic of bad attitudes by using their corresponding inverses. As a result, we generate a corporate identity.</p> <h2 id="cancel-bad-attitude-using-its-inverse">Cancel Bad Attitude Using its Inverse</h2> <h3 id="cultivate-positive-self-awareness">Cultivate Positive Self-Awareness</h3> <p>Encourage individuals to reflect on how their actions and attitudes impact others, focusing on empathy and understanding. Positive self-awareness involves recognizing one’s role in a team and the larger organizational goals, nurturing a culture of mutual respect and collaboration.</p> <h3 id="incentivize-intentionality-towards-positive-outcomes">Incentivize Intentionality Towards Positive Outcomes</h3> <p>Encourage setting intentions that promote teamwork, constructive feedback, and shared successes. Transform strategic planning into a tool for positive change and growth rather than manipulation or self-serving goals.</p> <h3 id="promote-generosity-and-altruism">Promote Generosity and Altruism</h3> <p>Instigate acts of kindness and support within the team, highlighting the benefits of giving others time, attention, and resources. Show how mutual support leads to shared victories and enhanced personal satisfaction. Have open conversations with those with difficulties coming on board on this step and help them overcome any identified barriers if they are willing to do so.</p> <h3 id="emphasize-the-value-of-relationships-and-human-connections">Emphasize the Value of Relationships and Human Connections</h3> <p>Highlight stories and examples where valuing people over profit led to long-term success and fulfillment. Foster an environment where individuals feel appreciated for their contributions, not just their output.</p> <h3 id="celebrate-the-process-not-just-the-results">Celebrate the Process, not Just the Results</h3> <p>Create spaces for reflection and learning, emphasizing the importance of growth, challenges, and the lessons learned along the way. Encourage a mindset that values persistence, resilience, and the journey towards achieving goals. Show that the journey matters and is worth celebrating every step of the way.</p> <h3 id="promote-accountability-and-humility">Promote Accountability and Humility</h3> <p>Implement feedback systems that are constructive and aim towards personal and professional growth. Encourage team members to take responsibility for their actions and to see criticism as an opportunity for improvement.</p> <h3 id="choose-positivity-and-constructive-attitudes">Choose Positivity and Constructive Attitudes</h3> <p>Highlight the power of choice in shaping one’s environment and relationships. Encourage and prioritize making choices that build up the team and contribute to a positive culture.</p> <h3 id="be-a-culture-builder">Be a Culture Builder</h3> <p>Nothing is more powerful in an organization than a solid, healthy, and compelling culture. Actively contribute to creating a positive, inclusive, and supportive workplace environment. Recognize and reward behaviors that strengthen the organizational culture and align with core values.</p> <h3 id="practice-gratitude">Practice Gratitude</h3> <p>Encourage individuals to express thanks and appreciation for the efforts and contributions of others. Neglecting gratitude is one of the most serious red flags in any workspace. It should be easy to show appreciation for others. Cultivate an environment where gratitude is expressed openly, reinforcing positive interactions and relationships.</p> <h3 id="foster-engagement-and-connection-with-the-real-world">Foster Engagement and Connection with the Real World</h3> <p>Advocate for awareness of the impact of one’s actions on others and the organization. Promote involvement in community and social causes to broaden perspectives and foster a sense of responsibility toward the greater good.</p> <h3 id="the-golden-statement">The Golden Statement</h3> <p>At some point in the show, Lana becomes the team leader in which Mike is in it. Mike is upset because he was chosen last. Lana talks to him in an attempt to get him to grow into a good team player. Mike’s initial reaction is not the best.</p> <p>Lana remarks that she likes to work with others, but respect can’t be taken. It has to be earned. Lana then provides the following piece of advice to Mike:</p> <blockquote> <p>Understand you always have to be learning and understanding that there’s always room for error and criticism.</p> </blockquote> <p>Mike hears those words in a very unsettling way. He does not fight back, but he clearly struggles to accept it. Lana then delivers the most fantastic statement I wish every single person in every single area of the corporate world could live by:</p> <blockquote> <p>I would much rather have someone with a good attitude and a bad skill set than someone with a great skill set and a bad attitude. You can’t teach someone to have a good attitude, but you can always teach someone to cook.</p> </blockquote> <p>Lana, I couldn’t agree more with that.</p> <h1 id="out-of-curiosity">Out of Curiosity</h1> <p>It is clear that Mike is a highly talented chef. However, skills are only one of many requirements for a great professional. Mike arrived at the competition tossing out his qualifications:</p> <blockquote> <p>I have a high standard for what a good chef is. I went to Culinary Institute of America, and I think that demands respect. It’s literally like Hogwarts is for Harry Potter, as that school is for cooking.</p> </blockquote> <p>Mike didn’t save any criticism towards his peers. He was vocal about the many details he didn’t like for each dish. His peers noticed. Robbie expresses his concerns about Mike:</p> <blockquote> <p>Mike’s an opinionated guy. I just hope that Mike can take a look in the mirror and see his own food with the same critical eye that he was judging everybody else’s food.</p> </blockquote> <p>But when the time came to receive criticism on his dish, his conclusion was a claim of superiority:</p> <blockquote> <p>Of all the dishes that I’ve seen, I like mine the best.</p> </blockquote> <p>On the next day, chefs are divided into two teams. The two best-voted chefs, Renee and Lana, become team leaders. The teams are formed, and Mike is the last person to be picked. He didn’t like that at all.</p> <blockquote> <p>I am really bummed that I was picked last by Lana. Not too excited about that. I didn’t know why I was picked last. What’s the deal? I cook good food. What’s going on?</p> </blockquote> <p>Mike didn’t notice that his cooking abilities alone were insufficient to position him well in a team setting. What happens to Mike? What happens to Lana? What about the others? You will have to watch the eight episodes of Pressure Cooker to find out. I don’t want to ruin it for you.</p> <p>Believe it or not, everything I mentioned here is just a tiny fraction of the first episode. In an attempt to incite your curiosity, I will say that the way the season ends is genuinely satisfying. There are lots of lessons that can be taken from it.</p> <p>In the following episodes, you will see that not everything is what it seems, and bad attitudes are truly something nasty to see in any human being. Each episode could easily be an article on its own.</p> <h1 id="zero-tolerance">Zero Tolerance</h1> <p>Making mistakes is not the same as having a bad attitude. Having a bad day is not the same as having a bad attitude. Being inexperienced is not the same as having a bad attitude. Engaging in a heated argument is not the same as having a bad attitude. Strongly disagreeing with someone is not the same as having a bad attitude. All of these things, in isolation, can happen to anyone and might not be a sign of a bad attitude. It can just mean that humans are humans, with virtues and flaws, with emotions and life experiences that can be manifested in different ways depending on each context.</p> <p>Now, recall the definition of bad attitudes provided early in this article. There is no fix for such a thing. If you see early signs of bad attitudes in your organization, do something about it in a timely manner, or you will regret it profoundly. For the good of everyone else in your organization, confront it firmly and remove it while the damages are manageable.</p> <p>Bad attitudes are like a baby monster that, when fed, grows strong and eats the owner and everyone around. Bad attitudes will show you no mercy in their destructive power.</p> <h1 id="conclusion">Conclusion</h1> <p>The way you position yourself against bad attitudes is to manifest your own values, principles, and beliefs. Remember: true, great professionals (emphasis on the true) are also great people, and almost invariably, they do not tolerate bad attitudes. If you are in a position to do something about it and you don’t, you will lose the best members of your team. Keep in mind that delayed justice is denied justice. There is a time to address bad attitudes, and this time is as soon as possible. Cherish good attitudes. Be vocal and loud about it. Empower it, acknowledge it, highlight it, reward it, and protect it at all costs. Always choose a good attitude over experience. Experience can be acquired, skills can be learned, expertise can be developed, and techniques, methodologies, and strategies can all be trainable. But you can’t fix with teaching a matter of choice.</p>]]></content><author><name></name></author><category term="teamwork"/><category term="bad"/><category term="attitudes"/><category term="workspace"/><summary type="html"><![CDATA[Bad attitudes in the workspace are like a baby monster that, when fed, grows strong and eats the owner and everyone around. It is a culture destroyer, a team demolisher, a dream invalidator, a motivation crusher, a corrupter of good practices, and a productivity suppressor. In this article, I write about the unspoken truth about bad attitudes and how to respond to it.]]></summary></entry><entry><title type="html">Metaprogramming in Ruby</title><link href="https://www.davidwsilva.com//blog/2022/metaprogramming-ruby/" rel="alternate" type="text/html" title="Metaprogramming in Ruby"/><published>2022-02-26T01:09:00+00:00</published><updated>2022-02-26T01:09:00+00:00</updated><id>https://www.davidwsilva.com//blog/2022/metaprogramming-ruby</id><content type="html" xml:base="https://www.davidwsilva.com//blog/2022/metaprogramming-ruby/"><![CDATA[<p>Ruby is a programming language created by <a href="https://github.com/matz">Yukihiro Matsumoto</a> (better known as Matz) a form of compilation of everything he liked the best about his favorite languages: <a href="https://www.perl.org/">Perl</a>, <a href="http://www.smalltalk.org/">Smaltalk</a>, <a href="https://www.eiffel.org/">Eiffel</a>, <a href="http://www.getadanow.com/">Ada</a>, and <a href="https://lisp-lang.org/">Lisp</a>. Matz was motivated to create a new language by balancing functional with imperative programming.</p> <p>One of the first reactions people have when first interacting with Ruby is to say: “Wow, this is very simple!” Matz, however, states that his goal is to make Ruby <em>natural</em>, not <em>simple</em>. Matz remarks, “Ruby is simple in appearance, but is very complex inside, just like our human body.”</p> <p>On its official page, Ruby is described as a “dynamic, open-source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write.” There is much more that can be said about Ruby, even in an introductory fashion, but this initial description is, in my view, spot on.</p> <p>When I use Ruby, I am not thinking about some of the mechanics of programming. Instead, I am mostly thinking about the result I seek to produce. Matz wanted Ruby code to be easily read by humans. Ruby code is meant to be very elegant and simple, which makes it my favorite language for <em>prototyping</em>.</p> <h1 id="what-is-mettaprogramming">What Is Mettaprogramming?</h1> <p>If elegance, simplicity, and the natural aspect of its syntax are already great ingredients for prototyping, my favorite thing about Ruby is something yet more intriguing: <em>metaprogramming</em>!</p> <p>Informally, metaprogramming is often refferred to as “writing code that writes code”. If you search online, this is the most popular definition of metaprogramming: “Code that writes code.” Well, I’m not too fond of this definition. The reason is straightforward. Consider the following C++ code:</p> <figure class="highlight"><pre><code class="language-c--" data-lang="c++"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -65,11 +380,7 @@
 
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>When I run <code class="language-plaintext highlighter-rouge">g++ example.cpp -o example --std=c++11 &amp;&amp; ./example</code>, a new file <code class="language-plaintext highlighter-rouge">main.cpp</code> will be created, which contains the following code:</p>
-
-<figure class="highlight"><pre><code class="language-c--" data-lang="c++"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>When I run <code class="language-plaintext highlighter-rouge">g++ example.cpp -o example --std=c++11 &amp;&amp; ./example</code>, a new file <code class="language-plaintext highlighter-rouge">main.cpp</code> will be created, which contains the following code:</p> <figure class="highlight"><pre><code class="language-c--" data-lang="c++"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -103,38 +414,11 @@
 
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>When I run <code class="language-plaintext highlighter-rouge">g++ main.cpp -o main --std=c++11 &amp;&amp; ./main</code>, I obtain:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = 2
+</pre></td></tr></tbody></table></code></pre></figure> <p>When I run <code class="language-plaintext highlighter-rouge">g++ main.cpp -o main --std=c++11 &amp;&amp; ./main</code>, I obtain:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = 2
 b = 3
 a + b = 5
 a * b = 6
-</code></pre></div></div>
-
-<p>This is a naive example of “code that writes code.” Ok, maybe too naive, but the idea here is to illustrate the limitations of this popular definition of metaprogramming. A code that writes code is not interesting in itself. How code writes code and what you can do with that is an entirely different story.</p>
-
-<p>Paolo Perrotta wrote <a href="https://pragprog.com/titles/ppmetr2/metaprogramming-ruby-2/">a wonderful book</a> about metaprogramming in Ruby. Perrotta describes Ruby source code as “a world teeming with vibrant citizens including variables, classes, and methods.” These citizens are <em>language constructs</em>. Therefore a more technical (and much more meaningful) definition of metaprogramming is <em>writing code that manipulates language constructs at runtime.</em> This concept is so important that I will break it down for better visibility:</p>
-
-<ul>
-  <li>What: writing code that manipulate language constructs.</li>
-  <li>When: at runtime.</li>
-</ul>
-
-<p>I like the second definition much better. Not every language can do that, and the way Ruby achieves this dynamic manipulation of language constructs makes it incredibly elegant and powerful.</p>
-
-<p>All I can do in a single blog post is to scratch the surface of metaprogramming in Ruby. For that, I invite you to look at five, amongst other building blocks of metaprogramming in Ruby: Dynamic Dispatch, Dynamic Methods, Ghost Methods, Dynamic Proxy, and Blank Slate.</p>
-
-<h1 id="language-constructs">Language Constructs</h1>
-
-<blockquote>
-  <p>For all the examples in this post, I used Ruby 3.1.0p0 (2021-12-25 revision fb4df44d16) [x86_64-darwin19].</p>
-</blockquote>
-
-<p>When we create a class in Ruby, that class inherits properties and behaviors from other default classes unless we decide otherwise. These classes are called “ancestors.” They provide fundamental functionalities for any custom class in their lineage. We can check what are the ancestors of my class as follows:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</code></pre></div></div> <p>This is a naive example of “code that writes code.” Ok, maybe too naive, but the idea here is to illustrate the limitations of this popular definition of metaprogramming. A code that writes code is not interesting in itself. How code writes code and what you can do with that is an entirely different story.</p> <p>Paolo Perrotta wrote <a href="https://pragprog.com/titles/ppmetr2/metaprogramming-ruby-2/">a wonderful book</a> about metaprogramming in Ruby. Perrotta describes Ruby source code as “a world teeming with vibrant citizens including variables, classes, and methods.” These citizens are <em>language constructs</em>. Therefore a more technical (and much more meaningful) definition of metaprogramming is <em>writing code that manipulates language constructs at runtime.</em> This concept is so important that I will break it down for better visibility:</p> <ul> <li>What: writing code that manipulate language constructs.</li> <li>When: at runtime.</li> </ul> <p>I like the second definition much better. Not every language can do that, and the way Ruby achieves this dynamic manipulation of language constructs makes it incredibly elegant and powerful.</p> <p>All I can do in a single blog post is to scratch the surface of metaprogramming in Ruby. For that, I invite you to look at five, amongst other building blocks of metaprogramming in Ruby: Dynamic Dispatch, Dynamic Methods, Ghost Methods, Dynamic Proxy, and Blank Slate.</p> <h1 id="language-constructs">Language Constructs</h1> <blockquote> <p>For all the examples in this post, I used Ruby 3.1.0p0 (2021-12-25 revision fb4df44d16) [x86_64-darwin19].</p> </blockquote> <p>When we create a class in Ruby, that class inherits properties and behaviors from other default classes unless we decide otherwise. These classes are called “ancestors.” They provide fundamental functionalities for any custom class in their lineage. We can check what are the ancestors of my class as follows:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -144,64 +428,18 @@ a * b = 6
 
 <span class="no">MySimpleClass</span><span class="p">.</span><span class="nf">ancestors</span>
 <span class="c1"># =&gt; [MySimpleClass, Object, PP::ObjectMixin, Kernel, BasicObject]</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>We can check what each of these ancestors is by checking their associated classes:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">MySimpleClass</span><span class="p">.</span><span class="nf">ancestors</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:class</span><span class="p">)</span>
-<span class="c1"># =&gt; [Class, Class, Module, Module, Class]</span></code></pre></figure>
-
-<p>We can also list what “fundamental functionalities” are inherited when we create a class in Ruby by executing:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">BasicObject</span><span class="p">.</span><span class="nf">methods</span>
-<span class="c1"># =&gt; [:allocate,  :superclass,  :subclasses,  :new,  :instance_method,  :public_instance_method,  :&lt;=&gt;,  :define_method,  :&lt;=,  :&gt;=,  :==,  :===,  :included_modules,  :include?,  :ancestors,  :attr,  :attr_reader,  :attr_writer,  :attr_accessor,  :instance_methods,  :public_instance_methods,  :protected_instance_methods,  :private_instance_methods,  :constants,  :freeze,  :inspect,  :const_set,  :const_get,  :const_source_location,  :const_defined?,  :class_variable_set,  :class_variables,  :remove_class_variable,  :class_variable_get,  :const_missing,  :class_variable_defined?,  :&lt;,  :private_constant,  :&gt;,  :singleton_class?,  :public_constant,  :deprecate_constant,  :prepend,  :include,  :module_exec,  :to_s,  :module_eval,  :class_exec,  :class_eval,  :pretty_print_cycle,  :remove_method,  :undef_method,  :alias_method,  :method_defined?,  :public_method_defined?,  :private_method_defined?,  :name,  :protected_method_defined?,  :public_class_method,  :private_class_method,  :autoload,  :autoload?,  :pretty_print,  :pretty_print_instance_variables,  :pretty_print_inspect,  :singleton_class,  :dup,  :itself,  :taint,  :tainted?,  :untaint,  :untrust,  :untrusted?,  :trust,  :methods,  :singleton_methods,  :protected_methods,  :private_methods,  :public_methods,  :instance_variables,  :instance_variable_get,  :instance_variable_set,  :instance_variable_defined?,  :remove_instance_variable,  :instance_of?,  :kind_of?,  :is_a?,  :display,  :hash,  :public_send,  :class,  :frozen?,  :tap,  :yield_self,  :then,  :extend,  :clone,  :method,  :public_method,  :singleton_method,  :define_singleton_method,  :=~,  :!~,  :nil?,  :eql?,  :respond_to?,  :object_id,  :send,  :to_enum,  :enum_for,  :pretty_inspect,  :__send__,  :!,  :instance_eval,  :instance_exec,  :!=,  :equal?,  :__id__]</span></code></pre></figure>
-
-<p>You see a long list of methods inherited by the classes/modules in the BasicObject’s lineage. We can ask the list of methods for the module <code class="language-plaintext highlighter-rouge">Kernel</code>:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Kernel</span><span class="p">.</span><span class="nf">methods</span>
-<span class="c1"># =&gt; [:puts,  :readline,  :readlines,  :p,  :Complex,  :Float,  :caller,  :caller_locations,  :set_trace_func,  :sprintf,  :format,  :Integer,  :String,  :Array,  :Hash,  :local_variables,  :fork,  :Pathname,  :exit,  :pp,  :warn,  :test,  :raise,  :gets,  :fail,  :global_variables,  :__method__,  :__callee__,  :__dir__,  :proc,  :lambda,  :eval,  :iterator?,  :block_given?,  :catch,  :throw,  :loop,  :sleep,  :rand,  :srand,  :trap,  :select,  :`,  :trace_var,  :untrace_var,  :load,  :at_exit,  :require_relative,  :require,  :autoload?,  :autoload,  :binding,  :Rational,  :exec,  :exit!,  :system,  :spawn,  :abort,  :syscall,  :open,  :printf,  :print,  :putc,  :instance_method,  :public_instance_method,  :&lt;=&gt;,  :define_method,  :&lt;=,  :&gt;=,  :==,  :===,  :included_modules,  :include?,  :ancestors,  :attr,  :attr_reader,  :attr_writer,  :attr_accessor,  :instance_methods,  :public_instance_methods,  :protected_instance_methods,  :private_instance_methods,  :constants,  :freeze,  :inspect,  :const_set,  :const_get,  :const_source_location,  :const_defined?,  :class_variable_set,  :class_variables,  :remove_class_variable,  :class_variable_get,  :const_missing,  :class_variable_defined?,  :&lt;,  :private_constant,  :&gt;,  :singleton_class?,  :public_constant,  :deprecate_constant,  :prepend,  :include,  :module_exec,  :to_s,  :module_eval,  :class_exec,  :class_eval,  :pretty_print_cycle,  :remove_method,  :undef_method,  :alias_method,  :method_defined?,  :public_method_defined?,  :private_method_defined?,  :name,  :protected_method_defined?,  :public_class_method,  :private_class_method,  :pretty_print,  :pretty_print_instance_variables,  :pretty_print_inspect,  :singleton_class,  :dup,  :itself,  :taint,  :tainted?,  :untaint,  :untrust,  :untrusted?,  :trust,  :methods,  :singleton_methods,  :protected_methods,  :private_methods,  :public_methods,  :instance_variables,  :instance_variable_get,  :instance_variable_set,  :instance_variable_defined?,  :remove_instance_variable,  :instance_of?,  :kind_of?,  :is_a?,  :display,  :hash,  :public_send,  :class,  :frozen?,  :tap,  :yield_self,  :then,  :extend,  :clone,  :method,  :public_method,  :singleton_method,  :define_singleton_method,  :=~,  :!~,  :nil?,  :eql?,  :respond_to?,  :object_id,  :send,  :to_enum,  :enum_for,  :pretty_inspect,  :__send__,  :!,  :instance_eval,  :instance_exec,  :!=,  :equal?,  :__id__]</span></code></pre></figure>
-
-<p>Now you see an even longer list of methods than before. We can check the sizes of these lists:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>We can check what each of these ancestors is by checking their associated classes:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">MySimpleClass</span><span class="p">.</span><span class="nf">ancestors</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:class</span><span class="p">)</span>
+<span class="c1"># =&gt; [Class, Class, Module, Module, Class]</span></code></pre></figure> <p>We can also list what “fundamental functionalities” are inherited when we create a class in Ruby by executing:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">BasicObject</span><span class="p">.</span><span class="nf">methods</span>
+<span class="c1"># =&gt; [:allocate,  :superclass,  :subclasses,  :new,  :instance_method,  :public_instance_method,  :&lt;=&gt;,  :define_method,  :&lt;=,  :&gt;=,  :==,  :===,  :included_modules,  :include?,  :ancestors,  :attr,  :attr_reader,  :attr_writer,  :attr_accessor,  :instance_methods,  :public_instance_methods,  :protected_instance_methods,  :private_instance_methods,  :constants,  :freeze,  :inspect,  :const_set,  :const_get,  :const_source_location,  :const_defined?,  :class_variable_set,  :class_variables,  :remove_class_variable,  :class_variable_get,  :const_missing,  :class_variable_defined?,  :&lt;,  :private_constant,  :&gt;,  :singleton_class?,  :public_constant,  :deprecate_constant,  :prepend,  :include,  :module_exec,  :to_s,  :module_eval,  :class_exec,  :class_eval,  :pretty_print_cycle,  :remove_method,  :undef_method,  :alias_method,  :method_defined?,  :public_method_defined?,  :private_method_defined?,  :name,  :protected_method_defined?,  :public_class_method,  :private_class_method,  :autoload,  :autoload?,  :pretty_print,  :pretty_print_instance_variables,  :pretty_print_inspect,  :singleton_class,  :dup,  :itself,  :taint,  :tainted?,  :untaint,  :untrust,  :untrusted?,  :trust,  :methods,  :singleton_methods,  :protected_methods,  :private_methods,  :public_methods,  :instance_variables,  :instance_variable_get,  :instance_variable_set,  :instance_variable_defined?,  :remove_instance_variable,  :instance_of?,  :kind_of?,  :is_a?,  :display,  :hash,  :public_send,  :class,  :frozen?,  :tap,  :yield_self,  :then,  :extend,  :clone,  :method,  :public_method,  :singleton_method,  :define_singleton_method,  :=~,  :!~,  :nil?,  :eql?,  :respond_to?,  :object_id,  :send,  :to_enum,  :enum_for,  :pretty_inspect,  :__send__,  :!,  :instance_eval,  :instance_exec,  :!=,  :equal?,  :__id__]</span></code></pre></figure> <p>You see a long list of methods inherited by the classes/modules in the BasicObject’s lineage. We can ask the list of methods for the module <code class="language-plaintext highlighter-rouge">Kernel</code>:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Kernel</span><span class="p">.</span><span class="nf">methods</span>
+<span class="c1"># =&gt; [:puts,  :readline,  :readlines,  :p,  :Complex,  :Float,  :caller,  :caller_locations,  :set_trace_func,  :sprintf,  :format,  :Integer,  :String,  :Array,  :Hash,  :local_variables,  :fork,  :Pathname,  :exit,  :pp,  :warn,  :test,  :raise,  :gets,  :fail,  :global_variables,  :__method__,  :__callee__,  :__dir__,  :proc,  :lambda,  :eval,  :iterator?,  :block_given?,  :catch,  :throw,  :loop,  :sleep,  :rand,  :srand,  :trap,  :select,  :`,  :trace_var,  :untrace_var,  :load,  :at_exit,  :require_relative,  :require,  :autoload?,  :autoload,  :binding,  :Rational,  :exec,  :exit!,  :system,  :spawn,  :abort,  :syscall,  :open,  :printf,  :print,  :putc,  :instance_method,  :public_instance_method,  :&lt;=&gt;,  :define_method,  :&lt;=,  :&gt;=,  :==,  :===,  :included_modules,  :include?,  :ancestors,  :attr,  :attr_reader,  :attr_writer,  :attr_accessor,  :instance_methods,  :public_instance_methods,  :protected_instance_methods,  :private_instance_methods,  :constants,  :freeze,  :inspect,  :const_set,  :const_get,  :const_source_location,  :const_defined?,  :class_variable_set,  :class_variables,  :remove_class_variable,  :class_variable_get,  :const_missing,  :class_variable_defined?,  :&lt;,  :private_constant,  :&gt;,  :singleton_class?,  :public_constant,  :deprecate_constant,  :prepend,  :include,  :module_exec,  :to_s,  :module_eval,  :class_exec,  :class_eval,  :pretty_print_cycle,  :remove_method,  :undef_method,  :alias_method,  :method_defined?,  :public_method_defined?,  :private_method_defined?,  :name,  :protected_method_defined?,  :public_class_method,  :private_class_method,  :pretty_print,  :pretty_print_instance_variables,  :pretty_print_inspect,  :singleton_class,  :dup,  :itself,  :taint,  :tainted?,  :untaint,  :untrust,  :untrusted?,  :trust,  :methods,  :singleton_methods,  :protected_methods,  :private_methods,  :public_methods,  :instance_variables,  :instance_variable_get,  :instance_variable_set,  :instance_variable_defined?,  :remove_instance_variable,  :instance_of?,  :kind_of?,  :is_a?,  :display,  :hash,  :public_send,  :class,  :frozen?,  :tap,  :yield_self,  :then,  :extend,  :clone,  :method,  :public_method,  :singleton_method,  :define_singleton_method,  :=~,  :!~,  :nil?,  :eql?,  :respond_to?,  :object_id,  :send,  :to_enum,  :enum_for,  :pretty_inspect,  :__send__,  :!,  :instance_eval,  :instance_exec,  :!=,  :equal?,  :__id__]</span></code></pre></figure> <p>Now you see an even longer list of methods than before. We can check the sizes of these lists:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="code"><pre><span class="no">BasicObject</span><span class="p">.</span><span class="nf">methods</span><span class="p">.</span><span class="nf">size</span> <span class="c1"># =&gt; 118</span>
 <span class="no">Kernel</span><span class="p">.</span><span class="nf">methods</span><span class="p">.</span><span class="nf">size</span> <span class="c1"># =&gt; 175</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>We can also see precisely what the methods that belong to <code class="language-plaintext highlighter-rouge">Kernel</code> but not to <code class="language-plaintext highlighter-rouge">BasicObject</code>:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Kernel</span><span class="p">.</span><span class="nf">methods</span> <span class="o">-</span> <span class="no">BasicObject</span><span class="p">.</span><span class="nf">methods</span>
-<span class="c1"># =&gt; [:puts,  :readline,  :readlines,  :p,  :Complex,  :Float,  :caller,  :caller_locations,  :set_trace_func,  :sprintf,  :format,  :Integer,  :String,  :Array,  :Hash,  :local_variables,  :fork,  :exit,  :pp,  :Pathname,  :warn,  :test,  :raise,  :gets,  :fail,  :global_variables,  :__method__,  :__callee__,  :__dir__,  :proc,  :lambda,  :eval,  :iterator?,  :block_given?,  :catch,  :throw,  :loop,  :sleep,  :rand,  :srand,  :trap,  :select,  :`,  :trace_var,  :untrace_var,  :load,  :at_exit,  :require_relative,  :require,  :binding,  :Rational,  :exec,  :exit!,  :system,  :spawn,  :abort,  :syscall,  :open,  :printf,  :print,  :putc]</span></code></pre></figure>
-
-<p>But wait:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Object</span><span class="p">.</span><span class="nf">methods</span><span class="p">.</span><span class="nf">size</span> <span class="c1"># =&gt; 118</span></code></pre></figure>
-
-<p>What is going on here? Shouldn’t <code class="language-plaintext highlighter-rouge">Object</code> have at least 175 methods like <code class="language-plaintext highlighter-rouge">Kernel</code>? Actually, no. Ruby does not support multiple inheritances. One of the methods defined in <code class="language-plaintext highlighter-rouge">BasicObject</code> is <code class="language-plaintext highlighter-rouge">:superclass</code>. Obviously, <code class="language-plaintext highlighter-rouge">BasicObject</code> does not have a superclass (parent class):</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">BasicObject</span><span class="p">.</span><span class="nf">superclass</span> <span class="c1"># =&gt; nil</span></code></pre></figure>
-
-<p>But <code class="language-plaintext highlighter-rouge">Object</code> has:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Object</span><span class="p">.</span><span class="nf">superclass</span> <span class="c1"># =&gt; BasicObject</span></code></pre></figure>
-
-<p>So <code class="language-plaintext highlighter-rouge">Object</code> inherits from <code class="language-plaintext highlighter-rouge">BasicObject</code>. We can even check the following:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Object</span><span class="p">.</span><span class="nf">methods</span> <span class="o">==</span> <span class="no">BasicObject</span><span class="p">.</span><span class="nf">methods</span> <span class="c1"># =&gt; true</span></code></pre></figure>
-
-<p>What is <code class="language-plaintext highlighter-rouge">PP::ObjectMixin</code> and <code class="language-plaintext highlighter-rouge">Kernel</code> doing “above” <code class="language-plaintext highlighter-rouge">Object</code> when we look at the ancestors of <code class="language-plaintext highlighter-rouge">MySimpleClass</code>? Simple: as we saw before, <code class="language-plaintext highlighter-rouge">PP::ObjectMixin</code> and <code class="language-plaintext highlighter-rouge">Kernel</code> are modules, not classes, and we know that a class can only have one superclass. While we can create a class that inherits from another class (and just one), we can <code class="language-plaintext highlighter-rouge">include</code> as many modules we want using the principle of <em>composition</em>. Therefore we can check:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Object</span><span class="p">.</span><span class="nf">included_modules</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>We can also see precisely what the methods that belong to <code class="language-plaintext highlighter-rouge">Kernel</code> but not to <code class="language-plaintext highlighter-rouge">BasicObject</code>:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Kernel</span><span class="p">.</span><span class="nf">methods</span> <span class="o">-</span> <span class="no">BasicObject</span><span class="p">.</span><span class="nf">methods</span>
+<span class="c1"># =&gt; [:puts,  :readline,  :readlines,  :p,  :Complex,  :Float,  :caller,  :caller_locations,  :set_trace_func,  :sprintf,  :format,  :Integer,  :String,  :Array,  :Hash,  :local_variables,  :fork,  :exit,  :pp,  :Pathname,  :warn,  :test,  :raise,  :gets,  :fail,  :global_variables,  :__method__,  :__callee__,  :__dir__,  :proc,  :lambda,  :eval,  :iterator?,  :block_given?,  :catch,  :throw,  :loop,  :sleep,  :rand,  :srand,  :trap,  :select,  :`,  :trace_var,  :untrace_var,  :load,  :at_exit,  :require_relative,  :require,  :binding,  :Rational,  :exec,  :exit!,  :system,  :spawn,  :abort,  :syscall,  :open,  :printf,  :print,  :putc]</span></code></pre></figure> <p>But wait:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Object</span><span class="p">.</span><span class="nf">methods</span><span class="p">.</span><span class="nf">size</span> <span class="c1"># =&gt; 118</span></code></pre></figure> <p>What is going on here? Shouldn’t <code class="language-plaintext highlighter-rouge">Object</code> have at least 175 methods like <code class="language-plaintext highlighter-rouge">Kernel</code>? Actually, no. Ruby does not support multiple inheritances. One of the methods defined in <code class="language-plaintext highlighter-rouge">BasicObject</code> is <code class="language-plaintext highlighter-rouge">:superclass</code>. Obviously, <code class="language-plaintext highlighter-rouge">BasicObject</code> does not have a superclass (parent class):</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">BasicObject</span><span class="p">.</span><span class="nf">superclass</span> <span class="c1"># =&gt; nil</span></code></pre></figure> <p>But <code class="language-plaintext highlighter-rouge">Object</code> has:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Object</span><span class="p">.</span><span class="nf">superclass</span> <span class="c1"># =&gt; BasicObject</span></code></pre></figure> <p>So <code class="language-plaintext highlighter-rouge">Object</code> inherits from <code class="language-plaintext highlighter-rouge">BasicObject</code>. We can even check the following:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Object</span><span class="p">.</span><span class="nf">methods</span> <span class="o">==</span> <span class="no">BasicObject</span><span class="p">.</span><span class="nf">methods</span> <span class="c1"># =&gt; true</span></code></pre></figure> <p>What is <code class="language-plaintext highlighter-rouge">PP::ObjectMixin</code> and <code class="language-plaintext highlighter-rouge">Kernel</code> doing “above” <code class="language-plaintext highlighter-rouge">Object</code> when we look at the ancestors of <code class="language-plaintext highlighter-rouge">MySimpleClass</code>? Simple: as we saw before, <code class="language-plaintext highlighter-rouge">PP::ObjectMixin</code> and <code class="language-plaintext highlighter-rouge">Kernel</code> are modules, not classes, and we know that a class can only have one superclass. While we can create a class that inherits from another class (and just one), we can <code class="language-plaintext highlighter-rouge">include</code> as many modules we want using the principle of <em>composition</em>. Therefore we can check:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Object</span><span class="p">.</span><span class="nf">included_modules</span>
 <span class="c1"># =&gt; [PP::ObjectMixin, Kernel]</span>
 <span class="no">MySimpleClass</span><span class="p">.</span><span class="nf">included_modules</span>
-<span class="c1"># =&gt; [PP::ObjectMixin, Kernel]</span></code></pre></figure>
-
-<p>When I created <code class="language-plaintext highlighter-rouge">MySimpleClass</code>, it automatically inherited from <code class="language-plaintext highlighter-rouge">Object</code>, which includes the modules <code class="language-plaintext highlighter-rouge">PP::ObjectMixin</code> and <code class="language-plaintext highlighter-rouge">Kernel</code>, and therefore <code class="language-plaintext highlighter-rouge">MySimpleClass</code> also include these modules. The correct way to read the ancestors list is as follows: <code class="language-plaintext highlighter-rouge">MySimpleClass</code> inherits from <code class="language-plaintext highlighter-rouge">Object</code>, <code class="language-plaintext highlighter-rouge">Object</code> includes <code class="language-plaintext highlighter-rouge">PP::ObjectMixin</code> and <code class="language-plaintext highlighter-rouge">Kernel</code>, and <code class="language-plaintext highlighter-rouge">Object</code> inherits from <code class="language-plaintext highlighter-rouge">BasicObject</code>.</p>
-
-<p>How are modules included in a class? Consider the following module:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+<span class="c1"># =&gt; [PP::ObjectMixin, Kernel]</span></code></pre></figure> <p>When I created <code class="language-plaintext highlighter-rouge">MySimpleClass</code>, it automatically inherited from <code class="language-plaintext highlighter-rouge">Object</code>, which includes the modules <code class="language-plaintext highlighter-rouge">PP::ObjectMixin</code> and <code class="language-plaintext highlighter-rouge">Kernel</code>, and therefore <code class="language-plaintext highlighter-rouge">MySimpleClass</code> also include these modules. The correct way to read the ancestors list is as follows: <code class="language-plaintext highlighter-rouge">MySimpleClass</code> inherits from <code class="language-plaintext highlighter-rouge">Object</code>, <code class="language-plaintext highlighter-rouge">Object</code> includes <code class="language-plaintext highlighter-rouge">PP::ObjectMixin</code> and <code class="language-plaintext highlighter-rouge">Kernel</code>, and <code class="language-plaintext highlighter-rouge">Object</code> inherits from <code class="language-plaintext highlighter-rouge">BasicObject</code>.</p> <p>How are modules included in a class? Consider the following module:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -219,11 +457,7 @@ a * b = 6
     <span class="nb">puts</span> <span class="s2">"My second method"</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>Now we create <code class="language-plaintext highlighter-rouge">MySimpleClass</code> and include <code class="language-plaintext highlighter-rouge">MyModule</code> as follows:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>Now we create <code class="language-plaintext highlighter-rouge">MySimpleClass</code> and include <code class="language-plaintext highlighter-rouge">MyModule</code> as follows:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -237,40 +471,12 @@ a * b = 6
     <span class="nb">puts</span> <span class="s2">"Some method"</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>And we can check what instance methods we have now available in <code class="language-plaintext highlighter-rouge">MySimpleClass</code>:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">MySimpleClass</span><span class="p">.</span><span class="nf">instance_methods</span> <span class="o">-</span> <span class="no">Object</span><span class="p">.</span><span class="nf">methods</span>
-<span class="c1"># =&gt; [:some_method, :my_first_method, :my_second_method]</span></code></pre></figure>
-
-<p>In ruby, the top-level object (something similar to the scope of main in C) is <code class="language-plaintext highlighter-rouge">Object</code>, and we know <code class="language-plaintext highlighter-rouge">Object</code> includes <code class="language-plaintext highlighter-rouge">Kernel</code>. Therefore, the methods defined in Kernel are available to <code class="language-plaintext highlighter-rouge">Object</code> and any of its descendants without the need to refer to Kernel explicitly! This includes methods we use without even thinking, such as <code class="language-plaintext highlighter-rouge">puts</code>, <code class="language-plaintext highlighter-rouge">rand</code>, <code class="language-plaintext highlighter-rouge">raise</code>, <code class="language-plaintext highlighter-rouge">catch</code>, <code class="language-plaintext highlighter-rouge">throw</code>, and all the others defined in <code class="language-plaintext highlighter-rouge">Kernel</code>. This is why we can execute:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">puts</span> <span class="s2">"Hello!"</span>
-<span class="c1"># =&gt; Hello!</span></code></pre></figure>
-
-<p>instead of</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Kernel</span><span class="p">.</span><span class="nf">puts</span> <span class="s2">"Hello!"</span>
-<span class="c1"># =&gt; Hello!</span></code></pre></figure>
-
-<p>In fact, when you are running IRB (interactive Ruby), a REPL (Read-Eval-Print-Loop) environment, and you type</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">self</span>
-<span class="c1"># =&gt; main</span></code></pre></figure>
-
-<p>you get <code class="language-plaintext highlighter-rouge">main</code>. We never define <code class="language-plaintext highlighter-rouge">main</code> in Ruby. This is just to indicate that the top-level object in Ruby (a language where everything is an object), is an instance of <code class="language-plaintext highlighter-rouge">Object</code>:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">self</span><span class="p">.</span><span class="nf">class</span>
-<span class="c1"># =&gt; Object</span></code></pre></figure>
-
-<h2 id="manipulating-language-constructs">Manipulating Language Constructs</h2>
-
-<p>Let’s take a look at how Ruby allows us to interact with its “vibrant citizens,” as Perrotta describes Ruby’s language constructs. When you hear that Ruby is a dynamic language, you should know that Ruby is pretty serious about that.</p>
-
-<p>As an example, consider the following class:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>And we can check what instance methods we have now available in <code class="language-plaintext highlighter-rouge">MySimpleClass</code>:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">MySimpleClass</span><span class="p">.</span><span class="nf">instance_methods</span> <span class="o">-</span> <span class="no">Object</span><span class="p">.</span><span class="nf">methods</span>
+<span class="c1"># =&gt; [:some_method, :my_first_method, :my_second_method]</span></code></pre></figure> <p>In ruby, the top-level object (something similar to the scope of main in C) is <code class="language-plaintext highlighter-rouge">Object</code>, and we know <code class="language-plaintext highlighter-rouge">Object</code> includes <code class="language-plaintext highlighter-rouge">Kernel</code>. Therefore, the methods defined in Kernel are available to <code class="language-plaintext highlighter-rouge">Object</code> and any of its descendants without the need to refer to Kernel explicitly! This includes methods we use without even thinking, such as <code class="language-plaintext highlighter-rouge">puts</code>, <code class="language-plaintext highlighter-rouge">rand</code>, <code class="language-plaintext highlighter-rouge">raise</code>, <code class="language-plaintext highlighter-rouge">catch</code>, <code class="language-plaintext highlighter-rouge">throw</code>, and all the others defined in <code class="language-plaintext highlighter-rouge">Kernel</code>. This is why we can execute:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">puts</span> <span class="s2">"Hello!"</span>
+<span class="c1"># =&gt; Hello!</span></code></pre></figure> <p>instead of</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Kernel</span><span class="p">.</span><span class="nf">puts</span> <span class="s2">"Hello!"</span>
+<span class="c1"># =&gt; Hello!</span></code></pre></figure> <p>In fact, when you are running IRB (interactive Ruby), a REPL (Read-Eval-Print-Loop) environment, and you type</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">self</span>
+<span class="c1"># =&gt; main</span></code></pre></figure> <p>you get <code class="language-plaintext highlighter-rouge">main</code>. We never define <code class="language-plaintext highlighter-rouge">main</code> in Ruby. This is just to indicate that the top-level object in Ruby (a language where everything is an object), is an instance of <code class="language-plaintext highlighter-rouge">Object</code>:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">self</span><span class="p">.</span><span class="nf">class</span>
+<span class="c1"># =&gt; Object</span></code></pre></figure> <h2 id="manipulating-language-constructs">Manipulating Language Constructs</h2> <p>Let’s take a look at how Ruby allows us to interact with its “vibrant citizens,” as Perrotta describes Ruby’s language constructs. When you hear that Ruby is a dynamic language, you should know that Ruby is pretty serious about that.</p> <p>As an example, consider the following class:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -372,11 +578,7 @@ a * b = 6
     <span class="n">parse_input</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">],</span><span class="n">phone</span><span class="p">)</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>We can now interact with Ruby’s vibrant citizens in a number of ways. First, we instantiate an object of <code class="language-plaintext highlighter-rouge">AnotherClass</code>:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>We can now interact with Ruby’s vibrant citizens in a number of ways. First, we instantiate an object of <code class="language-plaintext highlighter-rouge">AnotherClass</code>:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -394,11 +596,7 @@ a * b = 6
 <span class="c1">#       jsmith@domain.com</span>
 <span class="c1">#       820-555-0123</span>
 <span class="c1">#       501234</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>Then we information from <code class="language-plaintext highlighter-rouge">obj</code> and <code class="language-plaintext highlighter-rouge">AnotherClass</code> such as:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>Then we information from <code class="language-plaintext highlighter-rouge">obj</code> and <code class="language-plaintext highlighter-rouge">AnotherClass</code> such as:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -438,15 +636,7 @@ a * b = 6
 <span class="c1"># We can infer what methods are setters</span>
 <span class="p">(</span><span class="no">AnotherClass</span><span class="p">.</span><span class="nf">instance_methods</span> <span class="o">-</span> <span class="no">Object</span><span class="p">.</span><span class="nf">instance_methods</span><span class="p">).</span><span class="nf">select</span><span class="p">{</span><span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="n">m</span><span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="s2">"="</span><span class="p">)}</span>
 <span class="c1"># =&gt; [:phone=, :zipcode=, :email=]</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>The above is far from exhaustive. It is undoubtedly good to interact with the language constructs in Ruby dynamically. How we do, it is even better.</p>
-
-<h1 id="dynamic-dispatch">Dynamic Dispatch</h1>
-
-<p>Dynamic Dispatch is a technique that allows us to treat a method name as an argument that can be passed to another method that handles its execution. When we create instance methods for any given class in Ruby, we typically call them using the dot notation. As an example, consider the code below:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>The above is far from exhaustive. It is undoubtedly good to interact with the language constructs in Ruby dynamically. How we do, it is even better.</p> <h1 id="dynamic-dispatch">Dynamic Dispatch</h1> <p>Dynamic Dispatch is a technique that allows us to treat a method name as an argument that can be passed to another method that handles its execution. When we create instance methods for any given class in Ruby, we typically call them using the dot notation. As an example, consider the code below:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -462,15 +652,7 @@ a * b = 6
 
 <span class="n">obj</span> <span class="o">=</span> <span class="no">MySimpleClass</span><span class="p">.</span><span class="nf">new</span>
 <span class="n">obj</span><span class="p">.</span><span class="nf">my_simple_method</span><span class="p">(</span><span class="s2">"Hello"</span><span class="p">,</span><span class="s2">"World"</span><span class="p">)</span> <span class="c1"># =&gt; "Hello World"</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>Alternatively, we obtain the same result using the method <code class="language-plaintext highlighter-rouge">:send</code> as follows:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">obj</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="ss">:my_simple_method</span><span class="p">,</span><span class="s2">"Hello"</span><span class="p">,</span><span class="s2">"World"</span><span class="p">)</span> <span class="c1"># =&gt; "Hello World"</span></code></pre></figure>
-
-<p>How dynamic is Ruby? Let’s say that the last definition of <code class="language-plaintext highlighter-rouge">MySimpleClass</code> was the very first we created. If in a future moment I do:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>Alternatively, we obtain the same result using the method <code class="language-plaintext highlighter-rouge">:send</code> as follows:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">obj</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="ss">:my_simple_method</span><span class="p">,</span><span class="s2">"Hello"</span><span class="p">,</span><span class="s2">"World"</span><span class="p">)</span> <span class="c1"># =&gt; "Hello World"</span></code></pre></figure> <p>How dynamic is Ruby? Let’s say that the last definition of <code class="language-plaintext highlighter-rouge">MySimpleClass</code> was the very first we created. If in a future moment I do:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -480,23 +662,9 @@ a * b = 6
     <span class="nb">puts</span> <span class="s2">"Some other method"</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>and I request the instance methods of <code class="language-plaintext highlighter-rouge">MySimpleClass</code>, I obtain:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">MySimpleClass</span><span class="p">.</span><span class="nf">instance_methods</span> <span class="o">-</span> <span class="no">Object</span><span class="p">.</span><span class="nf">methods</span>
-<span class="c1"># =&gt; [:some_method, :some_other_method, :my_first_method, :my_second_method]</span></code></pre></figure>
-
-<p>And if we consider the very first definition of <code class="language-plaintext highlighter-rouge">MySimpleClass</code> is still accessible in memory, then we obtain:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">MySimpleClass</span><span class="p">.</span><span class="nf">instance_methods</span> <span class="o">-</span> <span class="no">Object</span><span class="p">.</span><span class="nf">methods</span>
-<span class="c1"># =&gt; [:my_simple_method, :some_method, :some_other_method, :my_first_method, :my_second_method]</span></code></pre></figure>
-
-<p>Therefore we can modify the struct of a class at the time of the execution of a program.</p>
-
-<p>To show one form of Dynamic Dispatch in action, consider the following class:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>and I request the instance methods of <code class="language-plaintext highlighter-rouge">MySimpleClass</code>, I obtain:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">MySimpleClass</span><span class="p">.</span><span class="nf">instance_methods</span> <span class="o">-</span> <span class="no">Object</span><span class="p">.</span><span class="nf">methods</span>
+<span class="c1"># =&gt; [:some_method, :some_other_method, :my_first_method, :my_second_method]</span></code></pre></figure> <p>And if we consider the very first definition of <code class="language-plaintext highlighter-rouge">MySimpleClass</code> is still accessible in memory, then we obtain:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">MySimpleClass</span><span class="p">.</span><span class="nf">instance_methods</span> <span class="o">-</span> <span class="no">Object</span><span class="p">.</span><span class="nf">methods</span>
+<span class="c1"># =&gt; [:my_simple_method, :some_method, :some_other_method, :my_first_method, :my_second_method]</span></code></pre></figure> <p>Therefore we can modify the struct of a class at the time of the execution of a program.</p> <p>To show one form of Dynamic Dispatch in action, consider the following class:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -538,21 +706,13 @@ a * b = 6
     <span class="nb">puts</span> <span class="n">string1</span> <span class="o">+</span> <span class="s2">" =&gt; "</span> <span class="o">+</span> <span class="n">string2</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>For any instance method in <code class="language-plaintext highlighter-rouge">AnotherSimpleClass</code>, we their argumetns:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>For any instance method in <code class="language-plaintext highlighter-rouge">AnotherSimpleClass</code>, we their argumetns:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 </pre></td><td class="code"><pre><span class="n">obj</span> <span class="o">=</span> <span class="no">AnotherSimpleClass</span><span class="p">.</span><span class="nf">new</span>
 <span class="n">obj</span><span class="p">.</span><span class="nf">method</span><span class="p">(</span><span class="ss">:first_method_with_no_arguments</span><span class="p">).</span><span class="nf">parameters</span> <span class="c1"># =&gt; []</span>
 <span class="n">obj</span><span class="p">.</span><span class="nf">method</span><span class="p">(</span><span class="ss">:first_method_with_two_arguments</span><span class="p">).</span><span class="nf">parameters</span> <span class="c1"># =&gt; [[:req, :string1], [:req, :string2]]</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>Therefore we can manipulate these language constructs for dynamically calling these methods. Let’s say that I want to call all methods with no arguments. I can do the following:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>Therefore we can manipulate these language constructs for dynamically calling these methods. Let’s say that I want to call all methods with no arguments. I can do the following:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -564,11 +724,7 @@ a * b = 6
 <span class="c1"># =&gt; First method with no arguments</span>
 <span class="c1"># =&gt; Second method with no arguments</span>
 <span class="c1"># =&gt; Third method with no arguments</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>For invoking only the methods with two arguments, I proceed as follows:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>For invoking only the methods with two arguments, I proceed as follows:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -578,15 +734,7 @@ a * b = 6
 <span class="n">methods_two_arguments</span><span class="p">.</span><span class="nf">each</span><span class="p">{</span><span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="n">obj</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">"Hello"</span><span class="p">,</span> <span class="s2">"World"</span><span class="p">)}</span>
 <span class="c1"># =&gt; Hello World</span>
 <span class="c1"># =&gt; Hello =&gt; World</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>The method <code class="language-plaintext highlighter-rouge">send</code> will call any method in the respective class, including private methods. If you want to confine the dynamic execution of methods to public methods, you can use <code class="language-plaintext highlighter-rouge">public_send</code> instead.</p>
-
-<h1 id="dynamic-methods">Dynamic Methods</h1>
-
-<p>We already saw that we could add methods to an existing class as if we were creating the class for the first time. But there is a shorter way to do that. Consider our existing <code class="language-plaintext highlighter-rouge">AnotherSimpleClass</code>. We can dynamically define a new method as follows:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>The method <code class="language-plaintext highlighter-rouge">send</code> will call any method in the respective class, including private methods. If you want to confine the dynamic execution of methods to public methods, you can use <code class="language-plaintext highlighter-rouge">public_send</code> instead.</p> <h1 id="dynamic-methods">Dynamic Methods</h1> <p>We already saw that we could add methods to an existing class as if we were creating the class for the first time. But there is a shorter way to do that. Consider our existing <code class="language-plaintext highlighter-rouge">AnotherSimpleClass</code>. We can dynamically define a new method as follows:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -610,49 +758,21 @@ a * b = 6
 
 <span class="n">obj</span><span class="p">.</span><span class="nf">methods</span> <span class="o">-</span> <span class="no">Object</span><span class="p">.</span><span class="nf">methods</span>
 <span class="o">=&gt;</span> <span class="p">[</span><span class="ss">:first_method_with_two_arguments</span><span class="p">,</span> <span class="ss">:second_method_with_two_argumetns</span><span class="p">,</span> <span class="ss">:my_new_method</span><span class="p">,</span> <span class="ss">:first_method_with_no_arguments</span><span class="p">,</span> <span class="ss">:second_method_with_no_arguments</span><span class="p">,</span> <span class="ss">:third_method_with_no_arguments</span><span class="p">]</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>When it comes to metaprogramming, the advantage of using <code class="language-plaintext highlighter-rouge">define_method</code> instead of <code class="language-plaintext highlighter-rouge">def method</code> is that we can easily pass the new method’s name as an argument in the same way we call other class’ methods, which can be done at runtime.</p>
-
-<h1 id="ghost-methods">Ghost Methods</h1>
-
-<p>What happens when we call a method in Ruby? Consider the the instance <code class="language-plaintext highlighter-rouge">obj = AnotherSimpleClass</code>. When we call the method <code class="language-plaintext highlighter-rouge">:first_method_with_no_arguments</code>, Ruby looks at <code class="language-plaintext highlighter-rouge">obj.instance_methods</code> trying to find that method. If it finds it, it will call it. If it does not find it, then it will try to look for an implementation of a private method in <code class="language-plaintext highlighter-rouge">BasicObject</code> called <code class="language-plaintext highlighter-rouge">:method_missing</code>:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>When it comes to metaprogramming, the advantage of using <code class="language-plaintext highlighter-rouge">define_method</code> instead of <code class="language-plaintext highlighter-rouge">def method</code> is that we can easily pass the new method’s name as an argument in the same way we call other class’ methods, which can be done at runtime.</p> <h1 id="ghost-methods">Ghost Methods</h1> <p>What happens when we call a method in Ruby? Consider the the instance <code class="language-plaintext highlighter-rouge">obj = AnotherSimpleClass</code>. When we call the method <code class="language-plaintext highlighter-rouge">:first_method_with_no_arguments</code>, Ruby looks at <code class="language-plaintext highlighter-rouge">obj.instance_methods</code> trying to find that method. If it finds it, it will call it. If it does not find it, then it will try to look for an implementation of a private method in <code class="language-plaintext highlighter-rouge">BasicObject</code> called <code class="language-plaintext highlighter-rouge">:method_missing</code>:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 </pre></td><td class="code"><pre><span class="no">BasicObject</span><span class="p">.</span><span class="nf">private_methods</span><span class="p">.</span><span class="nf">size</span> <span class="c1"># =&gt; 87</span>
 <span class="no">BasicObject</span><span class="p">.</span><span class="nf">private_methods</span><span class="p">.</span><span class="nf">select</span><span class="p">{</span><span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="n">m</span><span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="s2">"missing"</span><span class="p">)}</span>
 <span class="c1"># =&gt; [:respond_to_missing?, :method_missing]</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>If Ruby does not find an implementation for <code class="language-plaintext highlighter-rouge">:method_missing</code> (I will talk about this later), then it calls <code class="language-plaintext highlighter-rouge">:method_undefined</code>. Let’s see this in practice:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>If Ruby does not find an implementation for <code class="language-plaintext highlighter-rouge">:method_missing</code> (I will talk about this later), then it calls <code class="language-plaintext highlighter-rouge">:method_undefined</code>. Let’s see this in practice:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 </pre></td><td class="code"><pre><span class="n">obj</span> <span class="o">=</span> <span class="no">AnotherSimpleClass</span><span class="p">.</span><span class="nf">new</span>
 <span class="n">obj</span><span class="p">.</span><span class="nf">crazy</span>
 <span class="c1"># =&gt; NoMethodError (undefined method `crazy' for #&lt;AnotherSimpleClass:0x00007fe3be15db60&gt;)</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>We can’t call <code class="language-plaintext highlighter-rouge">method_undefined</code> using dot notation since it is a private method, as we can see here:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">BasicObject</span><span class="p">.</span><span class="nf">private_methods</span><span class="p">.</span><span class="nf">select</span><span class="p">{</span><span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="n">m</span><span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="s2">"undefined"</span><span class="p">)}</span>
-<span class="c1"># =&gt; [:method_undefined, :singleton_method_undefined]</span></code></pre></figure>
-
-<p>But we call it using <code class="language-plaintext highlighter-rouge">:send</code>:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">obj</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="ss">:method_undefined</span><span class="p">,</span> <span class="ss">:crazy</span><span class="p">)</span>
-<span class="c1"># =&gt; NoMethodError (undefined method `method_undefined' for #&lt;AnotherSimpleClass:0x00007fe3be15db60&gt;)</span></code></pre></figure>
-
-<p>Okay, we know how Ruby calls methods and what happens when it cannot find them. But what does it mean to loo for an implementation for <code class="language-plaintext highlighter-rouge">:method_missing</code>?</p>
-
-<h2 id="method-missing">Method Missing</h2>
-
-<p>There is no such thing as a compiler to enforce method calls in Ruby. Crazy, right? Even crazier is the fact that Ruby allows you to call methods that don’t exist! Let me give you one example of how useful this can be. I will create a data set called <code class="language-plaintext highlighter-rouge">data</code>:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>We can’t call <code class="language-plaintext highlighter-rouge">method_undefined</code> using dot notation since it is a private method, as we can see here:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">BasicObject</span><span class="p">.</span><span class="nf">private_methods</span><span class="p">.</span><span class="nf">select</span><span class="p">{</span><span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="n">m</span><span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="s2">"undefined"</span><span class="p">)}</span>
+<span class="c1"># =&gt; [:method_undefined, :singleton_method_undefined]</span></code></pre></figure> <p>But we call it using <code class="language-plaintext highlighter-rouge">:send</code>:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">obj</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="ss">:method_undefined</span><span class="p">,</span> <span class="ss">:crazy</span><span class="p">)</span>
+<span class="c1"># =&gt; NoMethodError (undefined method `method_undefined' for #&lt;AnotherSimpleClass:0x00007fe3be15db60&gt;)</span></code></pre></figure> <p>Okay, we know how Ruby calls methods and what happens when it cannot find them. But what does it mean to loo for an implementation for <code class="language-plaintext highlighter-rouge">:method_missing</code>?</p> <h2 id="method-missing">Method Missing</h2> <p>There is no such thing as a compiler to enforce method calls in Ruby. Crazy, right? Even crazier is the fact that Ruby allows you to call methods that don’t exist! Let me give you one example of how useful this can be. I will create a data set called <code class="language-plaintext highlighter-rouge">data</code>:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -668,11 +788,7 @@ a * b = 6
 <span class="n">data</span> <span class="o">&lt;&lt;</span> <span class="p">{</span><span class="ss">name: </span><span class="s2">"Barb"</span><span class="p">,</span> <span class="ss">age: </span><span class="mi">26</span><span class="p">,</span> <span class="ss">gender: </span><span class="s2">"F"</span><span class="p">,</span> <span class="ss">state: </span><span class="s2">"TX"</span><span class="p">}</span>
 <span class="n">data</span> <span class="o">&lt;&lt;</span> <span class="p">{</span><span class="ss">name: </span><span class="s2">"Jerry"</span><span class="p">,</span> <span class="ss">age: </span><span class="mi">29</span><span class="p">,</span> <span class="ss">gender: </span><span class="s2">"M"</span><span class="p">,</span> <span class="ss">state: </span><span class="s2">"TX"</span><span class="p">}</span>
 <span class="c1"># =&gt; [{:name=&gt;"John", :age=&gt;25, :gender=&gt;"M", :state=&gt;"CO"}, {:name=&gt;"Mary", :age=&gt;23, :gender=&gt;"F", :state=&gt;"CO"}, {:name=&gt;"Gloria", :age=&gt;20, :gender=&gt;"F", :state=&gt;"FL"}, {:name=&gt;"Paul", :age=&gt;23, :gender=&gt;"M", :state=&gt;"CA"}, {:name=&gt;"Barb", :age=&gt;26, :gender=&gt;"F", :state=&gt;"TX"}, {:name=&gt;"Jerry", :age=&gt;29, :gender=&gt;"M", :state=&gt;"TX"}]</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>I will now create a class <code class="language-plaintext highlighter-rouge">MyDatabase</code> and initialize it passing <code class="language-plaintext highlighter-rouge">data</code> as an argument. I will also create an implementation for <code class="language-plaintext highlighter-rouge">:method_missing</code> so we can take advantage of the dynamically creating and calling methods in Ruby:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>I will now create a class <code class="language-plaintext highlighter-rouge">MyDatabase</code> and initialize it passing <code class="language-plaintext highlighter-rouge">data</code> as an argument. I will also create an implementation for <code class="language-plaintext highlighter-rouge">:method_missing</code> so we can take advantage of the dynamically creating and calling methods in Ruby:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -742,21 +858,13 @@ a * b = 6
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>We can instantiate <code class="language-plaintext highlighter-rouge">MyDatabase</code> passing the array <code class="language-plaintext highlighter-rouge">data</code> as argument:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>We can instantiate <code class="language-plaintext highlighter-rouge">MyDatabase</code> passing the array <code class="language-plaintext highlighter-rouge">data</code> as argument:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 </pre></td><td class="code"><pre><span class="n">db</span> <span class="o">=</span> <span class="no">MyDatabase</span><span class="p">.</span><span class="nf">new</span> <span class="n">data</span>
 <span class="n">db</span><span class="p">.</span><span class="nf">data</span>
 <span class="c1"># =&gt; [{:name=&gt;"John", :age=&gt;25, :gender=&gt;"M", :state=&gt;"CO"}, {:name=&gt;"Mary", :age=&gt;23, :gender=&gt;"F", :state=&gt;"CO"}, {:name=&gt;"Gloria", :age=&gt;20, :gender=&gt;"F", :state=&gt;"FL"}, {:name=&gt;"Paul", :age=&gt;23, :gender=&gt;"M", :state=&gt;"CA"}, {:name=&gt;"Barb", :age=&gt;26, :gender=&gt;"F", :state=&gt;"TX"}, {:name=&gt;"Jerry", :age=&gt;29, :gender=&gt;"M", :state=&gt;"TX"}]</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>We can now do:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>We can now do:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -780,17 +888,7 @@ a * b = 6
 <span class="c1"># =&gt; NoMethodError (undefined method `find_by_country' for #&lt;MyDatabase:0x00007fc14e91b3d0&gt;)</span>
 <span class="n">db</span><span class="p">.</span><span class="nf">find_all_by_weight</span><span class="p">(</span><span class="mi">180</span><span class="p">)</span>
 <span class="c1"># =&gt; NoMethodError (undefined method `find_all_by_weight' for #&lt;MyDatabase:0x00007fc14e91b3d0&gt;)</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>This is just a toy example to show what kind of features one can build by dynamically manipulating language constructs in Ruby. Perhaps the most prominent example of dynamic method execution via implementations of <code class="language-plaintext highlighter-rouge">:method_missing</code> is the <a href="https://guides.rubyonrails.org/active_record_basics.html">ActiveRecord</a>, an object-relational mapping in Rails. Here is one <a href="https://github.com/rails/rails/blob/main/activerecord/lib/active_record/dynamic_matchers.rb">example</a>.</p>
-
-<h1 id="dynamic-proxy">Dynamic Proxy</h1>
-
-<p>In the previous example with <code class="language-plaintext highlighter-rouge">MyDatabase</code>, I receive whatever is passed on via method call and try to make sense of the call using pre-defined patterns. If the conditions specified are met, a method is dynamically called, returning the associated result. A similar approach is known as Dynamic Proxy. We still use the idea of Ghost Methods, but this time we forward the call to another method (which can be in another module or class). The most significant difference between Ghost Method and Dynamic Proxy is how to deal with responsibility. When working with Ghost Method in a particular class, you have the responsibility of implementing <code class="language-plaintext highlighter-rouge">:method_missing</code> and deciding when and how to give up and let Ruby call <code class="language-plaintext highlighter-rouge">:method_undefined</code>. With Dynamic Proxy, you forward the responsibility to another method and treat each situation according to whatever rules are in place.</p>
-
-<p>Here is an example: we have class <code class="language-plaintext highlighter-rouge">Person</code>, and we want to “monitor” any call to a method <code class="language-plaintext highlighter-rouge">:parse</code>, but we don’t want to implement the logic. Instead, we will forward the logic to <code class="language-plaintext highlighter-rouge">JSON.parse</code>. So whatever rule <code class="language-plaintext highlighter-rouge">JSON</code> implemented for <code class="language-plaintext highlighter-rouge">:parse</code> will take place only when the method <code class="language-plaintext highlighter-rouge">:parse</code> is called for an instance of <code class="language-plaintext highlighter-rouge">Person</code>.</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>This is just a toy example to show what kind of features one can build by dynamically manipulating language constructs in Ruby. Perhaps the most prominent example of dynamic method execution via implementations of <code class="language-plaintext highlighter-rouge">:method_missing</code> is the <a href="https://guides.rubyonrails.org/active_record_basics.html">ActiveRecord</a>, an object-relational mapping in Rails. Here is one <a href="https://github.com/rails/rails/blob/main/activerecord/lib/active_record/dynamic_matchers.rb">example</a>.</p> <h1 id="dynamic-proxy">Dynamic Proxy</h1> <p>In the previous example with <code class="language-plaintext highlighter-rouge">MyDatabase</code>, I receive whatever is passed on via method call and try to make sense of the call using pre-defined patterns. If the conditions specified are met, a method is dynamically called, returning the associated result. A similar approach is known as Dynamic Proxy. We still use the idea of Ghost Methods, but this time we forward the call to another method (which can be in another module or class). The most significant difference between Ghost Method and Dynamic Proxy is how to deal with responsibility. When working with Ghost Method in a particular class, you have the responsibility of implementing <code class="language-plaintext highlighter-rouge">:method_missing</code> and deciding when and how to give up and let Ruby call <code class="language-plaintext highlighter-rouge">:method_undefined</code>. With Dynamic Proxy, you forward the responsibility to another method and treat each situation according to whatever rules are in place.</p> <p>Here is an example: we have class <code class="language-plaintext highlighter-rouge">Person</code>, and we want to “monitor” any call to a method <code class="language-plaintext highlighter-rouge">:parse</code>, but we don’t want to implement the logic. Instead, we will forward the logic to <code class="language-plaintext highlighter-rouge">JSON.parse</code>. So whatever rule <code class="language-plaintext highlighter-rouge">JSON</code> implemented for <code class="language-plaintext highlighter-rouge">:parse</code> will take place only when the method <code class="language-plaintext highlighter-rouge">:parse</code> is called for an instance of <code class="language-plaintext highlighter-rouge">Person</code>.</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -834,39 +932,19 @@ a * b = 6
     <span class="s2">"Person =&gt; name: </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">, age: </span><span class="si">#{</span><span class="n">age</span><span class="si">}</span><span class="s2">"</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>We can now call <code class="language-plaintext highlighter-rouge">:parse</code> in Person:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>We can now call <code class="language-plaintext highlighter-rouge">:parse</code> in Person:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="code"><pre><span class="n">person</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'{"name": "John", "age": "25"}'</span><span class="p">)</span>
 <span class="c1"># Person =&gt; name: John, age: 25</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>However, when we try to parse a different string, we obtain an error:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>However, when we try to parse a different string, we obtain an error:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="code"><pre><span class="n">person</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'{"name" =&gt; "John", "age" =&gt; "25"}'</span><span class="p">)</span>
 <span class="c1"># =&gt; unexpected token at '{"name" =&gt; "John", "age" =&gt; "25"}' (JSON::ParserError)</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>And that decision was made by the <code class="language-plaintext highlighter-rouge">JSON</code>’s implementation of <code class="language-plaintext highlighter-rouge">:parse</code>.</p>
-
-<p>If we try something different than parse and it is a method that is not present in the list of methods of <code class="language-plaintext highlighter-rouge">Person</code>’s ancestors, then we obtain the default behavior for undefined methods:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>And that decision was made by the <code class="language-plaintext highlighter-rouge">JSON</code>’s implementation of <code class="language-plaintext highlighter-rouge">:parse</code>.</p> <p>If we try something different than parse and it is a method that is not present in the list of methods of <code class="language-plaintext highlighter-rouge">Person</code>’s ancestors, then we obtain the default behavior for undefined methods:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="code"><pre><span class="n">person</span><span class="p">.</span><span class="nf">infuse</span><span class="p">(</span><span class="s1">'{"name" =&gt; "John", "age" =&gt; "25"}'</span><span class="p">)</span>
 <span class="c1"># =&gt; undefined method `infuse' for #&lt;Person:0x00007f9ba818a380&gt;</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<h1 id="blank-slate">Blank Slate</h1>
-
-<p>Now let’s assume that for some reason, I thought that it was a great idea to implement a Dynamic Proxy for any method call starting with “display” for a new class called <code class="language-plaintext highlighter-rouge">MyNewClass</code>. My goal is to return just the object ID. So I create <code class="language-plaintext highlighter-rouge">MyNewClass</code> as follows:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <h1 id="blank-slate">Blank Slate</h1> <p>Now let’s assume that for some reason, I thought that it was a great idea to implement a Dynamic Proxy for any method call starting with “display” for a new class called <code class="language-plaintext highlighter-rouge">MyNewClass</code>. My goal is to return just the object ID. So I create <code class="language-plaintext highlighter-rouge">MyNewClass</code> as follows:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -886,40 +964,16 @@ a * b = 6
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>So I try calling the method <code class="language-plaintext highlighter-rouge">:display_info</code>:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>So I try calling the method <code class="language-plaintext highlighter-rouge">:display_info</code>:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 </pre></td><td class="code"><pre><span class="n">obj</span> <span class="o">=</span> <span class="no">MyNewClass</span><span class="p">.</span><span class="nf">new</span>
 <span class="n">obj</span><span class="p">.</span><span class="nf">display_info</span>
 <span class="c1"># =&gt; Object ID: 70138108065880</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>Everything seems to be working nicely, but not quite. When I try calling just <code class="language-plaintext highlighter-rouge">:display</code>, the following happens:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">obj</span><span class="p">.</span><span class="nf">display</span>
-<span class="c1"># =&gt; #&lt;MyNewClass:0x00007ffdce0165e8&gt;</span></code></pre></figure>
-
-<p>This is not what I was expecting. This happens because <code class="language-plaintext highlighter-rouge">MyNewClass</code>’s parent class is <code class="language-plaintext highlighter-rouge">Object</code>, and <code class="language-plaintext highlighter-rouge">Object</code> implements an instance method <code class="language-plaintext highlighter-rouge">:display</code>. Therefore, when I call <code class="language-plaintext highlighter-rouge">:display</code>, Ruby looks for a method <code class="language-plaintext highlighter-rouge">:display</code> in the list of methods, including <code class="language-plaintext highlighter-rouge">Object</code>. Ruby will find <code class="language-plaintext highlighter-rouge">Object</code>’s implementation of <code class="language-plaintext highlighter-rouge">:display</code>, which just prints the bare object and returns <code class="language-plaintext highlighter-rouge">nil</code>. This is a simple example of a problem that can occur very frequently when using Dynamic Proxy, especially in larger projects: the name of a “Ghost Method” can match the name of an existing method that belongs to one of the object’s class ancestors.</p>
-
-<p>Most of the time, we need a fully-featured object with all the methods defined in <code class="language-plaintext highlighter-rouge">Object</code>. Some other times, we need some simpler. A class with a minimum number of methods is referred to as Blank Slate. One way to solve our problem is to modify <code class="language-plaintext highlighter-rouge">MyNewClass</code> to inherit from <code class="language-plaintext highlighter-rouge">BasicObject</code> instead of implicitly inheriting from <code class="language-plaintext highlighter-rouge">Object</code>.</p>
-
-<p>The class <code class="language-plaintext highlighter-rouge">Object</code> has 58 instance methods:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Object</span><span class="p">.</span><span class="nf">instance_methods</span>
-<span class="c1"># =&gt; [:instance_variable_defined?, :remove_instance_variable, :instance_of?, :kind_of?, :is_a?, :tap, :instance_variable_get, :instance_variable_set, :instance_variables, :singleton_method, :method, :public_send, :define_singleton_method, :public_method, :extend, :to_enum, :enum_for, :&lt;=&gt;, :===, :=~, :!~, :eql?, :respond_to?, :freeze, :inspect, :object_id, :send, :to_s, :display, :nil?, :hash, :class, :singleton_class, :clone, :dup, :itself, :yield_self, :then, :taint, :tainted?, :untaint, :untrust, :untrusted?, :trust, :frozen?, :methods, :singleton_methods, :protected_methods, :private_methods, :public_methods, :equal?, :!, :__id__, :==, :instance_exec, :!=, :instance_eval, :__send__]</span></code></pre></figure>
-
-<p>The class <code class="language-plaintext highlighter-rouge">BasicObject</code> has only 8 instance methods:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">BasicObject</span><span class="p">.</span><span class="nf">instance_methods</span>
-<span class="c1"># =&gt; [:equal?, :!, :__id__, :==, :instance_exec, :!=, :instance_eval, :__send__]</span></code></pre></figure>
-
-<p>More importantly, <code class="language-plaintext highlighter-rouge">BasicObject</code> does not implement <code class="language-plaintext highlighter-rouge">:display</code>. So we can modify <code class="language-plaintext highlighter-rouge">MyNewClass</code> as follows:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">MyNewClass</span> <span class="o">&lt;</span> <span class="no">BasicObject</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>Everything seems to be working nicely, but not quite. When I try calling just <code class="language-plaintext highlighter-rouge">:display</code>, the following happens:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">obj</span><span class="p">.</span><span class="nf">display</span>
+<span class="c1"># =&gt; #&lt;MyNewClass:0x00007ffdce0165e8&gt;</span></code></pre></figure> <p>This is not what I was expecting. This happens because <code class="language-plaintext highlighter-rouge">MyNewClass</code>’s parent class is <code class="language-plaintext highlighter-rouge">Object</code>, and <code class="language-plaintext highlighter-rouge">Object</code> implements an instance method <code class="language-plaintext highlighter-rouge">:display</code>. Therefore, when I call <code class="language-plaintext highlighter-rouge">:display</code>, Ruby looks for a method <code class="language-plaintext highlighter-rouge">:display</code> in the list of methods, including <code class="language-plaintext highlighter-rouge">Object</code>. Ruby will find <code class="language-plaintext highlighter-rouge">Object</code>’s implementation of <code class="language-plaintext highlighter-rouge">:display</code>, which just prints the bare object and returns <code class="language-plaintext highlighter-rouge">nil</code>. This is a simple example of a problem that can occur very frequently when using Dynamic Proxy, especially in larger projects: the name of a “Ghost Method” can match the name of an existing method that belongs to one of the object’s class ancestors.</p> <p>Most of the time, we need a fully-featured object with all the methods defined in <code class="language-plaintext highlighter-rouge">Object</code>. Some other times, we need some simpler. A class with a minimum number of methods is referred to as Blank Slate. One way to solve our problem is to modify <code class="language-plaintext highlighter-rouge">MyNewClass</code> to inherit from <code class="language-plaintext highlighter-rouge">BasicObject</code> instead of implicitly inheriting from <code class="language-plaintext highlighter-rouge">Object</code>.</p> <p>The class <code class="language-plaintext highlighter-rouge">Object</code> has 58 instance methods:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Object</span><span class="p">.</span><span class="nf">instance_methods</span>
+<span class="c1"># =&gt; [:instance_variable_defined?, :remove_instance_variable, :instance_of?, :kind_of?, :is_a?, :tap, :instance_variable_get, :instance_variable_set, :instance_variables, :singleton_method, :method, :public_send, :define_singleton_method, :public_method, :extend, :to_enum, :enum_for, :&lt;=&gt;, :===, :=~, :!~, :eql?, :respond_to?, :freeze, :inspect, :object_id, :send, :to_s, :display, :nil?, :hash, :class, :singleton_class, :clone, :dup, :itself, :yield_self, :then, :taint, :tainted?, :untaint, :untrust, :untrusted?, :trust, :frozen?, :methods, :singleton_methods, :protected_methods, :private_methods, :public_methods, :equal?, :!, :__id__, :==, :instance_exec, :!=, :instance_eval, :__send__]</span></code></pre></figure> <p>The class <code class="language-plaintext highlighter-rouge">BasicObject</code> has only 8 instance methods:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">BasicObject</span><span class="p">.</span><span class="nf">instance_methods</span>
+<span class="c1"># =&gt; [:equal?, :!, :__id__, :==, :instance_exec, :!=, :instance_eval, :__send__]</span></code></pre></figure> <p>More importantly, <code class="language-plaintext highlighter-rouge">BasicObject</code> does not implement <code class="language-plaintext highlighter-rouge">:display</code>. So we can modify <code class="language-plaintext highlighter-rouge">MyNewClass</code> as follows:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">MyNewClass</span> <span class="o">&lt;</span> <span class="no">BasicObject</span>
 
   <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">m</span><span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="s2">"display"</span><span class="p">)</span>
@@ -928,41 +982,23 @@ a * b = 6
       <span class="k">super</span>
     <span class="k">end</span>
   <span class="k">end</span>
-<span class="k">end</span></code></pre></figure>
-
-<p><code class="language-plaintext highlighter-rouge">MyNewClass</code> now inherits from <code class="language-plaintext highlighter-rouge">BasicObject</code>, which makes <code class="language-plaintext highlighter-rouge">MyNewClass</code> a Blank Slate. Of course, we lose most of the functionalities we would need for a more comprehensive class, including all functionality given by the <code class="language-plaintext highlighter-rouge">Kernel</code>. But for the sake of this illustration, with the modification above, we can now call all variations of “display”, including <code class="language-plaintext highlighter-rouge">:display</code>, and we will obtain the expected result:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+<span class="k">end</span></code></pre></figure> <p><code class="language-plaintext highlighter-rouge">MyNewClass</code> now inherits from <code class="language-plaintext highlighter-rouge">BasicObject</code>, which makes <code class="language-plaintext highlighter-rouge">MyNewClass</code> a Blank Slate. Of course, we lose most of the functionalities we would need for a more comprehensive class, including all functionality given by the <code class="language-plaintext highlighter-rouge">Kernel</code>. But for the sake of this illustration, with the modification above, we can now call all variations of “display”, including <code class="language-plaintext highlighter-rouge">:display</code>, and we will obtain the expected result:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 </pre></td><td class="code"><pre><span class="n">obj</span> <span class="o">=</span> <span class="no">MyNewClass</span><span class="p">.</span><span class="nf">new</span>
 <span class="nb">puts</span> <span class="n">obj</span><span class="p">.</span><span class="nf">display</span>
 <span class="c1"># =&gt; Object ID: 70183204985940</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<h1 id="code-that-writes-code">Code that Writes Code</h1>
-
-<p>I told you before that I don’t like the “code that writes code” definition of metaprogramming, but that doesn’t mean we can’t have fun with it. Here is a simple example of creating classes and instantiating an object for these classes dynamically. Imagine that I have two files: <code class="language-plaintext highlighter-rouge">person.csv</code></p>
-
-<figure class="highlight"><pre><code class="language-csv" data-lang="csv">name,age,gender,state
+</pre></td></tr></tbody></table></code></pre></figure> <h1 id="code-that-writes-code">Code that Writes Code</h1> <p>I told you before that I don’t like the “code that writes code” definition of metaprogramming, but that doesn’t mean we can’t have fun with it. Here is a simple example of creating classes and instantiating an object for these classes dynamically. Imagine that I have two files: <code class="language-plaintext highlighter-rouge">person.csv</code></p> <figure class="highlight"><pre><code class="language-csv" data-lang="csv">name,age,gender,state
 John,25,M,CO
 Mary,23,F,CO
 Gloria,20,F,FL
 Paul,23,M,CA
 Barb,26,F,TX
-Jerry,29,M,TX</code></pre></figure>
-
-<p>and <code class="language-plaintext highlighter-rouge">product.csv</code></p>
-
-<figure class="highlight"><pre><code class="language-csv" data-lang="csv">code,name,price
+Jerry,29,M,TX</code></pre></figure> <p>and <code class="language-plaintext highlighter-rouge">product.csv</code></p> <figure class="highlight"><pre><code class="language-csv" data-lang="csv">code,name,price
 T252XL,Ink Cartridge,34.99
 A320,Printer,299.32
 532A,Monitor,345.62
-9932,Mouse,32.95</code></pre></figure>
-
-<p>I will write a code that will read the content of <code class="language-plaintext highlighter-rouge">person.csv</code>, create a class <code class="language-plaintext highlighter-rouge">Person</code> and define its attributes based on the first line of the file and then instantiate objects of <code class="language-plaintext highlighter-rouge">Person</code> with the data in the remainder of the file. In fact, the code will work for any csv file following the same pattern, therefore the same will ocurr for <code class="language-plaintext highlighter-rouge">product.csv</code>.</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+9932,Mouse,32.95</code></pre></figure> <p>I will write a code that will read the content of <code class="language-plaintext highlighter-rouge">person.csv</code>, create a class <code class="language-plaintext highlighter-rouge">Person</code> and define its attributes based on the first line of the file and then instantiate objects of <code class="language-plaintext highlighter-rouge">Person</code> with the data in the remainder of the file. In fact, the code will work for any csv file following the same pattern, therefore the same will ocurr for <code class="language-plaintext highlighter-rouge">product.csv</code>.</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -1038,11 +1074,7 @@ A320,Printer,299.32
   <span class="k">end</span>
   <span class="nb">puts</span> <span class="s2">""</span>
 <span class="k">end</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>Now I can run <code class="language-plaintext highlighter-rouge">process_csv.rb</code>, which returns the following:</p>
-
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell">Person
+</pre></td></tr></tbody></table></code></pre></figure> <p>Now I can run <code class="language-plaintext highlighter-rouge">process_csv.rb</code>, which returns the following:</p> <figure class="highlight"><pre><code class="language-shell" data-lang="shell">Person
 <span class="o">===============================================================================</span>
 <span class="c">#&lt;Person:0x00007fb7a403bea8 @name="John", @age="25", @gender="M", @state="CO"&gt;</span>
 <span class="c">#&lt;Person:0x00007fb7a403b930 @name="Mary", @age="23", @gender="F", @state="CO"&gt;</span>
@@ -1056,13 +1088,7 @@ Product
 <span class="c">#&lt;Product:0x00007fb7a48d52d0 @code="T252XL", @name="Ink Cartridge", @price="34.99"&gt;</span>
 <span class="c">#&lt;Product:0x00007fb7a48d4f88 @code="A320", @name="Printer", @price="299.32"&gt;</span>
 <span class="c">#&lt;Product:0x00007fb7a48d4ba0 @code="532A", @name="Monitor", @price="345.62"&gt;</span>
-<span class="c">#&lt;Product:0x00007fb7a48d4768 @code="9932", @name="Mouse", @price="32.95"&gt;</span></code></pre></figure>
-
-<h1 id="refactoring-with-metaprogramming">Refactoring with Metaprogramming</h1>
-
-<p>Now that we have seen some of the basics of metaprogramming in Ruby let’s review a very interesting example Perrotta discusses in his book (slightly modified here for simplicity). Imagine that you are analyzing a very strange legacy Ruby code full of duplications. Your task is to improve it as much as possible. You receive two files: <code class="language-plaintext highlighter-rouge">data_source.rb</code> and <code class="language-plaintext highlighter-rouge">duplicated.rb</code>. The <code class="language-plaintext highlighter-rouge">data_source.file</code> is partially shown below:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+<span class="c">#&lt;Product:0x00007fb7a48d4768 @code="9932", @name="Mouse", @price="32.95"&gt;</span></code></pre></figure> <h1 id="refactoring-with-metaprogramming">Refactoring with Metaprogramming</h1> <p>Now that we have seen some of the basics of metaprogramming in Ruby let’s review a very interesting example Perrotta discusses in his book (slightly modified here for simplicity). Imagine that you are analyzing a very strange legacy Ruby code full of duplications. Your task is to improve it as much as possible. You receive two files: <code class="language-plaintext highlighter-rouge">data_source.rb</code> and <code class="language-plaintext highlighter-rouge">duplicated.rb</code>. The <code class="language-plaintext highlighter-rouge">data_source.file</code> is partially shown below:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -1086,11 +1112,7 @@ Product
   <span class="k">def</span> <span class="nf">get_keyboard_price</span><span class="p">(</span><span class="n">workstation_id</span><span class="p">)</span> <span class="c1"># ...</span>
   <span class="c1"># ... etc</span>
 <span class="k">end</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>The exact logic of <code class="language-plaintext highlighter-rouge">DS</code> is suppressed in the display. Just assume that when you pass a <code class="language-plaintext highlighter-rouge">workstation_id</code> as an argument to one of the methods in <code class="language-plaintext highlighter-rouge">DS</code>, <code class="language-plaintext highlighter-rouge">DS</code> will connect to a database and return the required information:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>The exact logic of <code class="language-plaintext highlighter-rouge">DS</code> is suppressed in the display. Just assume that when you pass a <code class="language-plaintext highlighter-rouge">workstation_id</code> as an argument to one of the methods in <code class="language-plaintext highlighter-rouge">DS</code>, <code class="language-plaintext highlighter-rouge">DS</code> will connect to a database and return the required information:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -1100,11 +1122,7 @@ Product
 <span class="n">ds</span><span class="p">.</span><span class="nf">get_cpu_price</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>    <span class="c1"># =&gt; 120</span>
 <span class="n">ds</span><span class="p">.</span><span class="nf">get_mouse_info</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>   <span class="c1"># =&gt; "Wireless Touch"</span>
 <span class="n">ds</span><span class="p">.</span><span class="nf">get_mouse_price</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># =&gt; 60</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>And here is <code class="language-plaintext highlighter-rouge">duplicated.rb</code>:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>And here is <code class="language-plaintext highlighter-rouge">duplicated.rb</code>:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -1156,11 +1174,7 @@ Product
 
   <span class="c1"># ...</span>
 <span class="k">end</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>You know where this is going, right? You can now identify the duplications and how we can use the strategies we previously discussed to improve this code. First, we can use Dynamic Methods and Dynamic Dispatch:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>You know where this is going, right? You can now identify the duplications and how we can use the strategies we previously discussed to improve this code. First, we can use Dynamic Methods and Dynamic Dispatch:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -1204,11 +1218,7 @@ Product
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>Second, we can use Ghost Methods, and a Dynamic Proxy that is also a Blank Slate:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure> <p>Second, we can use Ghost Methods, and a Dynamic Proxy that is also a Blank Slate:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -1234,14 +1244,4 @@ Product
     <span class="s2">"</span><span class="si">#{</span><span class="nb">name</span><span class="p">.</span><span class="nf">capitalize</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">info</span><span class="si">}</span><span class="s2"> ($</span><span class="si">#{</span><span class="n">price</span><span class="si">}</span><span class="s2">)"</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<p>And so, we used all four strategies for metaprogramming in Ruby that we discussed in this post. Notice the method <code class="language-plaintext highlighter-rouge">:respond_to?</code> in the <code class="language-plaintext highlighter-rouge">Computer</code>’s implementation of <code class="language-plaintext highlighter-rouge">:method_missing</code>. When an object calls <code class="language-plaintext highlighter-rouge">:respond_to?</code>, Ruby will respond if that object implements the method passed as an argument. You could ask: “But isn’t the idea of <code class="language-plaintext highlighter-rouge">:method_missing</code> to dynamically implement a method that does not exist?” Correct. However, we are implementing the logic of method missing in <code class="language-plaintext highlighter-rouge">Computer</code> and checking if an associated method exists in <code class="language-plaintext highlighter-rouge">DS</code>. We need that method to exist in <code class="language-plaintext highlighter-rouge">DS</code> to make this logic work; therefore, we first check if the method exists in <code class="language-plaintext highlighter-rouge">DS</code>, and if not, we call the original implementation of <code class="language-plaintext highlighter-rouge">:method_missing</code>. Otherwise, we will continue with our implementation.</p>
-
-<h1 id="there-is-more">There is More</h1>
-
-<p>I briefly discussed metaprogramming strategies with Ruby in this post, such as Dynamic Dispatch, Dynamic Methods, Ghost Methods, Dynamic Proxy, and Blank Slate. Paolo Perrotta refers to these strategies as “spells.” In his book, many other spells are discussed: Around Alias, Class Extension, Class Instance Variable, Class Macro, Clean Room, Code Processor, Deferred Evaluation, Flat Scope, Hook Method, Kernel Method, Lazy Instance Method, Mimic Method, Monkey Patch, Namespace, Nil Guard, Object Extension, Open Class, Prepend Wrapper, Refinement, Refinement Wrapper, Sandbox, Scope Gate, Self Yield, Shared Scope, Singleton Method, String of Code, and Symbol to Proc. Trust me: I didn’t even scratch the surface. There is much more to metaprogramming in Ruby.</p>
-
-<h1 id="conclusions">Conclusions</h1>
-
-<p>Ruby is a dynamic language by design. Its syntax is concise and elegant, and its constructs are available for meaningful manipulations, which takes object-oriented programming to its full potential and makes metaprogramming in Ruby a delightful experience. For this reason, I find Ruby the best language for prototyping I know.</p>]]></content><author><name></name></author><category term="programming" /><category term="metaprogramming" /><category term="ruby" /><category term="code" /><summary type="html"><![CDATA[Manipulating language constructs at runtime]]></summary></entry></feed>
+</pre></td></tr></tbody></table></code></pre></figure> <p>And so, we used all four strategies for metaprogramming in Ruby that we discussed in this post. Notice the method <code class="language-plaintext highlighter-rouge">:respond_to?</code> in the <code class="language-plaintext highlighter-rouge">Computer</code>’s implementation of <code class="language-plaintext highlighter-rouge">:method_missing</code>. When an object calls <code class="language-plaintext highlighter-rouge">:respond_to?</code>, Ruby will respond if that object implements the method passed as an argument. You could ask: “But isn’t the idea of <code class="language-plaintext highlighter-rouge">:method_missing</code> to dynamically implement a method that does not exist?” Correct. However, we are implementing the logic of method missing in <code class="language-plaintext highlighter-rouge">Computer</code> and checking if an associated method exists in <code class="language-plaintext highlighter-rouge">DS</code>. We need that method to exist in <code class="language-plaintext highlighter-rouge">DS</code> to make this logic work; therefore, we first check if the method exists in <code class="language-plaintext highlighter-rouge">DS</code>, and if not, we call the original implementation of <code class="language-plaintext highlighter-rouge">:method_missing</code>. Otherwise, we will continue with our implementation.</p> <h1 id="there-is-more">There is More</h1> <p>I briefly discussed metaprogramming strategies with Ruby in this post, such as Dynamic Dispatch, Dynamic Methods, Ghost Methods, Dynamic Proxy, and Blank Slate. Paolo Perrotta refers to these strategies as “spells.” In his book, many other spells are discussed: Around Alias, Class Extension, Class Instance Variable, Class Macro, Clean Room, Code Processor, Deferred Evaluation, Flat Scope, Hook Method, Kernel Method, Lazy Instance Method, Mimic Method, Monkey Patch, Namespace, Nil Guard, Object Extension, Open Class, Prepend Wrapper, Refinement, Refinement Wrapper, Sandbox, Scope Gate, Self Yield, Shared Scope, Singleton Method, String of Code, and Symbol to Proc. Trust me: I didn’t even scratch the surface. There is much more to metaprogramming in Ruby.</p> <h1 id="conclusions">Conclusions</h1> <p>Ruby is a dynamic language by design. Its syntax is concise and elegant, and its constructs are available for meaningful manipulations, which takes object-oriented programming to its full potential and makes metaprogramming in Ruby a delightful experience. For this reason, I find Ruby the best language for prototyping I know.</p>]]></content><author><name></name></author><category term="programming"/><category term="metaprogramming"/><category term="ruby"/><category term="code"/><summary type="html"><![CDATA[Manipulating language constructs at runtime]]></summary></entry></feed>
