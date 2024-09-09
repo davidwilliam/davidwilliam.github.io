@@ -1,33 +1,13 @@
 ---
 layout: post
-title: A long announcement with details
-date: 2015-11-07 16:11:00-0400
+title: Significant ransom payment by major Iranian IT firm underway
+date: 2024-09-09 01:11:00-0400
 inline: false
 related_posts: false
 ---
 
-Announcements and news can be much longer than just quick inline posts. In fact, they can have all the features available for the standard blog posts. See below.
+Major Iranian IT vendor Tosan has been providing ransom payments on an installment basis following a significant cyberattack by the IRLeaks threat operation last month, which was reported to have compromised data from nearly 70% of the country's active credit entities but has been denied by the Iranian government, reports CyberScoop.
 
----
+Nearly $561,000 worth of Bitcoin, or less than a third of the demanded ransom, has already been sent by Tosan to IRLeaks' cryptocurrency wallet since both parties began negotiations in early August, which commenced with the payment of a Bitcoin in exchange for the removal of IRLeaks' posting on Telegram before settling to a 3 Bitcoin per week arrangement until the 35 Bitcoin total is reached, according to emails between Tosan CEO Arash Babaei and IRLeaks provided by a third party and verified by a source close to the matter. At least two different Iranian exchanges provided payments to the wallet, which has also been used by threat actors for IT infrastructure purchases, noted Chainalysis Head of Cyber Threat Intelligence Jackie Burns Koven.
 
-Jean shorts raw denim Vice normcore, art party High Life PBR skateboard stumptown vinyl kitsch. Four loko meh 8-bit, tousled banh mi tilde forage Schlitz dreamcatcher twee 3 wolf moon. Chambray asymmetrical paleo salvia, sartorial umami four loko master cleanse drinking vinegar brunch. <a href="https://www.pinterest.com">Pinterest</a> DIY authentic Schlitz, hoodie Intelligentsia butcher trust fund brunch shabby chic Kickstarter forage flexitarian. Direct trade <a href="https://en.wikipedia.org/wiki/Cold-pressed_juice">cold-pressed</a> meggings stumptown plaid, pop-up taxidermy. Hoodie XOXO fingerstache scenester Echo Park. Plaid ugh Wes Anderson, freegan pug selvage fanny pack leggings pickled food truck DIY irony Banksy.
-
-#### Hipster list
-
-<ul>
-    <li>brunch</li>
-    <li>fixie</li>
-    <li>raybans</li>
-    <li>messenger bag</li>
-</ul>
-
-Hoodie Thundercats retro, tote bag 8-bit Godard craft beer gastropub. Truffaut Tumblr taxidermy, raw denim Kickstarter sartorial dreamcatcher. Quinoa chambray slow-carb salvia readymade, bicycle rights 90's yr typewriter selfies letterpress cardigan vegan.
-
----
-
-Pug heirloom High Life vinyl swag, single-origin coffee four dollar toast taxidermy reprehenderit fap distillery master cleanse locavore. Est anim sapiente leggings Brooklyn ea. Thundercats locavore excepteur veniam eiusmod. Raw denim Truffaut Schlitz, migas sapiente Portland VHS twee Bushwick Marfa typewriter retro id keytar.
-
-> We do not grow absolutely, chronologically. We grow sometimes in one dimension, and not in another, unevenly. We grow partially. We are relative. We are mature in one realm, childish in another.
-> —Anais Nin
-
-Fap aliqua qui, scenester pug Echo Park polaroid irony shabby chic ex cardigan church-key Odd Future accusamus. Blog stumptown sartorial squid, gastropub duis aesthetic Truffaut vero. Pinterest tilde twee, odio mumblecore jean shorts lumbersexual.
+[Source](https://www.scmagazine.com/brief/significant-ransom-payment-by-major-iranian-it-firm-underway)

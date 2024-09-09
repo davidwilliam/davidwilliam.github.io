@@ -1,14 +1,12 @@
 github_users:
-  - torvalds
-  - alshedivat
+  - davidwilliam
 
 repo_description_lines_max: 2
 
 github_repos:
-  - alshedivat/al-folio
-  - jekyll/jekyll
-  - twbs/bootstrap
-  - jquery/jquery
-  - FortAwesome/Font-Awesome
-  - mathjax/MathJax
-  - jpswalsh/academicons
+  - davidwilliam/MLAI
+  - davidwilliam/hensel_code
+  - davidwilliam/sharing
+  - davidwilliam/clifford-ga-ruby
+  - davidwilliam/clifford-key-update
+  - davidwilliam/fhe-crt-ga
