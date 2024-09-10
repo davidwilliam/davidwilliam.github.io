@@ -11,6 +11,17 @@ The name "Selection Sort" comes from the fact that the algorithm repeatedly sele
 
 In other words, after completing the first iteration of the outer loop (that is, we compare the first element of the array with all the others), we will have the smallest element in the first position. After completing the second iteration of the outer loop, we will have the second smallest element in the second position, and so on.
 
+# Description
+
+To sort a list of numbers in ascending order using the Selection Sort algorithm, follow these steps:
+
+1. Start with the first number in the list and assume it is the smallest.
+2. Compare this number with every other number in the list to find the actual smallest number.
+3. Once the smallest number is found, swap it with the first number in the list.
+4. Move to the second number in the list and repeat the process: compare it with all the remaining numbers to find the smallest, then swap it with the second number.
+5. Continue this process for each position in the list, moving from left to right, finding the smallest number in the remaining unsorted portion, and placing it in its correct position.
+6. Repeat these steps until the entire list is sorted.
+
 # How It Works
 
 Given the following array:

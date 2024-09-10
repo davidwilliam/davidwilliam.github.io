@@ -9,6 +9,17 @@ The Insertion Sort algorithm is another simple algorithm to understand and to im
 
 The name Insertion Sort comes from the fact that you pick one element in the array and insert it in the right place. Contrary to Bubble Sort and Selection Sort, there is no swapping with the Insertion Sort. 
 
+# Description
+
+To sort a list of numbers in ascending order using the Insertion Sort algorithm, follow these steps:
+
+1. Start with the second number in the list (since the first number is already considered "sorted").
+2. Compare this number to the one before it. If it is smaller, move it left into its correct position, shifting the larger number to the right.
+3. Move to the next number in the list and compare it to the numbers before it in the sorted portion.
+4. Continue moving the number left, comparing it with each preceding number, until you find its correct position in the sorted part of the list.
+5. Repeat this process for each remaining number in the list, moving them into their correct positions within the sorted portion.
+6. Continue until the entire list is sorted.
+
 # How It Works
 
 Given the following array:

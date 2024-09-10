@@ -7,6 +7,18 @@ tags: sorting bubble
 
 Bubble Sort is perhaps one of the simplest sorting algorithms in computer science. Its logic consists of iterating over an array of elements comparing the element with index `i` and the element with index `(i + 1)`, swapping them if the first element (in the comparison) is not smaller than the second. The process is repeated comparing all pairs until the array is fully sorted. Therefore, it is clear we will need two loops, one inside the other. 
 
+# Description
+
+To sort a list of numbers in ascending order using the Bubble Sort algorithm, follow these steps:
+
+1. Start at the beginning of the list and compare the first two numbers.
+2. If the first number is larger than the second, swap them so that the smaller number comes first.
+3. Move to the next pair of numbers and repeat the comparison, swapping them if necessary.
+4. Continue this process for every pair of adjacent numbers until you reach the end of the list.
+5. Once you reach the end, the largest number will have "bubbled up" to its correct position at the end of the list.
+6. Repeat the process, starting from the beginning of the list again, but ignore the last number (as it is already in place).
+7. Keep repeating this process, shrinking the unsorted portion of the list after each pass, until the entire list is sorted.
+
 # How It Works
 
 The Bubble Sort algorithm is super simple, easy to understand and to implement and for this reason it is used for teaching purposes. However, it is not an efficient algorithm since its time complexity in the average and worst case is `O(n²)`. Still, it is a great start to check how sorting algorithms work. 
