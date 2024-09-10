@@ -5,8 +5,8 @@ repo_description_lines_max: 2
 
 github_repos:
   - davidwilliam/MLAI
+  - davidwilliam/DSA
   - davidwilliam/hensel_code
   - davidwilliam/sharing
   - davidwilliam/clifford-ga-ruby
-  - davidwilliam/clifford-key-update
   - davidwilliam/fhe-crt-ga
