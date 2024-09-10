@@ -2,6 +2,7 @@
 layout: post
 title: Bubble Sort
 date: 2024-09-09 01:11:00-0400
+tags: sorting bubble
 ---
 
 Bubble Sort is perhaps one of the simplest sorting algorithms in computer science. Its logic consists of iterating over an array of elements comparing the element with index `i` and the element with index `(i + 1)`, swapping them if the first element (in the comparison) is not smaller than the second. The process is repeated comparing all pairs until the array is fully sorted. Therefore, it is clear we will need two loops, one inside the other. 
@@ -165,7 +166,7 @@ However, this is still not what we want. Here are the changes we need to apply:
 
 - Notice that in the above code, the outer loop runs `5` times (`i` goes from `0` to `4`). Since in each iteration we check the current element and the adjacent one, we just need to run the loop `4` times. Therefore, we need to change `for (int i = 0; i < array.size(); i++)` to `for (int i = 0; i < array.size() - 1; i++)`.
 - Notice that we are supposed to swap positions if pairs are not already sorted (smaller to larger). This means that the elements might change places as we iterate over the array. As we saw in our example, what is in the first position of the array might change and we run the loop the second time. Therefore we need to start the inner loop at `0` as well so we don't miss anything. We need to change `for (int j = i + 1; j < array.size(); j++) {` to `for (int j = 0; j < array.size(); j++) {`.
-- Notice that every time we loop over the array again we reduce the number of times we run the inner loop. For our example array of `5` elements, we started with `4` inner loops, then `3`, then `2`, then `1`. This means that the `j` index will go from `0` to `array.size() - 1 - i`, that is, at each iteration of `i`, we will reduce `i` from the inner loop. 
+- Notice that every time we loop over the array again we reduce the number of times we run the inner loop. For our example array of `5` elements, we started with `4` inner iterations, then `3`, then `2`, then `1`. This means that the `j` index will go from `0` to `array.size() - 1 - i`, that is, at each iteration of `i`, we will reduce `i` from the inner loop. 
 - Instead of printing the pair, we will check if `array[j] > array[j + 1]` and if yes, we will swap their position in the array.
 
 With these changes, we have our solution:
@@ -197,7 +198,7 @@ And that's it. We have now a solution for the Bubble Sort algorithm.
 
 # Complexity Analysis
 
-Generally speaking, every time we have have two nested loops, we know the time complexity is `O(n²)`. This is true in the average and worst case. But what if the algorithm is already sorted? That wold be the best case scenario. Could we optimize the solution to traverse the array only once and avoid further loops if no swapping is necessary? Yes. Here are the steps of the changes we need to make in our code:
+Generally speaking, every time we have have two nested loops, we know the time complexity is `O(n²)`. This is true in the average and worst case. But what if the algorithm is already sorted? That wold be the best case scenario. Could we optimize the solution to traverse the array only once and avoid further iterations if no swapping is necessary? Yes. Here are the steps of the changes we need to make in our code:
 
 - We create a new variable `swapped` to track if a swap has occurred. 
 - We set the variable to `false` in the outer loop.
