@@ -239,6 +239,18 @@ If the array is already sorted, the outer loop will run only once and therefore 
 
 No additional memory that is depended on the size of the array is required for running this algorithm and therefore the space complexity is `O(1)`.
 
+# Properties
+
+- **Time Complexity (Best):** `O(n)` – Best performance occurs when the input is already sorted.
+- **Time Complexity (Average):** `O(n²)` – Comparisons and swaps occur in a nested loop, making it inefficient for larger arrays.
+- **Time Complexity (Worst):** `O(n²)` – Worst case happens when the input is sorted in reverse order.
+- **Space Complexity:** `O(1)` – In-place sorting algorithm that requires constant extra space.
+- **Stability:** Yes – Equal elements retain their original relative order.
+- **In-Place:** Yes – Does not require extra memory for sorting.
+- **Comparison-Based:** Yes – Sorting is done by comparing adjacent elements.
+- **Adaptive:** Yes – Performs well for nearly sorted data.
+- **Online:** No – Requires the entire dataset before sorting begins.
+
 # Conclusion
 
 We will most likely not use the Bubble Sort algorithm in the real world since we have more efficient algorithms for sorting that run in time better than `O(n²)` in the worst case. However, Bubble Sort works fine for small arrays and for serving as a good starting point for us to understand why other sorting strategies are more efficient as the size of the array increases.

@@ -184,6 +184,18 @@ And we are done.
 
 The time complexity of the Insertion Sort algorithm depends on the initial arrangement of elements in the array. In the worst-case scenario, where the array is sorted in reverse order, the algorithm compares and shifts each element for every iteration, which will result in a time complexity of `O(n²)`. In the best-case scenario, where the array is already sorted, Insertion Sort only performs comparisons without any shifts with a time complexity of `O(n)`. The average-case time complexity is `O(n²)` due to the nested loop structure. The space complexity of Insertion Sort is `O(1)` since it performs sorting in place without requiring extra memory. Despite its inefficiency for large datasets, Insertion Sort is often favored for small arrays or nearly sorted data because of its simplicity and lower overhead.
 
+# Properties
+
+- **Time Complexity (Best):** `O(n)` – Efficient when the input is already or nearly sorted.
+- **Time Complexity (Average):** `O(n²)` – Comparisons and shifts increase with larger, random inputs.
+- **Time Complexity (Worst):** `O(n²)` – Worst case is when the input is in reverse order.
+- **Space Complexity:** `O(1)` – In-place sorting without additional memory use.
+- **Stability:** Yes – Maintains the relative order of equal elements.
+- **In-Place:** Yes – Does not require additional space.
+- **Comparison-Based:** Yes – Uses comparisons to insert elements in the correct order.
+- **Adaptive:** Yes – Performs well on partially sorted arrays.
+- **Online:** Yes – Can sort elements as they are received.
+
 # Conclusion
 
 Insertion Sort is simple sorting algorithm that can be used for small or nearly sorted datasets. Its intuitive approach of building a sorted section of the array by inserting elements into their correct positions makes it easy to understand and implement. While having a time complexity of `O(n²)`, which makes it less suitable for large datasets, its advantages in terms of simplicity and low overhead make it a useful tool for certain applications, particularly when the data is nearly sorted. By understanding the mechanics of Insertion Sort, we gain deeper insights into sorting techniques and their trade-offs.

@@ -184,6 +184,18 @@ The Selection Sort algorithm will not know what the smallest element is until it
 
 Since we are performing an in-place sorting mechanism (not creating a new variable that grows with respect to the size of the array), the space complexity is constant, that is, `O(1)`.
 
+# Properties
+
+- **Time Complexity (Best):** `O(n²)` – Comparisons still occur for every element, regardless of sorting.
+- **Time Complexity (Average):** `O(n²)` – Always performs the same number of comparisons.
+- **Time Complexity (Worst):** `O(n²)` – No difference in time complexity, regardless of input.
+- **Space Complexity:** `O(1)` – In-place algorithm with no additional memory usage.
+- **Stability:** No – Can change the relative order of equal elements during swaps.
+- **In-Place:** Yes – Sorting is done within the input array.
+- **Comparison-Based:** Yes – Compares elements to find the smallest.
+- **Adaptive:** No – Does not take advantage of existing order in the input.
+- **Online:** No – Needs all input data to begin sorting.
+
 # Conclusion
 
 We will most likely not use the Selection Sort algorithm in real-world applications since there are more efficient sorting algorithms that perform better than `O(n²)` in both average and worst cases. However, Selection Sort can be useful for small datasets or in situations where minimizing the number of swaps is important. Its simplicity and clear structure also make it a good choice for educational purposes, helping us understand how more advanced algorithms improve on basic sorting techniques.
