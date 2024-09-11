@@ -3,6 +3,7 @@ layout: post
 title: Algorithms and Data Structures
 date: 2024-09-07 01:11:00-0400
 tags: algorithms
+tabs: true
 ---
 
 I remember the first time I heard about algorithms while in school. I thought to myself: "Algorithms? Nice. I already know how to code." I was mistaken. I confused the instance with class, the application with the principle, the expression with the nature.
@@ -14,6 +15,120 @@ To clarify what I mean by the above, I refer to the book [Algorithms (4th editio
 > When we write a computer program, we are generally implementing a _method_ that has been devised previously to solve some problem. This method is often independent of the particular programming language being used - it is likely to be equally appropriate for many computers and many programming languages. It is the method, rather than the computer program itself, that specifiies the steps tht we can take to solve the problem. The term _algorithm_ is used in computer sicence to describe a finite, deterministic, and effective problem-solving method suitable for implemetation as a computer program. Algorithms are the stuff of computer science: they are central objects of study in the field.
 
 Many times we can think of methods that, although implementable as computer programs, we can use them as a sequence of steps using pen and paper and be able to solve the problem. Computer, of course, make this process much more efficient.
+
+## Description vs Implementation
+
+To highlight the distinguishion between an algorithm description and its implementation, here is the description of the **Factorial** algorithm:
+
+To compute the factorial of a non-negative integer _n_ (denoted as _n_!), follow these steps:
+
+1. If _n_ is 0, the factorial is defined as 1 (since 0! = 1).
+2. If _n_ is greater than 0, multiply all the integers from 1 to _n_ together.
+3. Start by multiplying 1 by 2, then multiply the result by 3, and continue multiplying by each successive number until you reach _n_.
+4. The result after all these multiplications is the factorial of _n_.
+
+Examples are often provided alongside the description to help clarify how the algorithm works:
+
+For example, the factorial of 5 (denoted as 5!) is calculated as:
+
+$$  
+( 5! = 1 \times 2 \times 3 \times 4 \times 5 = 120 ).
+$$
+
+Notice that the above description can be implemented in many languages. The description won't change but implementations can (and often are) different depending on which language is being used. 
+
+This description explains the factorial algorithm step by step, making it easy to understand the process of multiplying sequential integers to compute the factorial:
+
+{% tabs group-name %}
+
+{% tab group-name C++ %}
+
+```c++
+int factorial(int n) {
+    if (n == 0) {
+        return 1;
+    } else {
+        return n * factorial(n - 1); 
+    }
+}
+```
+
+{% endtab %}
+
+{% tab group-name Python %}
+
+```python
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+```
+
+{% endtab %}
+
+{% tab group-name Ruby %}
+
+```ruby
+def factorial(n)
+    (1..n).inject(:*) || 1
+end
+```
+
+{% endtab %}
+
+{% tab group-name JavaScript %}
+```javascript
+function factorial(n) {
+    if (n === 0) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+```
+{% endtab %}
+
+{% tab group-name C# %}
+```c#
+static int Factorial(int n)
+{
+    if (n == 0)
+    {
+        return 1;
+    }
+    else
+    {
+        return n * Factorial(n - 1);
+    }
+}
+```
+{% endtab %}
+
+{% tab group-name PHP %}
+```php
+function factorial($n) {
+    if ($n == 0) {
+        return 1;
+    } else {
+        return $n * factorial($n - 1);
+    }
+}
+```
+{% endtab %}
+
+{% tab group-name Go %}
+```go
+func factorial(n int) int {
+    if n == 0 {
+        return 1 
+    }
+    return n * factorial(n-1)
+}
+```
+{% endtab %}
+
+{% endtabs %}
 
 # Data Structures
 
