@@ -202,6 +202,6 @@ Insertion Sort is simple sorting algorithm that can be used for small or nearly 
 
 # Code
 
-Insertion Sort and other algorithms are available in a [DSA C++ library](https://github.com/davidwilliam/DSA) I created an maintain on GitHub. I am frequently adding more algorithms to this library.
+Insertion Sort and other algorithms are available in a [DSA C++ library](https://github.com/davidwilliam/DSA) I created and maintain on GitHub. I am frequently adding more algorithms to this library.
 
 

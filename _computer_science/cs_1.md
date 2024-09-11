@@ -257,4 +257,4 @@ We will most likely not use the Bubble Sort algorithm in the real world since we
 
 # Code
 
-Bubble Sort and other algorithms are available in a [DSA C++ library](https://github.com/davidwilliam/DSA) I created an maintain on GitHub. I am frequently adding more algorithms to this library.
+Bubble Sort and other algorithms are available in a [DSA C++ library](https://github.com/davidwilliam/DSA) I created and maintain on GitHub. I am frequently adding more algorithms to this library.

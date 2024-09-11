@@ -234,6 +234,6 @@ Quick Sort is a highly efficient sorting algorithm that is widely used due to it
 
 # Code
 
-Quick Sort and other algorithms are available in a [DSA C++ library](https://github.com/davidwilliam/DSA) I created an maintain on GitHub. I am frequently adding more algorithms to this library.
+Quick Sort and other algorithms are available in a [DSA C++ library](https://github.com/davidwilliam/DSA) I created and maintain on GitHub. I am frequently adding more algorithms to this library.
 
 

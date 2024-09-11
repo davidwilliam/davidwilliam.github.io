@@ -157,3 +157,7 @@ Horowitz, Sahni, and Rajasekeran provide the following definition of Algorithm:
 >5. **Effectiveness.** Every instruction must be very basic so that it can be carried out, in principle, by a person using only pencil and paper. It is not enough that each operation be definite as in criterion 3; it also must be feasible.
 
 In other posts, we will review a series of algorithms and data structures, as well their implementations.
+
+# Code
+
+Several algorithms are available in a [DSA C++ library](https://github.com/davidwilliam/DSA) I created and maintain on GitHub. I am frequently adding more algorithms to this library.

@@ -202,4 +202,4 @@ We will most likely not use the Selection Sort algorithm in real-world applicati
 
 # Code
 
-Selection Sort and other algorithms are available in a [DSA C++ library](https://github.com/davidwilliam/DSA) I created an maintain on GitHub. I am frequently adding more algorithms to this library.
+Selection Sort and other algorithms are available in a [DSA C++ library](https://github.com/davidwilliam/DSA) I created and maintain on GitHub. I am frequently adding more algorithms to this library.
