@@ -100,7 +100,7 @@ As always, everything we need to know to implement the Insertion Algorithm shoul
 We start by defining the outer loop. We see that we go from `1` to `n - 1`:
 
 {% highlight c++ linenos %}
-void InsertionSort::sort(std::vector<int>& array) {
+void sort(std::vector<int>& array) {
     int n = array.size();
     for (int i = 1; i < n; ++i) {
         // we will put the logic here
@@ -111,7 +111,7 @@ void InsertionSort::sort(std::vector<int>& array) {
 The first thing we do at every iteration in the outer loop is to define what element is the `key` element and we define `j = i - 1` since we want to move backwards:
 
 {% highlight c++ linenos %}
-void InsertionSort::sort(std::vector<int>& array) {
+void sort(std::vector<int>& array) {
     int n = array.size();
     for (int i = 1; i < n; ++i) {
         int key = array[i];
@@ -125,7 +125,7 @@ void InsertionSort::sort(std::vector<int>& array) {
 Now, we want to loop backwards. We want to check if `array[j] > key` and if it is, we want to bring the element `array[j]` to the next position to the right of the array, that is, `array[j + 1]`. Since we are moving backwards, we decrease `j` by `1`:
 
 {% highlight c++ linenos %}
-void InsertionSort::sort(std::vector<int>& array) {
+void sort(std::vector<int>& array) {
     int n = array.size();
     for (int i = 1; i < n; ++i) {
         int key = array[i];
@@ -144,7 +144,7 @@ void InsertionSort::sort(std::vector<int>& array) {
 As we saw in our example, the value of `j` might go negative. For this reason, we want to check if `j` has a positive value to avoid going out of bounds in the array:
 
 {% highlight c++ linenos %}
-void InsertionSort::sort(std::vector<int>& array) {
+void sort(std::vector<int>& array) {
     int n = array.size();
     for (int i = 1; i < n; ++i) {
         int key = array[i];
@@ -163,7 +163,7 @@ void InsertionSort::sort(std::vector<int>& array) {
 Now, we just need to place `key` in the right position, which will insert the value in `key` back into the array:
 
 {% highlight c++ linenos %}
-void InsertionSort::sort(std::vector<int>& array) {
+void sort(std::vector<int>& array) {
     int n = array.size();
     for (int i = 1; i < n; ++i) {
         int key = array[i];
