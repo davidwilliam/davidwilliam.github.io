@@ -187,3 +187,7 @@ Since we are performing an in-place sorting mechanism (not creating a new variab
 # Conclusion
 
 We will most likely not use the Selection Sort algorithm in real-world applications since there are more efficient sorting algorithms that perform better than `O(n²)` in both average and worst cases. However, Selection Sort can be useful for small datasets or in situations where minimizing the number of swaps is important. Its simplicity and clear structure also make it a good choice for educational purposes, helping us understand how more advanced algorithms improve on basic sorting techniques.
+
+# Code
+
+Selection Sort and other algorithms are available in a [DSA C++ library](https://github.com/davidwilliam/DSA) I created an maintain on GitHub. I am frequently adding more algorithms to this library.

@@ -187,3 +187,9 @@ The time complexity of the Insertion Sort algorithm depends on the initial arran
 # Conclusion
 
 Insertion Sort is simple sorting algorithm that can be used for small or nearly sorted datasets. Its intuitive approach of building a sorted section of the array by inserting elements into their correct positions makes it easy to understand and implement. While having a time complexity of `O(n²)`, which makes it less suitable for large datasets, its advantages in terms of simplicity and low overhead make it a useful tool for certain applications, particularly when the data is nearly sorted. By understanding the mechanics of Insertion Sort, we gain deeper insights into sorting techniques and their trade-offs.
+
+# Code
+
+Insertion Sort and other algorithms are available in a [DSA C++ library](https://github.com/davidwilliam/DSA) I created an maintain on GitHub. I am frequently adding more algorithms to this library.
+
+
