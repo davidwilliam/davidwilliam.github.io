@@ -1,4 +1,186 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://www.davidwsilva.com//feed.xml" rel="self" type="application/atom+xml"/><link href="https://www.davidwsilva.com//" rel="alternate" type="text/html" hreflang="en"/><updated>2024-09-11T22:40:53+00:00</updated><id>https://www.davidwsilva.com//feed.xml</id><title type="html">David William Silva</title><subtitle>Experienced software engineer and technology leader with over 26 years of expertise in developing data-centric, secure, and privacy-enhanced solutions. Specializing in translating business strategies into innovative technologies, with a focus on customer-centric, results-driven methodologies. Holds a Ph.D. in Computer Science. </subtitle><entry><title type="html">The Balanced Brackets Problem - The Ruby Way</title><link href="https://www.davidwsilva.com//blog/2024/the-balanced-brackets-problem/" rel="alternate" type="text/html" title="The Balanced Brackets Problem - The Ruby Way"/><published>2024-09-02T10:11:00+00:00</published><updated>2024-09-02T10:11:00+00:00</updated><id>https://www.davidwsilva.com//blog/2024/the-balanced-brackets-problem</id><content type="html" xml:base="https://www.davidwsilva.com//blog/2024/the-balanced-brackets-problem/"><![CDATA[<p>The balanced brackets problem is a well-known problem in computer science and programming in general. It asks if a string of brackets is balanced and therefore valid, which means that the brackets are in the correct order and there are no unmatched brackets. Whovever works with Ruby for programming, will try to solve any problem in “the Ruby way”, that is, with simplicity, elegance, and human-centered design. The Ruby Way can be described as a philosophy that encourages programmers to write code that is both powerful and easy to understand. In this post I review this problem and show why classic approach for solving it remains the best one yet, with advantages in performane that justifies its choice.</p> <h1 id="reviewing-the-problem">Reviewing the Problem</h1> <p>Let’s first review the problem: Given a string containing brackets - any sequence with some arrangement including <code class="language-plaintext highlighter-rouge">"(", ")", "[", "]", "{", "}"</code> - check if the brackets are opening and closing, and in the correct order.</p> <p>Examples of strings containing balanced brackets:</p> <ul> <li><code class="language-plaintext highlighter-rouge">"{[()]}"</code></li> <li><code class="language-plaintext highlighter-rouge">"[()()]"</code></li> <li><code class="language-plaintext highlighter-rouge">"{[()]}()[]{}"</code></li> </ul> <p>Examples of strings containing unbalanced brackets:</p> <ul> <li><code class="language-plaintext highlighter-rouge">"{[("</code></li> <li><code class="language-plaintext highlighter-rouge">"{)"</code></li> <li><code class="language-plaintext highlighter-rouge">"[}"</code></li> <li><code class="language-plaintext highlighter-rouge">"{]}"</code></li> </ul> <p>and so on.</p> <p>Typically, this problem allows empty strings to be valid ones.</p> <p>So let’s summarize the constraints we need to consider before we implement a solution:</p> <ul> <li>Only strings containing brackets (round, curly, square) will be provided as input.</li> <li>Empty strings are permitted and are considered valid.</li> <li>The solution must output either <code class="language-plaintext highlighter-rouge">true</code> or <code class="language-plaintext highlighter-rouge">false</code>.</li> </ul> <h1 id="implementing-a-solution">Implementing a Solution</h1> <p>For solving this problem, imagine that I have a class named <code class="language-plaintext highlighter-rouge">BalancedBracket</code> and I will write a method named <code class="language-plaintext highlighter-rouge">check</code> to verify if any given string is valid.</p> <p>So I start by defining our class and method. Here, for simplicity, I will define <code class="language-plaintext highlighter-rouge">check</code> as a class method:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://www.davidwsilva.com//feed.xml" rel="self" type="application/atom+xml"/><link href="https://www.davidwsilva.com//" rel="alternate" type="text/html" hreflang="en"/><updated>2024-09-12T02:52:19+00:00</updated><id>https://www.davidwsilva.com//feed.xml</id><title type="html">David William Silva</title><subtitle>Experienced software engineer and technology leader with over 26 years of expertise in developing data-centric, secure, and privacy-enhanced solutions. Specializing in translating business strategies into innovative technologies, with a focus on customer-centric, results-driven methodologies. Holds a Ph.D. in Computer Science. </subtitle><entry><title type="html">Bulding and Testing a C++ Project with Bazel</title><link href="https://www.davidwsilva.com//blog/2024/building-with-bazel/" rel="alternate" type="text/html" title="Bulding and Testing a C++ Project with Bazel"/><published>2024-09-11T10:11:00+00:00</published><updated>2024-09-11T10:11:00+00:00</updated><id>https://www.davidwsilva.com//blog/2024/building-with-bazel</id><content type="html" xml:base="https://www.davidwsilva.com//blog/2024/building-with-bazel/"><![CDATA[<p>Bazel is an opensource build and test tool. It was formelly named Blaze when used internally at Google. It is similar to <a href="https://www.gnu.org/software/make/">Make</a>, <a href="https://maven.apache.org/index.html">Maven</a>, and <a href="https://gradle.org/">Gradle</a>. Bazel aims to combine simplicity and power since it uses a human-readable, high-level build language while supporting projects in multiple languages and building outputs for multiple platforms.</p> <p>Some of the highlights of Bazel include:</p> <ul> <li><strong>Scalability:</strong> allows for building large codebases very quickly using parallel execution, remote caching, and remote execution.</li> <li><strong>Multi-language support:</strong> engineering teams can standardize a single build tool for many platforms. For exemple, Bazel can be used for iOS and Android applications as well for the server code supporting those apps in whatever language.</li> <li><strong>Repeatable builds:</strong> release builds can be identical to developer builds. This is particular useful for reproducing issues detected ih the releasead version of any project. It also adds extra safety to the developer workflow.</li> <li><strong>Extensible:</strong> It can be adopted to new languages and custom tooling. Bazel aims at developers struggling with builds that take too long and/or are too complex to maintain.</li> </ul> <p>Bazel uses <a href="https://github.com/bazelbuild/starlark">Starlark</a>, a language intended for use as a configuration language which was designed for the Bazel build system, but may be also useful for other projects.</p> <p>Starlark’s syntax is inspired by Python3. While its semantics can differ from Python, behavioral differences are supposed to be rare.</p> <p>The rules for most languages are written in Starlark so Bazel is thought of as entire ecosystem of core features and many available rule sets to serve whatever needs a developer might have.</p> <p>The development of Bazel’s core is driven by Google. However, there is a growing community of contributors and service providers working on Bazel’s overall ecosystem.</p> <p>By default, Bazel executes builds and tests in the developer’s local machine. Remote execution allows Bazel to distribute the build and test actions accross multiple machines as a data center. Remote execution provides some benefits. First, faster build and test executions through parallel actions. Also, a consistent execution environment for a development team. Finally, reuse of build outputs accross a development team. So if somebody else already built artifacts required for a developer’s build, that build will be significantly faster. Both execution methods can be combined through dynamic execution. Complex builds that complete earlier remotely while small incremental changes might be more efficient on the developer’s local machine. This is particularly useful for developers working from home.</p> <h1 id="how-bazel-works">How Bazel Works</h1> <p>Bazel is an artifact-based build system. In such a system, engineers config build files. A build file is a declarative manifest that tells the build system what to do (the artifact) and the build system (Bazel) determines how to do it.</p> <p>To illustrate how Bazel works, we will create a toy C++ project. Our project consist of a program that that asks the user for a number. If the user types an integer, the program will compute the factorial of that number. If it types a double, it will compute the <a href="https://en.wikipedia.org/wiki/Gamma_function">Gamma function</a> (an extesion of the factorial function to real and complex numbers).</p> <p>In this example, we want to build three artifacts with Bazel:</p> <ol> <li>An executable binary called compute_factorial</li> <li>A library called factorial</li> <li>And another library called gamma</li> </ol> <p>We will create two directories:</p> <ul> <li>main: for our executable binary</li> <li>lib: for our libraries</li> </ul> <p>In the root of our project, we will create a file called <code class="language-plaintext highlighter-rouge">MODULE.bazel</code> which identifies the directory and its contents as a <strong>Bazel workspace</strong> and lives at the root of the project’s directory structure. It’s also where you specify your external dependencies (when needed). Inside the directories main and lib, we will have a file called <code class="language-plaintext highlighter-rouge">BUILD</code>, which tells Bazel how to build different parts of the project. A directory within the workspace that contains a BUILD file is a <strong>package</strong>.</p> <p>Our project structure will look like the following:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/ (project root)
+├── lib
+│   ├── BUILD
+│   ├── factorial.cc
+│   ├── factorial.h
+│   ├── gamma.cc
+│   └── gamma.h
+├── main
+│   ├── BUILD
+│   └── compute_factorial.cc
+└── MODULE.bazel
+</code></pre></div></div> <p>Now, we write the code for our project:</p> <p><code class="language-plaintext highlighter-rouge">factorial.h</code>:</p> <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifndef FACTORIAL_H
+#define FACTORIAL_H
+</span>
+<span class="kt">int</span> <span class="nf">factorial</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">);</span>
+
+<span class="cp">#endif
+</span></code></pre></div></div> <p><code class="language-plaintext highlighter-rouge">factorial.cc</code>:</p> <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"factorial.h"</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">factorial</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div> <p><code class="language-plaintext highlighter-rouge">gamma.h</code>:</p> <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifndef GAMMA_H
+#define GAMMA_H
+</span>
+<span class="kt">double</span> <span class="nf">gamma_function</span><span class="p">(</span><span class="kt">double</span> <span class="n">x</span><span class="p">);</span>
+
+<span class="cp">#endif
+</span></code></pre></div></div> <p><code class="language-plaintext highlighter-rouge">gamma.cc</code>:</p> <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"gamma.h"</span><span class="cp">
+#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
+</span>
+<span class="kt">double</span> <span class="nf">gamma_function</span><span class="p">(</span><span class="kt">double</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">tgamma</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div> <p><code class="language-plaintext highlighter-rouge">compute_factorial.cc</code>:</p> <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">"../lib/factorial.h"</span><span class="cp">
+#include</span> <span class="cpf">"../lib/gamma.h"</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Enter a number: "</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">number</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">number</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">.</span><span class="n">fail</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"Invalid input. Please enter a valid number.</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">number</span> <span class="o">==</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">number</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Factorial of "</span> <span class="o">&lt;&lt;</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">number</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">" is "</span> <span class="o">&lt;&lt;</span> <span class="n">factorial</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">number</span><span class="p">))</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Gamma function of "</span> <span class="o">&lt;&lt;</span> <span class="n">number</span> <span class="o">&lt;&lt;</span> <span class="s">" is "</span> <span class="o">&lt;&lt;</span> <span class="n">gamma_function</span><span class="p">(</span><span class="n">number</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div> <p>All the C++ code we need is created. Now we can focus on building our artifacts.</p> <p>In the file <code class="language-plaintext highlighter-rouge">MODULE.bazel</code>, we will just identify the name of the workspace:</p> <pre><code class="language-bazel">module(name = "factorial_and_gamma")
+</code></pre> <p>The <code class="language-plaintext highlighter-rouge">BUILD</code> for the <code class="language-plaintext highlighter-rouge">lib</code> package will contain the following:</p> <pre><code class="language-bazel">cc_library(
+    name = "factorial",
+    srcs = ["factorial.cc"],
+    hdrs = ["factorial.h"],
+    visibility = ["//main:__pkg__"],
+)
+
+cc_library(
+    name = "gamma",
+    srcs = ["gamma.cc"],
+    hdrs = ["gamma.h"],
+    visibility = ["//main:__pkg__"],
+)
+</code></pre> <p>The rule <a href="https://bazel.build/reference/be/c-cpp#cc_library">cc_library</a> is used for for C++-compiled libraries. The result is either a <code class="language-plaintext highlighter-rouge">.so</code>, <code class="language-plaintext highlighter-rouge">.lo</code>, or <code class="language-plaintext highlighter-rouge">.a</code>, depending on what is needed. Bazel’s documentation emphasizes that all header files that are used in the build must be declared in the <code class="language-plaintext highlighter-rouge">hdrs</code> or <code class="language-plaintext highlighter-rouge">srcs</code> of <code class="language-plaintext highlighter-rouge">cc_*</code> rules, which is enforced.</p> <p>The attributes <code class="language-plaintext highlighter-rouge">name</code>, <code class="language-plaintext highlighter-rouge">srcs</code>, and <code class="language-plaintext highlighter-rouge">hdrs</code>, as the names suggest, are for specifying the name, the source files, and the headers for each library. The attribute <code class="language-plaintext highlighter-rouge">visibility</code> determines what has access to the library. In our case, only the package <code class="language-plaintext highlighter-rouge">main</code> has access to the libraries <code class="language-plaintext highlighter-rouge">factorial</code> and <code class="language-plaintext highlighter-rouge">gamma</code>. If <code class="language-plaintext highlighter-rouge">main</code> had subpackages, those would not have access to the libraries. Read <a href="https://bazel.build/concepts/visibility">Bazel’s documentation on visibility</a> for more information on other types of access.</p> <p>The <code class="language-plaintext highlighter-rouge">BUILD</code> for the <code class="language-plaintext highlighter-rouge">main</code> package will contain the following:</p> <pre><code class="language-bazel">cc_binary(
+    name = "compute_factorial",
+    srcs = ["compute_factorial.cc"],
+    deps = [
+        "//lib:factorial",
+        "//lib:gamma",
+    ],
+)
+</code></pre> <p>The rule <a href="https://bazel.build/reference/be/c-cpp#cc_binary">cc_binary</a>, as the name implies, produces an executable binary. Here we are defining the name, the source files, and the dependecies for building the executable binary.</p> <p>This is all we need to build our project.</p> <h2 id="building">Building</h2> <p>We will now use Bazel to build the <code class="language-plaintext highlighter-rouge">main</code> package with the target name<code class="language-plaintext highlighter-rouge">compute_factorial</code>:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bazel build //main:compute_factorial
+</code></pre></div></div> <p>Bazel will produce something like:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INFO: Analyzed target //main:compute_factorial <span class="o">(</span>88 packages loaded, 451 targets configured<span class="o">)</span><span class="nb">.</span>
+INFO: Found 1 target...
+Target //main:compute_factorial up-to-date:
+  bazel-bin/main/compute_factorial
+INFO: Elapsed <span class="nb">time</span>: 0.861s, Critical Path: 0.38s
+INFO: 18 processes: 12 internal, 6 darwin-sandbox.
+INFO: Build completed successfully, 18 total actions
+</code></pre></div></div> <p>Now, we run our executable binary as follows:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bazel-bin/main/compute_factorial
+</code></pre></div></div> <p>Which will present the following:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Enter a number:
+</code></pre></div></div> <p>We will type <code class="language-plaintext highlighter-rouge">5</code>, which will result in the following:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Enter a number: 5
+Factorial of 5 is 120
+</code></pre></div></div> <p>If we run the program again and type <code class="language-plaintext highlighter-rouge">5.5</code>, we will see the following result:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Enter a number: 5.5
+Gamma <span class="k">function </span>of 5.5 is 287.885
+</code></pre></div></div> <p>To clean up after Bazel generate the build-related files, we run:</p> <pre><code class="language-bazel">bazel clean
+</code></pre> <h2 id="dependency-graph">Dependency Graph</h2> <p>In our project, we have a binary target called <code class="language-plaintext highlighter-rouge">compute_factorial</code> in the <code class="language-plaintext highlighter-rouge">main</code> package that depends on two libraries: <code class="language-plaintext highlighter-rouge">factorial</code> and <code class="language-plaintext highlighter-rouge">gamma</code>, both of which are in the <code class="language-plaintext highlighter-rouge">lib</code> package:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                      //main:compute_factorial
+                             |
+            ----------------------------------------
+            |                                      |
+      //lib:factorial                         //lib:gamma
+            |                                      |
+  --------------------                ---------------------
+  |                  |                |                   |
+lib/factorial.cc  lib/factorial.h   lib/gamma.cc      lib/gamma.h
+</code></pre></div></div> <h2 id="testing">Testing</h2> <p>We will add testing to our project with <a href="https://github.com/google/googletest">Google Test</a>.</p> <p>The first step to add Google Test is to modify our <code class="language-plaintext highlighter-rouge">MODULE.bazel</code>, which has several methods available to use. One of them is <code class="language-plaintext highlighter-rouge">bazel_dep</code> for declaring a direct dependency on another Bazel module.</p> <p>Our <code class="language-plaintext highlighter-rouge">MODULE.bazel</code> will be updated to:</p> <pre><code class="language-bazel">module(name = "factorial_and_gamma")
+
+bazel_dep(name = "googletest", version = "1.15.2")
+</code></pre> <p>Next, we create a new package called <code class="language-plaintext highlighter-rouge">test</code> andd we add two test files, one for each library.</p> <p><code class="language-plaintext highlighter-rouge">factorial_test.cc</code>:</p> <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"gtest/gtest.h"</span><span class="cp">
+#include</span> <span class="cpf">"lib/factorial.h"</span><span class="cp">
+</span>
+<span class="n">TEST</span><span class="p">(</span><span class="n">FactorialTest</span><span class="p">,</span> <span class="n">ComputesCorrectly</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="n">factorial</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="n">factorial</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="n">factorial</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="mi">120</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div> <p><code class="language-plaintext highlighter-rouge">gamma_test.h</code>:</p> <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"gtest/gtest.h"</span><span class="cp">
+#include</span> <span class="cpf">"lib/gamma.h"</span><span class="cp">
+</span>
+<span class="n">TEST</span><span class="p">(</span><span class="n">GammaTest</span><span class="p">,</span> <span class="n">ComputesCorrectly</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">EXPECT_NEAR</span><span class="p">(</span><span class="n">gamma_function</span><span class="p">(</span><span class="mf">5.5</span><span class="p">),</span> <span class="mf">287.885</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div> <p>We also add a <code class="language-plaintext highlighter-rouge">BUILD</code> file to the test package where we define the name, source files and dependencies for our tests:</p> <pre><code class="language-bazel">cc_test(
+    name = "factorial_test",
+    srcs = ["factorial_test.cc"],
+    deps = [
+        "@googletest//:gtest_main",
+        "//lib:factorial",
+    ],
+)
+
+cc_test(
+    name = "gamma_test",
+    srcs = ["gamma_test.cc"],
+    deps = [
+        "@googletest//:gtest_main",
+        "//lib:gamma",
+    ],
+)
+</code></pre> <p>Our new project structure looks like the following:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/ (root)
+├── lib
+│   ├── BUILD
+│   ├── factorial.cc
+│   ├── factorial.h
+│   ├── gamma.cc
+│   └── gamma.h
+├── main
+│   ├── BUILD
+│   └── compute_factorial.cc
+├── test
+│   ├── BUILD
+│   ├── factorial_test.cc
+│   └── gamma_test.cc
+└── MODULE.bazel
+</code></pre></div></div> <p>Before building the project again, we can either run:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bazel clean
+</code></pre></div></div> <p>which removes the output directories created by Bazel, or</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bazel clean <span class="nt">--expunge</span>
+</code></pre></div></div> <p>When we add <code class="language-plaintext highlighter-rouge">--expunge</code>, in addition to remove the output directories, all all cached build data, intermediate files, action logs, and Bazel’s local cache (where Bazel stores information that speeds up incremental builds) will be also removed. In other words, <code class="language-plaintext highlighter-rouge">bazel clean --expunge</code> performs a full reset of the Bazel environment.</p> <p>We can now build the project again:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bazel build //main:compute_factorial
+</code></pre></div></div> <p>and run the tests:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bazel <span class="nb">test</span> //test:factorial_test
+</code></pre></div></div> <p>Which produces something like:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INFO: Analyzed target //test:factorial_test <span class="o">(</span>3 packages loaded, 87 targets configured<span class="o">)</span><span class="nb">.</span>
+INFO: Found 1 <span class="nb">test </span>target...
+Target //test:factorial_test up-to-date:
+  bazel-bin/test/factorial_test
+INFO: Elapsed <span class="nb">time</span>: 1.468s, Critical Path: 1.38s
+INFO: 30 processes: 10 internal, 20 darwin-sandbox.
+INFO: Build completed successfully, 30 total actions
+//test:factorial_test                                                    PASSED <span class="k">in </span>0.2s
+
+Executed 1 out of 1 <span class="nb">test</span>: 1 <span class="nb">test </span>passes.
+</code></pre></div></div> <p>and run</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bazel <span class="nb">test</span> //test:gamma_test
+</code></pre></div></div> <p>which produces something like:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INFO: Analyzed target //test:gamma_test <span class="o">(</span>0 packages loaded, 2 targets configured<span class="o">)</span><span class="nb">.</span>
+INFO: Found 1 <span class="nb">test </span>target...
+Target //test:gamma_test up-to-date:
+  bazel-bin/test/gamma_test
+INFO: Elapsed <span class="nb">time</span>: 0.638s, Critical Path: 0.57s
+INFO: 9 processes: 6 internal, 3 darwin-sandbox.
+INFO: Build completed successfully, 9 total actions
+//test:gamma_test                                                        PASSED <span class="k">in </span>0.2s
+
+Executed 1 out of 1 <span class="nb">test</span>: 1 <span class="nb">test </span>passes.
+</code></pre></div></div> <p>To run all tests we have the command:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bazel <span class="nb">test</span> //...
+</code></pre></div></div> <p>where <code class="language-plaintext highlighter-rouge">//...</code> is a wildcard that tells Bazel to run all test targets in the entire workspace, regardless of where they are located.</p> <h1 id="code">Code</h1> <p>You can get the <a href="https://github.com/davidwilliam/bazel_sample_project">code for the example</a> discussed in this post on GitHub.</p>]]></content><author><name></name></author><category term="programming"/><category term="build"/><category term="test"/><category term="bazel"/><category term="bazel"/><category term="build"/><category term="tool"/><summary type="html"><![CDATA[Bulding and testing a C++ project with Bazel]]></summary></entry><entry><title type="html">The Balanced Brackets Problem - The Ruby Way</title><link href="https://www.davidwsilva.com//blog/2024/the-balanced-brackets-problem/" rel="alternate" type="text/html" title="The Balanced Brackets Problem - The Ruby Way"/><published>2024-09-02T10:11:00+00:00</published><updated>2024-09-02T10:11:00+00:00</updated><id>https://www.davidwsilva.com//blog/2024/the-balanced-brackets-problem</id><content type="html" xml:base="https://www.davidwsilva.com//blog/2024/the-balanced-brackets-problem/"><![CDATA[<p>The balanced brackets problem is a well-known problem in computer science and programming in general. It asks if a string of brackets is balanced and therefore valid, which means that the brackets are in the correct order and there are no unmatched brackets. Whovever works with Ruby for programming, will try to solve any problem in “the Ruby way”, that is, with simplicity, elegance, and human-centered design. The Ruby Way can be described as a philosophy that encourages programmers to write code that is both powerful and easy to understand. In this post I review this problem and show why classic approach for solving it remains the best one yet, with advantages in performane that justifies its choice.</p> <h1 id="reviewing-the-problem">Reviewing the Problem</h1> <p>Let’s first review the problem: Given a string containing brackets - any sequence with some arrangement including <code class="language-plaintext highlighter-rouge">"(", ")", "[", "]", "{", "}"</code> - check if the brackets are opening and closing, and in the correct order.</p> <p>Examples of strings containing balanced brackets:</p> <ul> <li><code class="language-plaintext highlighter-rouge">"{[()]}"</code></li> <li><code class="language-plaintext highlighter-rouge">"[()()]"</code></li> <li><code class="language-plaintext highlighter-rouge">"{[()]}()[]{}"</code></li> </ul> <p>Examples of strings containing unbalanced brackets:</p> <ul> <li><code class="language-plaintext highlighter-rouge">"{[("</code></li> <li><code class="language-plaintext highlighter-rouge">"{)"</code></li> <li><code class="language-plaintext highlighter-rouge">"[}"</code></li> <li><code class="language-plaintext highlighter-rouge">"{]}"</code></li> </ul> <p>and so on.</p> <p>Typically, this problem allows empty strings to be valid ones.</p> <p>So let’s summarize the constraints we need to consider before we implement a solution:</p> <ul> <li>Only strings containing brackets (round, curly, square) will be provided as input.</li> <li>Empty strings are permitted and are considered valid.</li> <li>The solution must output either <code class="language-plaintext highlighter-rouge">true</code> or <code class="language-plaintext highlighter-rouge">false</code>.</li> </ul> <h1 id="implementing-a-solution">Implementing a Solution</h1> <p>For solving this problem, imagine that I have a class named <code class="language-plaintext highlighter-rouge">BalancedBracket</code> and I will write a method named <code class="language-plaintext highlighter-rouge">check</code> to verify if any given string is valid.</p> <p>So I start by defining our class and method. Here, for simplicity, I will define <code class="language-plaintext highlighter-rouge">check</code> as a class method:</p> <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
